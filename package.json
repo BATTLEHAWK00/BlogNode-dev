@@ -1,0 +1,9 @@
+{
+  "name": "BlogNode-dev",
+  "version": "1.0.0",
+  "description": "一个使用Node.js搭建的博客系统",
+  "main": "entry.js",
+  "repository": "https://github.com/BATTLEHAWK00/BlogNode-dev",
+  "author": "BATTLEHAWK00 <battlehawk0_0@163.com>",
+  "license": "GPL3.0"
+}
