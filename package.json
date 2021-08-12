@@ -5,5 +5,8 @@
   "main": "entry.js",
   "repository": "https://github.com/BATTLEHAWK00/BlogNode-dev",
   "author": "BATTLEHAWK00 <battlehawk0_0@163.com>",
-  "license": "AGPL-3.0-or-later"
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "koa": "^2.13.1"
+  }
 }
