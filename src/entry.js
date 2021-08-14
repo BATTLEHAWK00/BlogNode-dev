@@ -1,3 +1,3 @@
-const server=require('./service/server');
+import server from './service/server';
 
 server.start();
