@@ -1,0 +1,11 @@
+{
+    "version": "0.2.0",
+    "configurations": [{
+        "runtimeArgs": ["--async-stack-traces", "--trace-deprecation", "--enable-source-maps"],
+        "name": "Node.js Debug",
+        "request": "launch",
+        "cwd": "${workspaceFolder}",
+        "type": "node",
+        "program": "${file}",
+    }, ]
+}

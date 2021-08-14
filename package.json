@@ -2,13 +2,30 @@
   "name": "blognode-dev",
   "version": "1.0.0",
   "description": "一个使用Node.js搭建的博客系统",
-  "main": "entry.js",
   "repository": "https://github.com/BATTLEHAWK00/BlogNode-dev",
   "author": "BATTLEHAWK00 <battlehawk0_0@163.com>",
   "license": "AGPL-3.0-or-later",
+  "scripts": {
+    "tsc": "tsc",
+    "start": "npm run tsc && node ./dist/src/entry"
+  },
   "dependencies": {
-    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.24.0",
     "koa": "^2.13.1",
+    "koa-compress": "^5.0.1",
+    "koa-router": "^10.0.0",
+    "nunjucks": "^3.2.3",
     "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.13.4",
+    "@types/koa-router": "^7.4.4",
+    "@types/nunjucks": "^3.1.5",
+    "@typescript-eslint/eslint-plugin": "^4.29.1",
+    "@typescript-eslint/parser": "^4.29.1",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-vue": "^7.16.0"
   }
 }
