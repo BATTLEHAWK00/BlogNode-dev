@@ -2,17 +2,14 @@ import Koa from 'koa';
 import nunjucks from 'nunjucks';
 import Router from 'koa-router';
 import { Logger } from './logger';
-import ErrorHandler from '../handler/errorhandler';
+import { handle } from './controller';
+// import ErrorHandler from '../handler/errorhandler';
 
 const app = new Koa();
 const router = new Router();
 const logger = new Logger('service/server');
 
-// const SECRET = process.env.SECRET || 'faekkkeee00$';
 const PORT = process.env.PORT || 3000;
-// const COUCHBASE_URI = process.env.COUCHBASE_URI || 'couchbase://127.0.0.1';
-// const COUCHBASE_BUCK = process.env.COUCHBASE_BUCKET || 'default';
-// const PASSWORD = process.env.PASSWORD || 'superfakepassword';
 
 type CtxType = Koa.ParameterizedContext<Koa.DefaultState, Koa.DefaultContext, any>;
 
@@ -31,17 +28,35 @@ async function calResponseTime(ctx:CtxType, next:Koa.Next) {
   logger.info(`${ctx.method} ${ctx.status} ${ctx.url} - ${ms}ms`);
 }
 
-router.get('/test', async (ctx, next) => {
-  ctx.set('templateFile', 'index.html');
-  next();
-});
+// async function handle(ctx, HandlerClass) {
+//   const args = {
+//     ...ctx.params,
+//     ...ctx.query,
+//     ...ctx.request.body,
+//   };
+//   const h = new HandlerClass(ctx);
+//   h.args = args;
+//   try {
+//     const method = ctx.method.toLowerCase();
 
-// 模板处理
-router.get('/test', async (ctx) => {
-  ctx.body = nunjucks.render('index.njk', {});
-});
+//     await h.init(args);
+//   } catch (e) {
+//     try {
+//       await h.onerror(e);
+//     } catch (err) {
+//       h.response.code = 500;
+//       // h.response.body = `${err.message}\n${err.stack}`;
+//     }
+//   }
+// }
 
-router.all('*', ErrorHandler);
+export function RegisterRoute(name:string, path:string, handler:any) {
+  router.all(name, path, handler);
+}
+
+import TestController from '../controller/test'
+
+router.all('test', '/', (ctx) => handle(ctx, TestController.TestController));
 
 // 中间件集合
 const middleWares = [
