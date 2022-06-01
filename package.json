@@ -15,12 +15,13 @@
     "koa-compress": "^5.0.1",
     "koa-router": "^10.0.0",
     "mongodb": "^4.1.0",
-    "nunjucks": "^3.2.3",
+    "mysql": "^2.18.1",
     "typescript": "^4.3.5"
   },
   "devDependencies": {
     "@types/koa": "^2.13.4",
     "@types/koa-router": "^7.4.4",
+    "@types/mysql": "^2.15.21",
     "@types/nunjucks": "^3.1.5",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
