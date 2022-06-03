@@ -18,3 +18,8 @@ export interface DatabaseConfig {
 export interface NextConfig {
   dev: boolean;
 }
+
+export interface SystemConfig{
+  blogName?:string,
+  themeDir?:string
+}

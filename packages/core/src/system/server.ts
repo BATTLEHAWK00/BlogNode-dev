@@ -12,7 +12,7 @@ import config from '../config';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const isDev = process.env.NODE_ENV === 'development';
 const koaServer = new Koa();
-const logger = logging.getLogger('server');
+const logger = logging.systemLogger;
 
 logger.info('Server starting...');
 
@@ -28,7 +28,7 @@ function handleFatalError(err: Error) {
 
 function handleServerListening() {
   logger.info(
-    `Server Listening on ${config.httpConfig.address}:${config.httpConfig.port}`,
+    `Server Listening on http://${config.httpConfig.address}:${config.httpConfig.port}`,
   );
   bus.once(EventType.SystemStarted, () => {});
   bus.broadcast(EventType.SystemStarted);

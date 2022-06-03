@@ -1,0 +1,27 @@
+{
+  "name": "blognode",
+  "version": "1.0.0",
+  "bin": "./bin",
+  "dependencies": {
+    "@blognode/next": "*",
+    "koa": "^2.13.1",
+    "koa-compress": "^5.0.1",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^10.0.0",
+    "lodash": "^4.17.21",
+    "log4js": "^6.5.2",
+    "lru-cache": "^7.10.1",
+    "moment": "^2.29.3",
+    "mongodb": "^4.1.0",
+    "mysql": "^2.18.1",
+    "next": "^12.1.6"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.13.4",
+    "@types/koa-compress": "^4.0.3",
+    "@types/koa-logger": "^3.1.2",
+    "@types/koa-router": "^7.4.4",
+    "@types/lru-cache": "^7.10.10",
+    "@types/mysql": "^2.15.21"
+  }
+}

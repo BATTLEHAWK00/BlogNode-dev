@@ -1,0 +1,13 @@
+{
+  "delay": 1000,
+  "watch": ["src"],
+  "execMap": {
+    "ts": "ts-node -r tsconfig-paths/register",
+    "js": "ts-node -r tsconfig-paths/register"
+  },
+  "env": {
+    "NODE_ENV": "development",
+    "PORT": "3000"
+  },
+  "ext": "js,ts"
+}

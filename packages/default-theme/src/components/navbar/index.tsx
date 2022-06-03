@@ -1,4 +1,3 @@
-import { GetServerSideProps } from 'next';
 import React from 'react';
 import styles from './index.module.css';
 
@@ -12,10 +11,5 @@ function NavBar() {
     </nav>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async () => ({
-  props: {
-  },
-});
 
 export default NavBar;

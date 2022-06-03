@@ -5,7 +5,7 @@ import logging from './system/logging';
 import moduleLoader from './system/moduleLoader';
 import { Timer } from './util/utils';
 
-const logger = logging.getLogger('main');
+const logger = logging.systemLogger;
 
 const modelDir = path.resolve(__dirname, 'orm/model');
 const systemDir = path.resolve(__dirname, 'system');
@@ -27,6 +27,7 @@ async function loadConfig() {
 async function loadSystem() {
   const files = moduleLoader
     .scanDir(systemDir, moduleLoader.getModuleRegex())
+    .map((file) => moduleLoader.splitModuleName(file))
     .filter((file) => !['server'].includes(file));
   moduleLoader.loadFiles(systemDir, files, true);
 }
@@ -46,5 +47,5 @@ async function loadService() {
   await loadSystem();
   await loadModel();
   await loadService();
-  moduleLoader.loadModule(systemDir, 'server.js');
+  moduleLoader.loadModule(systemDir, 'server');
 })();

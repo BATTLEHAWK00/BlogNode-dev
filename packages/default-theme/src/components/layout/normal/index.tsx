@@ -1,8 +1,8 @@
 import React from 'react';
-import NavBar from '../../navbar';
+import NavBar from '@components/navbar';
 import styles from './index.module.css';
 
-function NormalLayout(props:any) {
+function NormalLayout(props:{ children:any }) {
   const { children } = props;
   return (
     <>

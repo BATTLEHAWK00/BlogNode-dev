@@ -1,9 +1,14 @@
 import KoaApp from 'koa';
 import KoaRouter from 'koa-router';
-import Next from 'next';
+import nextModule from '@blognode/next';
+import config from '@src/config';
+import logging from '../logging';
 
-const isDev = process.env.NODE_ENV === 'development';
-const nextApp = Next({ dev: isDev });
+nextModule.registerThemePackage(config.systemConfig.themeDir);
+
+logging.systemLogger.info(`Registered theme: ${nextModule.getRegisteredTheme()}`);
+
+const nextApp = nextModule.getNextApp();
 const nextHandler = nextApp.getRequestHandler();
 nextApp.options.quiet = true;
 
