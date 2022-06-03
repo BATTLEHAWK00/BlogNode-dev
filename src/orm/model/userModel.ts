@@ -1,7 +1,7 @@
-import { User } from "@src/interface/entities/user";
-import cache from "../../system/cache";
-import { GetAllUserStatement } from "../sql/user/getAllUsers";
-import { GetUserByIdStatement } from "../sql/user/getUserById";
+import { User } from '@src/interface/entities/user';
+import cache from '../../system/cache';
+import { GetAllUserStatement } from '../sql/user/getAllUsers';
+import { GetUserByIdStatement } from '../sql/user/getUserById';
 
 const userCache = cache.getCache<User>(500);
 
@@ -16,7 +16,7 @@ async function getUserById(ids: number[]): Promise<User[]> {
   res.push(
     ...(await new GetUserByIdStatement().getMany({
       idList: ids,
-    }))
+    })),
   );
   res.forEach((user) => userCache.set(`id:${user.userId}`, user));
   return res;

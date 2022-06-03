@@ -1,20 +1,4 @@
-import { ISqlArgList, ISqlArguments, SqlStatement } from "../sqlStatement";
-
-`
-id: number;
-username: string;
-nickname: string;
-gender: Gender;
-bio: string;
-email: string;
-phone: string;
-website: string;
-passwordHash: string;
-passwordSalt: string;
-registerTime: Date;
-lastLogin: Date;
-registerIp: string;
-loginIp: string;`;
+import { ISqlArgList, ISqlArguments, SqlStatement } from '../sqlStatement';
 
 const createTableSql = `
 CREATE TABLE user(
@@ -35,15 +19,14 @@ CREATE TABLE user(
 )
 `;
 
-class CreateUserTableStatement extends SqlStatement<ISqlArguments> {
+// eslint-disable-next-line import/prefer-default-export
+export class CreateUserTableStatement extends SqlStatement<ISqlArguments> {
+  // eslint-disable-next-line class-methods-use-this
   protected getArgList(): ISqlArgList<ISqlArguments> {
     return [];
   }
+
   constructor() {
     super(createTableSql);
   }
 }
-
-export default {
-  CreateUserTableStatement,
-};

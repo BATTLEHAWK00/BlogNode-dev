@@ -1,23 +1,23 @@
-import bus from "./bus";
-import { EventType } from "./events";
-import logging from "./logging";
+import bus from './bus';
+import { EventType } from './events';
+import logging from './logging';
 
-const logger = logging.getLogger("processEvent");
+const logger = logging.getLogger('processEvent');
 
 function handlePromiseRejection() {
-  process.on("unhandledRejection", (e) => {
+  process.on('unhandledRejection', (e) => {
     logger.error(e);
   });
 }
 
 function handleProcessExit() {
   process
-    .on("beforeExit", () => {
+    .on('beforeExit', () => {
       bus.broadcast(EventType.BeforeSystemStop).then(() => {
         process.exit();
       });
     })
-    .on("SIGINT", () => {
+    .on('SIGINT', () => {
       bus.broadcast(EventType.BeforeSystemStop).then(() => {
         process.exit();
       });

@@ -1,15 +1,15 @@
-import path from "path";
-import bus from "./system/bus";
-import { EventType } from "./system/events";
-import logging from "./system/logging";
-import moduleLoader from "./system/moduleLoader";
-import { Timer } from "./util/utils";
+import path from 'path';
+import bus from './system/bus';
+import { EventType } from './system/events';
+import logging from './system/logging';
+import moduleLoader from './system/moduleLoader';
+import { Timer } from './util/utils';
 
-const logger = logging.getLogger("main");
+const logger = logging.getLogger('main');
 
-const modelDir = path.resolve(__dirname, "orm/model");
-const systemDir = path.resolve(__dirname, "system");
-const serviceDir = path.resolve(__dirname, "orm/service");
+const modelDir = path.resolve(__dirname, 'orm/model');
+const systemDir = path.resolve(__dirname, 'system');
+const serviceDir = path.resolve(__dirname, 'orm/service');
 
 function bindTimer() {
   const severStartTimer: Timer = new Timer();
@@ -21,13 +21,13 @@ function bindTimer() {
 }
 
 async function loadConfig() {
-  moduleLoader.loadModule(__dirname, "config.js");
+  moduleLoader.loadModule(__dirname, 'config');
 }
 
 async function loadSystem() {
   const files = moduleLoader
-    .scanDir(systemDir, /\.js$/)
-    .filter((file) => !["server.js"].includes(file));
+    .scanDir(systemDir, moduleLoader.getModuleRegex())
+    .filter((file) => !['server'].includes(file));
   moduleLoader.loadFiles(systemDir, files, true);
 }
 
@@ -46,5 +46,5 @@ async function loadService() {
   await loadSystem();
   await loadModel();
   await loadService();
-  moduleLoader.loadModule(systemDir, "server.js");
+  moduleLoader.loadModule(systemDir, 'server.js');
 })();

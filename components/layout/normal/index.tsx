@@ -1,16 +1,15 @@
-import React, { Component } from "react";
-import NavBar from "../../navbar";
-import styles from "./index.module.css";
+import React from 'react';
+import NavBar from '../../navbar';
+import styles from './index.module.css';
 
-class NormalLayout extends React.Component {
-  render(): React.ReactNode {
-    return (
-      <>
-        <NavBar />
-        <main className={styles.main}>{this.props.children}</main>
-      </>
-    );
-  }
+function NormalLayout(props:any) {
+  const { children } = props;
+  return (
+    <>
+      <NavBar />
+      <main className={styles.main}>{children}</main>
+    </>
+  );
 }
 
 export default NormalLayout;

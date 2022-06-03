@@ -1,7 +1,7 @@
-import { HttpConfig } from "./interface/config";
+import { HttpConfig } from './interface/config';
 
 const httpConfig: HttpConfig = {
-  address: "0.0.0.0",
+  address: '0.0.0.0',
   port: 7000,
 };
 

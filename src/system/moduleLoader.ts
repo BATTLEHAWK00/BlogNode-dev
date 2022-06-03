@@ -1,23 +1,32 @@
-import { sleep } from "../util/utils";
-import fs from "fs";
-import path from "path";
-import logging from "./logging";
+import fs from 'fs';
+import path from 'path';
+import logging from './logging';
 
-const logger = logging.getLogger("ModuleLoader");
+const logger = logging.getLogger('ModuleLoader');
+const isDev = process.env.NODE_ENV === 'development';
+
+function splitModuleName(filename:string) {
+  return filename.split('.', 1)[0];
+}
+
+function getModuleRegex() {
+  return isDev ? /\.ts$/ : /\.js$/;
+}
 
 function scanDir(dirname: string, regex: RegExp) {
   return fs.readdirSync(dirname).filter((filename) => regex.test(filename));
 }
 
 function loadModule(dirname: string, filename: string) {
-  logger.debug(`loading module: ${filename}`);
-  return import(path.resolve(dirname, filename));
+  const moduleName = splitModuleName(filename);
+  logger.debug(`loading module: ${moduleName}`);
+  return import(path.resolve(dirname, moduleName));
 }
 
 async function loadFiles(
   dirname: string,
   filenames: string[],
-  concurrent: boolean = false
+  concurrent: boolean = false,
 ) {
   if (concurrent) {
     await Promise.all(filenames.map((file) => loadModule(dirname, file)));
@@ -25,17 +34,20 @@ async function loadFiles(
   }
   let file: string | undefined = filenames.pop();
   while (file) {
+    // eslint-disable-next-line no-await-in-loop
     await loadModule(dirname, file);
     file = filenames.pop();
   }
 }
 
 async function loadDir(dirname: string, concurrent: boolean = false) {
-  const files = scanDir(dirname, /\.js$/);
+  const files = scanDir(dirname, getModuleRegex());
   await loadFiles(dirname, files, concurrent);
 }
 
 export default {
+  getModuleRegex,
+  splitModuleName,
   loadFiles,
   scanDir,
   loadModule,

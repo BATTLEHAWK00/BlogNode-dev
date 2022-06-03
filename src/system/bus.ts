@@ -1,8 +1,8 @@
-import EventEmitter from "events";
-import { EventType } from "./events";
-import logging from "./logging";
+import EventEmitter from 'events';
+import { EventType } from './events';
+import logging from './logging';
 
-const logger = logging.getLogger("eventBus");
+const logger = logging.getLogger('eventBus');
 
 type InfiniteArgsFunction =
   | ((...args: any[]) => void)
@@ -19,7 +19,7 @@ function on(eventName: EventType, callback: InfiniteArgsFunction) {
   logger.debug(
     `Event ${eventNameStr} registered. Current listeners: ${
       emitter.listeners(eventNameStr).length
-    }`
+    }`,
   );
 }
 
@@ -27,7 +27,7 @@ async function broadcast(eventName: EventType, ...args: any[]) {
   const eventNameStr: string = EventType[eventName];
   const listeners: any[] = emitter.listeners(eventNameStr);
   logger.debug(
-    `Broadcast Event ${eventNameStr} Emitted. Current listeners: ${listeners.length}`
+    `Broadcast Event ${eventNameStr} Emitted. Current listeners: ${listeners.length}`,
   );
   if (!listeners.length) return;
   const broadcastAck = new Promise<void>((resolve) => {
@@ -50,7 +50,7 @@ function once(eventName: EventType, callback: InfiniteArgsFunction) {
     ack();
   });
   logger.debug(
-    `Once Event ${eventNameStr} registered. Current listeners: ${listeners.length}`
+    `Once Event ${eventNameStr} registered. Current listeners: ${listeners.length}`,
   );
 }
 

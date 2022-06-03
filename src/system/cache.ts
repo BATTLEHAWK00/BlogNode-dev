@@ -1,4 +1,4 @@
-import LRU from "lru-cache";
+import LRU from 'lru-cache';
 
 const cacheList: LRU<string, any>[] = [];
 
@@ -9,7 +9,7 @@ const cacheOptions: LRU.Options<string, any> = {
 
 function getCache<T>(
   maxSize: number = 500,
-  defaultTTL: number = 15 * 60 * 1000
+  defaultTTL: number = 15 * 60 * 1000,
 ): LRU<string, T> {
   const cache = new LRU<string, T>({
     ...cacheOptions,
