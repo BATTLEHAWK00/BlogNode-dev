@@ -2,7 +2,6 @@
   "name": "@blognode/next",
   "version": "1.0.0",
   "bin": "dist",
-  "main": "dist/index.js",
   "dependencies": {
     "@blognode/default-theme": "*",
     "axios": "^0.27.2",

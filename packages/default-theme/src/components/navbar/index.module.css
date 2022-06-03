@@ -6,3 +6,33 @@
   justify-content: space-between;
   box-shadow: 0 3px 8px rgb(183, 183, 183);
 }
+
+.navbar-logo a {
+  text-decoration: none;
+  color: rgb(53, 16, 87);
+}
+
+.navbar-container {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+}
+
+.navbar-item-list {
+  display: flex;
+  height: 100%;
+}
+
+.navbar-item-list li a {
+  display: block;
+  line-height: 80px;
+  padding: 0 20px;
+  color: blueviolet;
+  text-decoration: none;
+  transition: all 0.5s;
+}
+
+.navbar-item-list li a:hover {
+  color: white;
+  background-color: blueviolet;
+}

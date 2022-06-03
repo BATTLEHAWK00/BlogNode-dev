@@ -1,14 +1,21 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import NormalLayout from '@layout/normal';
+import PostsContent from '@src/components/post';
 
-function HomePage() {
-  return <NormalLayout>{JSON.stringify({})}</NormalLayout>;
+function HomePage({ pageProps }:any) {
+  console.log(pageProps);
+  const { postContent } = pageProps;
+  return (
+    <>
+      <PostsContent postContent={postContent} />
+    </>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async () => ({
   props: {
     title: '首页',
+    postContent: 'asdasdsa',
     // users: JSON.stringify(await user.getAllUsers()),
   },
 });

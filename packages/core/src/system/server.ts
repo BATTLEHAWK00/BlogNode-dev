@@ -14,7 +14,7 @@ const isDev = process.env.NODE_ENV === 'development';
 const koaServer = new Koa();
 const logger = logging.systemLogger;
 
-logger.info('Server starting...');
+logger.info('Starting server...');
 
 koaServer.use(Compress());
 koaServer.use(KoaLogger((str) => logger.debug(str)));
@@ -30,8 +30,7 @@ function handleServerListening() {
   logger.info(
     `Server Listening on http://${config.httpConfig.address}:${config.httpConfig.port}`,
   );
-  bus.once(EventType.SystemStarted, () => {});
-  bus.broadcast(EventType.SystemStarted);
+  bus.broadcast(EventType.SYS_SystemStarted);
 }
 
 nextConfig.prepare(koaServer, router, () => {

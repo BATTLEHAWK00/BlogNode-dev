@@ -10,11 +10,14 @@ const httpConfig: HttpConfig = {
 };
 
 const dbConfig: DatabaseConfig = {
-  host: 'sv.battlehawk233.cn',
-  port: 10036,
+  host: 'localhost',
+  port: 27017,
   userName: 'root',
   password: 'yxl123456.',
-  dbName: 'examination_system',
+  dbName: 'test',
+  options: {
+
+  },
 };
 
 const isDev = process.env.NODE_ENV === 'development';

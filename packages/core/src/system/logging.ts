@@ -13,7 +13,7 @@ function getLogger(name: string): Log4js.Logger {
   return Log4js.getLogger(name);
 }
 
-const systemLogger = getLogger('system');
+const systemLogger = getLogger('blog-node');
 
 export default {
   getLogger,

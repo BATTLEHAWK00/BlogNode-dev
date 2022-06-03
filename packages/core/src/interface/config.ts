@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 export interface CompressionConfig {
   threshold: number;
 }
@@ -13,6 +15,7 @@ export interface DatabaseConfig {
   userName: string;
   password: string;
   dbName: string;
+  options: Partial<mongoose.ConnectOptions>
 }
 
 export interface NextConfig {

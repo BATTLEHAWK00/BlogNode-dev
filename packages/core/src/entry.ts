@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import bus from './system/bus';
 import { EventType } from './system/events';
 import logging from './system/logging';
@@ -7,17 +8,19 @@ import { Timer } from './util/utils';
 
 const logger = logging.systemLogger;
 
-const modelDir = path.resolve(__dirname, 'orm/model');
+const daoDir = path.resolve(__dirname, 'orm/dao');
 const systemDir = path.resolve(__dirname, 'system');
 const serviceDir = path.resolve(__dirname, 'orm/service');
 
+const bannerText = fs.readFileSync(path.resolve(__dirname, './banner.txt'), { encoding: 'utf-8' });
+logger.info(bannerText);
+
 function bindTimer() {
-  const severStartTimer: Timer = new Timer();
-  bus.once(EventType.BeforeSystemStart, () => severStartTimer.start());
-  bus.once(EventType.SystemStarted, () => {
-    severStartTimer.end();
-    logger.info(`BlogNode started in ${severStartTimer.result()}ms`);
-  });
+  const timer: Timer = new Timer();
+  timer.measureEvents(EventType.SYS_BeforeSystemStart, EventType.SYS_SystemStarted)
+    .then((time) => {
+      logger.info(`BlogNode started in ${time}ms`);
+    });
 }
 
 async function loadConfig() {
@@ -32,8 +35,8 @@ async function loadSystem() {
   moduleLoader.loadFiles(systemDir, files, true);
 }
 
-async function loadModel() {
-  moduleLoader.loadDir(modelDir, true);
+async function loadDao() {
+  moduleLoader.loadDir(daoDir, true);
 }
 
 async function loadService() {
@@ -42,10 +45,12 @@ async function loadService() {
 
 (async () => {
   bindTimer();
-  bus.broadcast(EventType.BeforeSystemStart);
+  bus.broadcast(EventType.SYS_BeforeSystemStart);
   await loadConfig();
+  logger.info('Loading modules...');
   await loadSystem();
-  await loadModel();
+  await loadDao();
+  bus.broadcast(EventType.SYS_BeforeDatabaseConnect);
   await loadService();
   moduleLoader.loadModule(systemDir, 'server');
 })();

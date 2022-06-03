@@ -13,12 +13,12 @@ function handlePromiseRejection() {
 function handleProcessExit() {
   process
     .on('beforeExit', () => {
-      bus.broadcast(EventType.BeforeSystemStop).then(() => {
+      bus.broadcast(EventType.SYS_BeforeSystemStop).then(() => {
         process.exit();
       });
     })
     .on('SIGINT', () => {
-      bus.broadcast(EventType.BeforeSystemStop).then(() => {
+      bus.broadcast(EventType.SYS_BeforeSystemStop).then(() => {
         process.exit();
       });
     });

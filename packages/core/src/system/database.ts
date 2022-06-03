@@ -1,40 +1,51 @@
-import mysql from 'mysql';
-import config from '../config';
+import mongoose, { Model } from 'mongoose';
+import config from '@src/config';
+import { Timer } from '@src/util/utils';
 import bus from './bus';
 import { EventType } from './events';
 import logging from './logging';
 
-const logger = logging.getLogger('database');
+const logger = logging.systemLogger;
 
-class BlogNodeDatabase {
-  private pool: mysql.Pool;
+const { dbConfig } = config;
 
-  constructor(cfg: mysql.ConnectionConfig) {
-    this.pool = mysql.createPool(cfg);
-  }
+const registeredModels:Map<string, Model<any>> = new Map();
 
-  getConnection() {
-    return new Promise<mysql.PoolConnection>(
-      (resolve, reject) => this.pool.getConnection((err, conn) => {
-        if (err) reject(err);
-        resolve(conn);
-      }),
-    );
-  }
+async function connectDB() {
+  return new Promise<void>((resolve, reject) => {
+    const uri = `mongodb://${dbConfig.host}:${dbConfig.port}/${dbConfig.dbName}`;
+    mongoose.connect(uri, { ...dbConfig.options, dbName: dbConfig.dbName }, (err) => {
+      if (err) reject(err);
+      resolve();
+    });
+  });
 }
 
-const db: BlogNodeDatabase = new BlogNodeDatabase({
-  host: config.dbConfig.host,
-  port: config.dbConfig.port,
-  user: config.dbConfig.userName,
-  password: config.dbConfig.password,
-  database: config.dbConfig.dbName,
+function registerModel(model:Model<any>) {
+  logger.debug(`Registered Model: ${model.modelName}`);
+  registeredModels.set(model.modelName, model);
+}
+
+bus.once(EventType.SYS_BeforeDatabaseConnect, async () => {
+  const timer = new Timer();
+  logger.info('Connecting to Database...');
+  const time = await timer.decorate(() => connectDB());
+  logger.info(`Database connected.(${time}ms)`);
+  bus.broadcast(EventType.SYS_DatabaseConnected);
 });
 
-bus.once(EventType.BeforeSystemStart, () => {
-  logger.info('Database connecting...');
+bus.once(EventType.SYS_DatabaseConnected, async () => {
+  const indexTimer = new Timer();
+  indexTimer.start();
+  await Promise.all([...registeredModels.values()].map(async (m) => {
+    const timer = new Timer();
+    const time = await timer.decorate(() => m.ensureIndexes());
+    logger.debug(`Ensured indexes for model ${m.modelName} (${time}ms)`);
+  }));
+  indexTimer.end();
+  logger.info(`Database indexes ensured.(${indexTimer.result()}ms)`);
 });
 
 export default {
-  db,
+  registerModel,
 };
