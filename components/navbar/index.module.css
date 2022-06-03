@@ -1,0 +1,8 @@
+.nav {
+  display: flex;
+  height: 80px;
+  padding: 0 20px;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 3px 8px rgb(183, 183, 183);
+}
