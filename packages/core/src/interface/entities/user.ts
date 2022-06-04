@@ -1,6 +1,8 @@
+import { Entity } from '../interface';
+
 export type Gender = 'male' | 'female' | 'unknown';
 
-export interface User {
+export interface User extends Entity {
   userId: number;
   username: string;
   nickname: string;

@@ -4,6 +4,7 @@
   "bin": "./bin",
   "dependencies": {
     "@blognode/next": "*",
+    "agenda": "^4.3.0",
     "koa": "^2.13.1",
     "koa-compress": "^5.0.1",
     "koa-logger": "^3.2.1",
@@ -20,6 +21,7 @@
     "@types/koa-compress": "^4.0.3",
     "@types/koa-logger": "^3.1.2",
     "@types/koa-router": "^7.4.4",
+    "@types/lodash": "^4.14.182",
     "@types/lru-cache": "^7.10.10",
     "@types/mysql": "^2.15.21"
   }

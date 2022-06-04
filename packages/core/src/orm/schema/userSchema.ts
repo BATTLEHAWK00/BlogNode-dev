@@ -1,8 +1,7 @@
 import { User } from '@src/interface/entities/user';
 import { Schema } from 'mongoose';
 
-// eslint-disable-next-line import/prefer-default-export
-export const userSchema:Schema<User> = new Schema<User>({
+export default new Schema<User>({
   userId: {
     type: Number, required: true, index: true, unique: true,
   },

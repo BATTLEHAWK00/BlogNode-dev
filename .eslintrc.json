@@ -20,6 +20,7 @@
     "project": ["tsconfig.json", "packages/default-theme/tsconfig.json"]
   },
   "rules": {
+    "class-methods-use-this": "off",
     "no-plusplus": "off"
   },
   "settings": {
