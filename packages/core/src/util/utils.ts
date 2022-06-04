@@ -22,7 +22,7 @@ export class Timer {
     return this.endTime.valueOf() - this.startTime.valueOf();
   }
 
-  async decorate(decorateFunc: () => void | Promise<void>) {
+  async decorate(decorateFunc: () => void | Promise<void | void[]>) {
     this.start();
     await decorateFunc();
     this.end();

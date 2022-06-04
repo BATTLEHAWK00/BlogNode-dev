@@ -2,10 +2,12 @@ import Log4js from 'log4js';
 
 const debugMode = process.env.DEBUG === 'true';
 
+const logLevel = debugMode ? 'debug' : 'info';
+
 Log4js.configure({
   appenders: { console: { type: 'console' } },
   categories: {
-    default: { appenders: ['console'], level: debugMode ? 'debug' : 'info' },
+    default: { appenders: ['console'], level: logLevel },
   },
 });
 
@@ -14,6 +16,7 @@ function getLogger(name: string): Log4js.Logger {
 }
 
 const systemLogger = getLogger('blog-node');
+systemLogger.info(`Log level: ${logLevel}`);
 
 export default {
   getLogger,

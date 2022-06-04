@@ -5,6 +5,8 @@ import nextModule from '@blognode/next';
 import config from '@src/config';
 import { Timer } from '@src/util/utils';
 import logging from '../logging';
+import bus from '../bus';
+import { EventType } from '../events';
 
 nextModule.registerThemePackage(config.systemConfig.themeDir);
 
@@ -17,7 +19,7 @@ nextApp.options.quiet = true;
 
 function prepare(koaApp: KoaApp, koaRouter: KoaRouter, onComplete: () => void) {
   const timer = new Timer();
-  logging.systemLogger.info('Initializing next.js...');
+  logging.systemLogger.info('Initializing SSR engine...');
   timer.start();
 
   nextApp.prepare().then(() => {
@@ -30,10 +32,15 @@ function prepare(koaApp: KoaApp, koaRouter: KoaRouter, onComplete: () => void) {
       await next();
     });
     timer.end();
-    logging.systemLogger.info(`Next.js initialization complete.(${timer.result()}ms)`);
+    logging.systemLogger.info(`SSR engine initialization complete.(${timer.result()}ms)`);
     onComplete();
   });
 }
+
+bus.once(EventType.SYS_BeforeSystemStop, async () => {
+  logging.systemLogger.debug('Closing SSR engine...');
+  await nextApp.close();
+});
 
 export default {
   prepare,

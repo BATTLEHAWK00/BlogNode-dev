@@ -8,6 +8,8 @@ import { Timer } from './util/utils';
 
 const logger = logging.systemLogger;
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const daoDir = path.resolve(__dirname, 'orm/dao');
 const systemDir = path.resolve(__dirname, 'system');
 const serviceDir = path.resolve(__dirname, 'orm/service');
@@ -44,6 +46,7 @@ async function loadService() {
 }
 
 (async () => {
+  logger.info(`Starting in ${isDev ? 'development' : 'production'} mode.`);
   bindTimer();
   bus.broadcast(EventType.SYS_BeforeSystemStart);
   await loadConfig();

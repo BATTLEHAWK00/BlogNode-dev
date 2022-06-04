@@ -44,11 +44,11 @@ async function broadcast(eventName: EventType, ...args: any[]) {
 
 function once(eventName: EventType, callback: InfiniteArgsFunction) {
   const eventNameStr: string = EventType[eventName];
-  const listeners: any[] = emitter.listeners(eventNameStr);
   emitter.on(eventNameStr, async (ack: any, ...args: any[]) => {
     await callback(args);
     ack();
   });
+  const listeners: any[] = emitter.listeners(eventNameStr);
   logger.debug(
     `Once Event ${eventNameStr} registered. Current listeners: ${listeners.length}`,
   );

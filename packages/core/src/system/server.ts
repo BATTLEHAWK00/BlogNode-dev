@@ -28,7 +28,7 @@ function handleFatalError(err: Error) {
 
 function handleServerListening() {
   logger.info(
-    `Server Listening on http://${config.httpConfig.address}:${config.httpConfig.port}`,
+    `Server listening on http://${config.httpConfig.address}:${config.httpConfig.port}`,
   );
   bus.broadcast(EventType.SYS_SystemStarted);
 }
@@ -39,8 +39,13 @@ nextConfig.prepare(koaServer, router, () => {
   processEvent.handlePromiseRejection();
   processEvent.handleProcessExit();
 
-  koaServer
+  const server = koaServer
     .listen(config.httpConfig.port, config.httpConfig.address)
     .on('listening', handleServerListening)
     .on('error', handleFatalError);
+
+  bus.once(EventType.SYS_BeforeSystemStop, () => {
+    logger.debug('Closing server...');
+    server.close();
+  });
 });

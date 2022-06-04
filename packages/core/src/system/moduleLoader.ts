@@ -17,10 +17,11 @@ function scanDir(dirname: string, regex: RegExp) {
   return fs.readdirSync(dirname).filter((filename) => regex.test(filename));
 }
 
-function loadModule(dirname: string, filename: string) {
+async function loadModule(dirname: string, filename: string) {
   const moduleName = splitModuleName(filename);
-  logger.debug(`loading module: ${moduleName}`);
-  return import(path.resolve(dirname, moduleName));
+  const res = await import(path.resolve(dirname, moduleName));
+  logger.debug(`loaded module: ${moduleName}`);
+  return res;
 }
 
 async function loadFiles(
