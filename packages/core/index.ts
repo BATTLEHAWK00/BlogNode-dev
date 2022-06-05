@@ -4,7 +4,7 @@ import database from '@src/system/database';
 import { EventType } from '@src/system/events';
 import logging from '@src/system/logging';
 
-export {
+export default {
   bus,
   logging,
   database,

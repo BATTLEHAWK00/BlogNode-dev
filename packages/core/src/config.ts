@@ -6,7 +6,7 @@ const systemConfig:SystemConfig = {
 
 const httpConfig: HttpConfig = {
   address: process.env.HOST || '0.0.0.0',
-  port: Number.parseInt(process.env.PORT || '7000', 10),
+  port: Number.parseInt(process.env.PORT || '8080', 10),
 };
 
 const dbConfig: DatabaseConfig = {

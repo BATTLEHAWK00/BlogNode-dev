@@ -1,13 +1,15 @@
+import { Timer } from '@src/util/utils';
 import Koa from 'koa';
 import Compress from 'koa-compress';
 import KoaLogger from 'koa-logger';
 import KoaRouter from 'koa-router';
+
+import config from '../config';
 import bus from './bus';
 import { EventType } from './events';
 import logging from './logging';
-import processEvent from './processEvent';
 import nextConfig from './middlewares/nextConfig';
-import config from '../config';
+import processEvent from './processEvent';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const isDev = process.env.NODE_ENV === 'development';
@@ -33,7 +35,19 @@ function handleServerListening() {
   bus.broadcast(EventType.SYS_SystemStarted);
 }
 
-nextConfig.prepare(koaServer, router, () => {
+const nextTimer = new Timer();
+nextTimer.start();
+setTimeout(() => {
+  if (!nextTimer.isStopped()) {
+    const errMsg = 'SSR Engine start timed out!';
+    logger.fatal(errMsg);
+    throw new Error(errMsg);
+  }
+}, 20000);
+
+nextConfig.prepare(koaServer, router).then(() => {
+  nextTimer.end();
+
   koaServer.use(router.routes());
 
   processEvent.handlePromiseRejection();

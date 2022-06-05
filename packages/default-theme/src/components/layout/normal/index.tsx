@@ -1,5 +1,6 @@
 import NavBar, { INavBarItem } from '@components/navbar';
 import context from '@src/components/context';
+import Footer from '@src/components/footer';
 import React, { useContext } from 'react';
 
 import styles from './index.module.css';
@@ -38,7 +39,7 @@ function NormalLayout({ children }:{ children:any | undefined }) {
       <NavBar items={navbarItems} />
       <main className={styles.main}>{children}</main>
       <footer>
-        {footerHtml || ''}
+        <Footer footerHtml={footerHtml} />
       </footer>
     </>
   );

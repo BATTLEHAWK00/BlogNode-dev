@@ -14,7 +14,6 @@ function HomePage() {
 export const getServerSideProps: GetServerSideProps = async () => ({
 
   props: {
-    title: '首页',
     postContent: 'asdasdsa',
     // users: JSON.stringify(await user.getAllUsers()),
   },

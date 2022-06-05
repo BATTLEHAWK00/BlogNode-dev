@@ -8,28 +8,36 @@ export class Timer {
 
   private endTime: Date | null = null;
 
-  start() {
+  private stopped:boolean = true;
+
+  public start() {
     this.startTime = new Date();
+    this.stopped = false;
   }
 
-  end() {
+  public end() {
     this.endTime = new Date();
+    this.stopped = true;
   }
 
-  result() {
+  public isStopped() {
+    return this.stopped;
+  }
+
+  public result() {
     if (!this.startTime || !this.endTime) { throw new Error("timer didn't start or stop!"); }
     if (this.endTime < this.startTime) throw new Error('Usage incorrect');
     return this.endTime.valueOf() - this.startTime.valueOf();
   }
 
-  async decorate(decorateFunc: () => void | Promise<void | void[]>) {
+  public async decorate(decorateFunc: () => void | Promise<void | void[]>) {
     this.start();
     await decorateFunc();
     this.end();
     return this.result();
   }
 
-  async measureEvents(startEvent:EventType, endEvent:EventType) {
+  public async measureEvents(startEvent:EventType, endEvent:EventType) {
     return new Promise<number>((resolve) => {
       bus.once(startEvent, () => this.start());
       bus.once(endEvent, () => {

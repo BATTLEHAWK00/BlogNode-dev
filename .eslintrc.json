@@ -10,14 +10,16 @@
     "plugin:react/recommended",
     "plugin:@next/next/recommended"
   ],
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
+    "requireConfigFile": false,
     "ecmaVersion": 12,
-    "parser": "@typescript-eslint/parser",
+    "parser": "@babel/eslint-parser",
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     },
-    "project": ["tsconfig.json", "packages/default-theme/tsconfig.json"]
+    "project": ["tsconfig.json", "packages/core/tsconfig.json"]
   },
   "rules": {
     "class-methods-use-this": "off",

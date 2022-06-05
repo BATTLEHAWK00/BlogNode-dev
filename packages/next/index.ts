@@ -1,12 +1,14 @@
-import defaultTheme from '@blognode/default-theme';
 import Next, { NextConfig } from 'next';
 import path from 'path';
 
 const isDev = process.env.NODE_ENV === 'development';
-let { themeDir } = defaultTheme;
+let themeDir:string;
 
-function registerThemePackage(packageDir?:string) {
-  if (packageDir)themeDir = packageDir;
+async function registerThemePackage(packageDir?:string) {
+  if (!packageDir) {
+    const m = await import('@blognode/default-theme');
+    themeDir = m.default.themeDir;
+  } else themeDir = packageDir;
 }
 
 function getRegisteredTheme() {

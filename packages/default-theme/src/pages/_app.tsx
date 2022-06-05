@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import '@src/main.css';
 import 'remixicon/fonts/remixicon.css';
 

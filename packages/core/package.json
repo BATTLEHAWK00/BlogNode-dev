@@ -2,6 +2,9 @@
   "name": "blognode",
   "version": "1.0.0",
   "bin": "./bin",
+  "types": "./index.d.ts",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "dependencies": {
     "@blognode/next": "*",
     "agenda": "^4.3.0",
@@ -17,6 +20,7 @@
     "next": "^12.1.6"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.17.12",
     "@types/koa": "^2.13.4",
     "@types/koa-compress": "^4.0.3",
     "@types/koa-logger": "^3.1.2",

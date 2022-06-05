@@ -12,8 +12,8 @@ function splitModuleName(filename:string) {
 }
 
 function getModuleRegex() {
-  return /\.ts$/;
-  // return isDev ? /\.ts$/ : /\.js$/;
+  // return /\.ts$/;
+  return isDev ? /\.ts$/ : /\.js$/;
 }
 
 function scanDir(dirname: string, regex: RegExp) {

@@ -6,8 +6,7 @@
     "js": "ts-node -r tsconfig-paths/register"
   },
   "env": {
-    "NODE_ENV": "development",
-    "PORT": "3000"
+    "NODE_ENV": "development"
   },
   "ext": "js,ts"
 }
