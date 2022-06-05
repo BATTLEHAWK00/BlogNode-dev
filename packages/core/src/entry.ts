@@ -9,11 +9,7 @@ import { Timer } from './util/utils';
 
 const logger = logging.systemLogger;
 
-const isDev = process.env.NODE_ENV ==='development';
-
-const d = []
-
-
+const isDev = process.env.NODE_ENV === 'development';
 
 const daoDir = path.resolve(__dirname, 'orm/dao');
 const systemDir = path.resolve(__dirname, 'system');
@@ -49,7 +45,7 @@ async function loadDao() {
 async function loadService() {
   moduleLoader.loadDir(serviceDir, true);
 }
-
+if (global.gc) bus.on(EventType.SYS_GC, () => global.gc && global.gc());
 (async () => {
   logger.info(`Starting in ${isDev ? 'development' : 'production'} mode.`);
   bindTimer();
@@ -66,4 +62,5 @@ async function loadService() {
   await loadService();
   logger.debug('Loading server...');
   await moduleLoader.loadModule(systemDir, 'server');
+  bus.once(EventType.SYS_SystemStarted, () => bus.broadcast(EventType.SYS_GC));
 })();
