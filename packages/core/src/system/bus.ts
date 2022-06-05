@@ -2,7 +2,7 @@ import EventEmitter from 'events';
 import { EventType } from './events';
 import logging from './logging';
 
-const logger = logging.getLogger('eventBus');
+const logger = logging.getLogger('Event');
 
 type InfiniteArgsFunction =
   | ((...args: any[]) => void)
@@ -16,7 +16,7 @@ function on(eventName: EventType, callback: InfiniteArgsFunction) {
     await callback(args);
     ack();
   });
-  logger.debug(
+  logger.trace(
     `Event ${eventNameStr} registered. Current listeners: ${
       emitter.listeners(eventNameStr).length
     }`,
@@ -41,7 +41,6 @@ async function broadcast(eventName: EventType, ...args: any[]) {
   await broadcastAck;
   logger.debug(`Event ${eventNameStr} complete.`);
 }
-
 function once(eventName: EventType, callback: InfiniteArgsFunction) {
   const eventNameStr: string = EventType[eventName];
   emitter.on(eventNameStr, async (ack: any, ...args: any[]) => {
@@ -49,7 +48,7 @@ function once(eventName: EventType, callback: InfiniteArgsFunction) {
     ack();
   });
   const listeners: any[] = emitter.listeners(eventNameStr);
-  logger.debug(
+  logger.trace(
     `Once Event ${eventNameStr} registered. Current listeners: ${listeners.length}`,
   );
 }

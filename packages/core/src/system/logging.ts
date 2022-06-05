@@ -15,7 +15,7 @@ function getLogger(name: string): Log4js.Logger {
   return Log4js.getLogger(name);
 }
 
-const systemLogger = getLogger('blog-node');
+const systemLogger = getLogger('Blog-Node');
 systemLogger.info(`Log level: ${logLevel}`);
 
 export default {

@@ -48,12 +48,12 @@ async function loadService() {
 (async () => {
   logger.info(`Starting in ${isDev ? 'development' : 'production'} mode.`);
   bindTimer();
-  bus.broadcast(EventType.SYS_BeforeSystemStart);
+  await bus.broadcast(EventType.SYS_BeforeSystemStart);
   await loadConfig();
   logger.info('Loading modules...');
   await loadSystem();
   await loadDao();
-  bus.broadcast(EventType.SYS_BeforeDatabaseConnect);
+  await bus.broadcast(EventType.SYS_BeforeDatabaseConnect);
   await loadService();
-  moduleLoader.loadModule(systemDir, 'server');
+  await moduleLoader.loadModule(systemDir, 'server');
 })();

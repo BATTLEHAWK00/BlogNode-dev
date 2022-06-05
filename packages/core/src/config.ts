@@ -1,7 +1,7 @@
 import { DatabaseConfig, HttpConfig, SystemConfig } from './interface/config';
 
 const systemConfig:SystemConfig = {
-  blogName: 'Hello',
+  blogName: 'Blog-Node',
 };
 
 const httpConfig: HttpConfig = {
@@ -15,9 +15,6 @@ const dbConfig: DatabaseConfig = {
   userName: 'root',
   password: 'yxl123456.',
   dbName: 'test',
-  options: {
-
-  },
 };
 
 const isDev = process.env.NODE_ENV === 'development';

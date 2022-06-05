@@ -15,7 +15,7 @@ export interface DatabaseConfig {
   userName: string;
   password: string;
   dbName: string;
-  options: Partial<mongoose.ConnectOptions>
+  options?: Partial<mongoose.ConnectOptions>
 }
 
 export interface NextConfig {
@@ -23,6 +23,7 @@ export interface NextConfig {
 }
 
 export interface SystemConfig{
-  blogName?:string,
-  themeDir?:string
+  blogName:string,
+  themeDir?:string,
+  faviconPath?:string
 }

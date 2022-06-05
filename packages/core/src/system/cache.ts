@@ -26,7 +26,7 @@ type Asyncable<K> = Promise<Nullable<K>> | Nullable<K>;
 
 export interface CacheOperation<T>{
   single:{
-    ifUncached:<P extends Asyncable<T>>(getFunc:(key:string)=>P)=>{
+    ifUncached:<P extends Asyncable<T>>(getFunc:()=>P)=>{
       get:(key:string, getOptions?:LRU.GetOptions,
         setOptions?:LRU.SetOptions<string, T>)=>Nullable<P>
     }
@@ -37,19 +37,20 @@ export interface CacheOperation<T>{
         setOptions?:LRU.SetOptions<string, T>)=>P
     }
   }
+  evict:(key:string)=>void
 }
 
-export function cacheOperation<T>(cache:LRU<string, T>) {
+export function cacheOperation<T>(cache:LRU<string, T>):CacheOperation<T> {
   return {
+    evict(key) {
+      cache.delete(key);
+    },
     single: {
-      ifUncached<P extends Asyncable<T>>(getFunc:(key:string)=>P) {
+      ifUncached<P extends Asyncable<T>>(getFunc:()=>P) {
         return {
-          get(
-            key:string, getOptions?:LRU.GetOptions,
-            setOptions?:LRU.SetOptions<string, T>,
-          ) :Nullable<P> {
-            if (!cache.has(key)) return cache.get(key, getOptions) || null;
-            const res = getFunc(key);
+          get(key, getOptions, setOptions) {
+            if (cache.has(key)) return cache.get(key, getOptions) || null;
+            const res = getFunc();
             if (res instanceof Promise) res.then((data) => cache.set(key, data, setOptions));
             return res;
           },
@@ -59,10 +60,7 @@ export function cacheOperation<T>(cache:LRU<string, T>) {
     multiple: {
       ifUncached<P extends Asyncable<T[]>>(getFunc:(keys:string[])=>P, keyFunc:(data:T)=>string) {
         return {
-          get(
-            keys:string[], getOptions?:LRU.GetOptions,
-            setOptions?:LRU.SetOptions<string, T>,
-          ) :P {
+          get(keys, getOptions, setOptions) :P {
             const cacheGroups = _.groupBy(keys, (key) => (cache.has(key) ? 'cachedKeys' : 'nonCachedKeys'));
             const fetchedRes = getFunc(cacheGroups.nonCachedKeys);
             const cachedRes = <T[]>cacheGroups.cachedKeys

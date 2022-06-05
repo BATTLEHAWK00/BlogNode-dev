@@ -40,7 +40,7 @@ class UserDao extends BaseDao<User> {
   async getUserById(id: number): Promise<User | null> {
     const op = this.getCache()
       .single
-      .ifUncached(async (key) => this.getModel().findOne({ userId: key }));
+      .ifUncached(async () => this.getModel().findOne({ userId: id }));
     return op.get(getCacheKeyById(id));
   }
 

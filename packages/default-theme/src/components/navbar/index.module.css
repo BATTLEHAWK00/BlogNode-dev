@@ -1,6 +1,6 @@
 .nav {
   display: flex;
-  height: 80px;
+  height: 4em;
   padding: 0 20px;
   align-items: center;
   justify-content: space-between;
@@ -25,7 +25,7 @@
 
 .navbar-item-list li a {
   display: block;
-  line-height: 80px;
+  line-height: 4rem;
   padding: 0 20px;
   color: blueviolet;
   text-decoration: none;

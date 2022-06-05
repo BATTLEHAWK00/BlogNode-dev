@@ -9,7 +9,7 @@
   "scripts": {
     "start:dev": "cd ./packages/core && nodemon --config ./config/nodemon.json ./bin/start.js",
     "start:dev:debug": "cd ./packages/core && cross-env DEBUG=true nodemon --config ./config/nodemon.json ./bin/start.js",
-    "start:prod": "cd ./packages/core/dist && ts-node -r tsconfig-paths/register ../bin/start.js",
+    "start": "cd ./packages/core/dist && ts-node -r tsconfig-paths/register ../bin/start.js",
     "build:ts": "cd ./packages/core && tsc",
     "build:next": "cd ./packages/default-theme && next build",
     "build": "concurrently npm:build:ts npm:build:next"
