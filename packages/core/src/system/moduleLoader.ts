@@ -1,8 +1,10 @@
 import fs from 'fs';
 import path from 'path';
+
 import logging from './logging';
 
 const logger = logging.getLogger('ModuleLoader');
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const isDev = process.env.NODE_ENV === 'development';
 
 function splitModuleName(filename:string) {
@@ -10,7 +12,8 @@ function splitModuleName(filename:string) {
 }
 
 function getModuleRegex() {
-  return isDev ? /\.ts$/ : /\.js$/;
+  return /\.ts$/;
+  // return isDev ? /\.ts$/ : /\.js$/;
 }
 
 function scanDir(dirname: string, regex: RegExp) {

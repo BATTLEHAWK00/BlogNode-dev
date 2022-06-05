@@ -1,5 +1,6 @@
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
+
 import bus from './system/bus';
 import { EventType } from './system/events';
 import logging from './system/logging';
@@ -51,9 +52,14 @@ async function loadService() {
   await bus.broadcast(EventType.SYS_BeforeSystemStart);
   await loadConfig();
   logger.info('Loading modules...');
+  logger.debug('Loading system...');
   await loadSystem();
+  logger.debug('Loading dao...');
   await loadDao();
+  logger.debug('Loading db...');
   await bus.broadcast(EventType.SYS_BeforeDatabaseConnect);
+  logger.debug('Loading service...');
   await loadService();
+  logger.debug('Loading server...');
   await moduleLoader.loadModule(systemDir, 'server');
 })();

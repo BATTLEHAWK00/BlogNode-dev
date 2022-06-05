@@ -1,6 +1,6 @@
+import defaultTheme from '@blognode/default-theme';
 import Next, { NextConfig } from 'next';
 import path from 'path';
-import defaultTheme from '@blognode/default-theme';
 
 const isDev = process.env.NODE_ENV === 'development';
 let { themeDir } = defaultTheme;
@@ -12,7 +12,6 @@ function registerThemePackage(packageDir?:string) {
 function getRegisteredTheme() {
   return themeDir;
 }
-
 const defaultNextConfig:NextConfig = {
   distDir: isDev ? '.next/development' : '.next',
   pageExtensions: ['tsx'],
