@@ -2,7 +2,6 @@ import config from '@src/config';
 import { Timer } from '@src/util/utils';
 import KoaApp from 'koa';
 import KoaRouter from 'koa-router';
-import path from 'path';
 
 import bus from '../bus';
 import { EventType } from '../events';
@@ -16,8 +15,8 @@ async function prepare(koaApp: KoaApp, koaRouter: KoaRouter) {
   const nextModule = (await import('@blognode/next')).default
 
   await nextModule.registerThemePackage(config.systemConfig.themeDir);
-  logging.systemLogger.info(`Registered theme: ${path.basename(nextModule.getRegisteredTheme())}`);
-  logging.systemLogger.debug(`Theme location: ${nextModule.getRegisteredTheme()}`);
+  logging.systemLogger.info(`Registered theme: ${nextModule.getRegisteredThemeName()}`);
+  logging.systemLogger.debug(`Theme location: ${nextModule.getRegisteredThemeDir()}`);
 
   const nextApp = nextModule.getNextApp();
   const nextHandler = nextApp.getRequestHandler();

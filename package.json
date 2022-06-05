@@ -9,10 +9,11 @@
   "scripts": {
     "start:dev": "cd ./packages/core && nodemon --config ./config/nodemon.json ./bin/start.js",
     "start:dev:debug": "cd ./packages/core && cross-env DEBUG=true nodemon --config ./config/nodemon.json ./bin/start.js",
-    "start": "cd ./packages/core && ts-node -r tsconfig-paths/register ./bin/start.js",
-    "build:ts": "cd ./packages/core && tsc",
-    "build:next": "cd ./packages/default-theme && next build",
-    "build": "concurrently npm:build:ts npm:build:next"
+    "start": "cd ./packages/core && node ./bin/start.js",
+    "build:core": "cd ./packages/core && node ./bin/build.js",
+    "build:next": "cd ./packages/next && tsc",
+    "build:theme": "cd ./packages/default-theme && next build --no-lint && tsc",
+    "build": "concurrently npm:build:core npm:build:next npm:build:theme"
   },
   "workspaces": [
     "packages/*",
