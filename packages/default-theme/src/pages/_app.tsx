@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import '@src/main.css';
+import 'remixicon/fonts/remixicon.css';
+
+import Context from '@src/components/context';
+import NormalLayout from '@src/components/layout/normal';
 import Head from 'next/head';
 import React from 'react';
-
-import '@public/main.css';
-import { GetServerSideProps } from 'next';
-import NormalLayout from '@src/components/layout/normal';
 
 interface IAppProps<T extends React.Component>{
   Component:T,
@@ -15,15 +16,19 @@ interface IAppProps<T extends React.Component>{
 }
 
 function BlogNodeApp({ Component, pageProps }:IAppProps<any>) {
-  const { title } = pageProps;
+  const Layout = Component.Layout || NormalLayout;
+  const pageTitle = Component.pageTitle || 'BlogNode';
+
   return (
     <>
-      <Head>
-        <title>{title || 'BlogNode'}</title>
-      </Head>
-      <NormalLayout pageProps={pageProps}>
-        <Component pageProps={pageProps} />
-      </NormalLayout>
+      <Context.PageContext.Provider value={pageProps}>
+        <Head>
+          <title>{pageTitle}</title>
+        </Head>
+        <Layout>
+          <Component />
+        </Layout>
+      </Context.PageContext.Provider>
     </>
   );
 }
@@ -37,18 +42,5 @@ function BlogNodeApp({ Component, pageProps }:IAppProps<any>) {
 //   //   console.log(window.metric);
 //   // }
 // }
-
-export const getServerSideProps:GetServerSideProps = async () => {
-  const footerHtml = 'asdasdasd';
-  console.log(footerHtml);
-
-  return {
-    props: {
-      pageProps: {
-        footerHtml,
-      },
-    },
-  };
-};
 
 export default BlogNodeApp;

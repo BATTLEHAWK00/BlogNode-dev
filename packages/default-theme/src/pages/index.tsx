@@ -1,23 +1,31 @@
-import React from 'react';
-import { GetServerSideProps } from 'next';
+import BasePage from '@src/components/BasePage';
+import context from '@src/components/context';
 import PostsContent from '@src/components/post';
+import { GetStaticProps } from 'next';
+import React, { useContext } from 'react';
 
-function HomePage({ pageProps }:any) {
-  console.log(pageProps);
-  const { postContent } = pageProps;
-  return (
-    <>
-      <PostsContent postContent={postContent} />
-    </>
-  );
+class HomePage extends BasePage<JSX.Element> {
+  protected setPageTitle(): string | void {
+    return '首页';
+  }
+
+  protected setPageRenderer(): (...args: any) => JSX.Element {
+    // eslint-disable-next-line react/display-name
+    return () => {
+      const { postContent }:any = useContext(context.PageContext);
+      return (
+        <>
+          <PostsContent postContent={postContent} />
+        </>
+      );
+    };
+  }
 }
 
-export const getServerSideProps: GetServerSideProps = async () => ({
+export const getStaticProps:GetStaticProps = () => ({
   props: {
-    title: '首页',
-    postContent: 'asdasdsa',
-    // users: JSON.stringify(await user.getAllUsers()),
+    postContent: 'asdddddasd',
   },
 });
 
-export default HomePage;
+export default new HomePage().getFinalPage();

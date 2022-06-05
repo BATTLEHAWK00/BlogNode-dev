@@ -1,11 +1,15 @@
-/* eslint-disable react/no-array-index-key */
 import Link from 'next/link';
 import React from 'react';
+
+import RemixIcon from '../remixicon';
 import styles from './index.module.css';
+
+/* eslint-disable react/no-array-index-key */
 // import SearchBar from './searchbar';
 
 export interface INavBarItem{
   name:string,
+  iconName?:string,
   displayName?:string,
   linkTo:string,
 }
@@ -13,20 +17,24 @@ export interface INavBarItem{
 function NavBar({ items }:{ items:INavBarItem[] }) {
   return (
     <nav className={styles.nav}>
-      <h1 className={styles['navbar-logo']}>
+      <h1 className={styles['nav-logo']}>
         <Link href="/">BlogNode</Link>
       </h1>
-      <div className={styles['navbar-container']}>
-        <ul className={styles['navbar-item-list']}>
-          {
-          items && items.map(({ name, displayName, linkTo }) => (
+      <div className={styles['nav-container']}>
+        <ul className={styles['nav-item-list']}>
+          {items && items.map(({
+            name, displayName, iconName, linkTo,
+          }) => (
             <li key={name}>
               <Link href={linkTo}>
-                {displayName || name}
+                <span className={`${styles['nav-item']}`}>
+                  {iconName && <RemixIcon iconName={iconName} />}
+                  &nbsp;
+                  {displayName || name}
+                </span>
               </Link>
             </li>
-          ))
-        }
+          ))}
         </ul>
         {/* <SearchBar /> */}
       </div>
