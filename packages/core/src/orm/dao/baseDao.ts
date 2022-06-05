@@ -7,6 +7,8 @@ import { Logger } from 'log4js';
 import { Model } from 'mongoose';
 
 export default abstract class BaseDao<T> {
+  static databaseConnectedEvents:(()=>void | Promise<void>)[] = [];
+
   private model:Model<T>;
 
   private cacheOp:CacheOperation<T>;
@@ -41,3 +43,8 @@ export default abstract class BaseDao<T> {
     bus.once(EventType.SYS_DatabaseConnected, () => this.onDatabaseConnected());
   }
 }
+
+bus.once(
+  EventType.SYS_DatabaseConnected,
+  async () => Promise.all(BaseDao.databaseConnectedEvents.map((cb) => cb())),
+);
