@@ -6,19 +6,19 @@ import KoaRouter from 'koa-router';
 import bus from '../bus';
 import { EventType } from '../events';
 import logging from '../logging';
+import theme from '../theme';
 
 async function prepare(koaApp: KoaApp, koaRouter: KoaRouter) {
   const timer = new Timer();
   logging.systemLogger.info('Initializing SSR engine...');
   timer.start();
 
-  const nextModule = (await import('@blognode/next')).default
+  const themeRegisterer = theme.getThemeRegisterer(config.systemConfig.themeDir);
+  await themeRegisterer.register();
+  logging.systemLogger.info(`Registered theme: ${themeRegisterer.getThemeName()}`);
+  logging.systemLogger.debug(`Theme location: ${themeRegisterer.getThemeDir()}`);
 
-  await nextModule.registerThemePackage(config.systemConfig.themeDir);
-  logging.systemLogger.info(`Registered theme: ${nextModule.getRegisteredThemeName()}`);
-  logging.systemLogger.debug(`Theme location: ${nextModule.getRegisteredThemeDir()}`);
-
-  const nextApp = nextModule.getNextApp();
+  const nextApp = await themeRegisterer.getNextApp();
   const nextHandler = nextApp.getRequestHandler();
   nextApp.options.quiet = true;
 

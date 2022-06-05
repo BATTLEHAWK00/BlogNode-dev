@@ -1,12 +1,13 @@
 {
   "name": "blognode",
   "version": "1.0.0",
-  "bin": "./bin",
-  "types": "./index.d.ts",
-  "main": "./dist/index.js",
+  "bin": "bin/start.js",
+  "repository": "https://github.com/BATTLEHAWK00/BlogNode-dev.git",
   "typings": "./dist/index.d.ts",
+  "main": "index",
+  "module": "index",
+  "preferUnplugged": true,
   "dependencies": {
-    "@blognode/next": "*",
     "agenda": "^4.3.0",
     "koa": "^2.13.1",
     "koa-compress": "^5.0.1",

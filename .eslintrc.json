@@ -8,13 +8,12 @@
   "extends": [
     "airbnb-typescript",
     "plugin:react/recommended",
-    "plugin:@next/next/recommended"
+    "plugin:@next/next/recommended",
+    "plugin:react-hooks/recommended"
   ],
-  "parser": "@babel/eslint-parser",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "requireConfigFile": false,
     "ecmaVersion": 12,
-    "parser": "@babel/eslint-parser",
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -26,6 +25,9 @@
     "no-plusplus": "off"
   },
   "settings": {
+    "next": {
+      "rootDir": "packages/default-theme"
+    },
     "react": {
       "version": "detect"
     }

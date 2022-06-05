@@ -9,7 +9,11 @@ import { Timer } from './util/utils';
 
 const logger = logging.systemLogger;
 
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV ==='development';
+
+const d = []
+
+
 
 const daoDir = path.resolve(__dirname, 'orm/dao');
 const systemDir = path.resolve(__dirname, 'system');

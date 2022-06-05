@@ -1,11 +1,9 @@
 {
   "name": "@blognode/default-theme",
   "version": "1.0.0",
-  "bin": "dist",
-  "main": "dist/index.js",
+  "main": "dist/index",
   "dependencies": {
     "axios": "^0.27.2",
-    "blognode": "*",
     "next": "^12.1.6",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
@@ -15,6 +13,7 @@
   "devDependencies": {
     "@types/react": "^18.0.10",
     "@types/react-dom": "^18.0.5",
+    "esbuild-loader": "^2.19.0",
     "less": "^4.1.2"
   }
 }

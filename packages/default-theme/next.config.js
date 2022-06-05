@@ -2,8 +2,8 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  distDir:'dist/.next',
-  pageExtensions: ["tsx"],
+  distDir: '.next',
+  pageExtensions: ['tsx'],
   cleanDistDir: true,
 };
 

@@ -5,15 +5,15 @@
   "repository": "https://github.com/BATTLEHAWK00/BlogNode-dev",
   "author": "BATTLEHAWK00 <battlehawk0_0@163.com>",
   "license": "AGPL-3.0-or-later",
+  "main": "package.json",
   "private": true,
   "scripts": {
-    "start:dev": "cd ./packages/core && nodemon --config ./config/nodemon.json ./bin/start.js",
-    "start:dev:debug": "cd ./packages/core && cross-env DEBUG=true nodemon --config ./config/nodemon.json ./bin/start.js",
-    "start": "cd ./packages/core && node ./bin/start.js",
-    "build:core": "cd ./packages/core && node ./bin/build.js",
-    "build:next": "cd ./packages/next && tsc",
-    "build:theme": "cd ./packages/default-theme && next build --no-lint && tsc",
-    "build": "concurrently npm:build:core npm:build:next npm:build:theme"
+    "start:dev": "cd packages/core && nodemon --config config/nodemon.json bin/start.js",
+    "start:dev:debug": "cd packages/core && cross-env DEBUG=true nodemon --config ./config/nodemon.json bin/start.js",
+    "start": "cd packages/core && node bin/start.js",
+    "build:core": "cd packages/core && node bin/build.js",
+    "build:theme": "cd packages/default-theme && next build --no-lint && tsc",
+    "build": "concurrently npm:build:core npm:build:theme"
   },
   "workspaces": [
     "packages/*",
@@ -27,6 +27,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.2",
     "@babel/eslint-parser": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
     "@next/eslint-plugin-next": "^12.1.6",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
@@ -38,6 +39,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
     "gulp": "^4.0.2",
     "gulp-typescript": "^6.0.0-alpha.1",
     "nodemon": "^2.0.16",
