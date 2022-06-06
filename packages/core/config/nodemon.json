@@ -2,8 +2,8 @@
   "delay": 1000,
   "watch": ["src"],
   "execMap": {
-    "ts": "ts-node --expose-gc -r tsconfig-paths/register",
-    "js": "ts-node --expose-gc -r tsconfig-paths/register"
+    "ts": "ts-node -r tsconfig-paths/register",
+    "js": "ts-node -r tsconfig-paths/register"
   },
   "env": {
     "NODE_ENV": "development"

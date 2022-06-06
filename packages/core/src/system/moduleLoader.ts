@@ -22,6 +22,7 @@ function scanDir(dirname: string, regex: RegExp) {
 
 async function loadModule(dirname: string, filename: string) {
   const moduleName = splitModuleName(filename);
+  logger.trace(`loading module: ${moduleName}...`);
   const res = await import(path.resolve(dirname, moduleName));
   logger.debug(`loaded module: ${moduleName}`);
   return res;
@@ -32,16 +33,17 @@ async function loadFiles(
   filenames: string[],
   concurrent: boolean = false,
 ) {
+  const modules = [];
   if (concurrent) {
-    await Promise.all(filenames.map((file) => loadModule(dirname, file)));
-    return;
+    return Promise.all(filenames.map((file) => loadModule(dirname, file)));
   }
   let file: string | undefined = filenames.pop();
   while (file) {
     // eslint-disable-next-line no-await-in-loop
-    await loadModule(dirname, file);
+    modules.push(await loadModule(dirname, file));
     file = filenames.pop();
   }
+  return modules;
 }
 
 async function loadDir(dirname: string, concurrent: boolean = false) {

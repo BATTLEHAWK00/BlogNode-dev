@@ -2,7 +2,15 @@ import bus from './bus';
 import { EventType } from './events';
 import logging from './logging';
 
-const logger = logging.getLogger('processEvent');
+const logger = logging.systemLogger;
+let isShuttingDown = false;
+
+const exitSinals:NodeJS.Signals[] = [
+  'SIGINT',
+  'SIGTERM',
+  'SIGBREAK',
+  'SIGHUP',
+];
 
 function handlePromiseRejection() {
   process.on('unhandledRejection', (e) => {
@@ -10,18 +18,16 @@ function handlePromiseRejection() {
   });
 }
 
+async function gracefulShutdown() {
+  logger.info('Shutting down BlogNode...');
+  await bus.broadcast(EventType.SYS_BeforeSystemStop);
+  process.exit(0);
+}
+
 function handleProcessExit() {
-  process
-    .on('beforeExit', () => {
-      bus.broadcast(EventType.SYS_BeforeSystemStop).then(() => {
-        process.exit();
-      });
-    })
-    .on('SIGINT', () => {
-      bus.broadcast(EventType.SYS_BeforeSystemStop).then(() => {
-        process.exit();
-      });
-    });
+  if (isShuttingDown) return;
+  isShuttingDown = true;
+  exitSinals.forEach((signal) => process.on(signal, gracefulShutdown));
 }
 
 export default {

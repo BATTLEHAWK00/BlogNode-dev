@@ -5,6 +5,7 @@ import bus from './system/bus';
 import { EventType } from './system/events';
 import logging from './system/logging';
 import moduleLoader from './system/moduleLoader';
+import processEvent from './system/processEvent';
 import { Timer } from './util/utils';
 
 const logger = logging.systemLogger;
@@ -48,6 +49,8 @@ async function loadService() {
 if (global.gc) bus.on(EventType.SYS_GC, () => global.gc && global.gc());
 (async () => {
   logger.info(`Starting in ${isDev ? 'development' : 'production'} mode.`);
+  processEvent.handlePromiseRejection();
+  processEvent.handleProcessExit();
   bindTimer();
   await bus.broadcast(EventType.SYS_BeforeSystemStart);
   await loadConfig();

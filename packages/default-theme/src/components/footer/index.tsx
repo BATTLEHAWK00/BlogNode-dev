@@ -11,7 +11,7 @@ function Footer({ footerHtml }:IFooterProps) {
     <>
       <div className={styles.footer}>
         <div dangerouslySetInnerHTML={{ __html: footerHtml }} />
-        <p>Provided By BlogNode</p>
+        <p>Powered by BlogNode</p>
       </div>
     </>
   );

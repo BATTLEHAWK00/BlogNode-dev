@@ -26,4 +26,5 @@ export interface SystemConfig{
   blogName:string,
   themeDir?:string,
   faviconPath?:string
+  logLevel?:'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal'
 }

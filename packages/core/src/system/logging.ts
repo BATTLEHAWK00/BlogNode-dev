@@ -1,8 +1,9 @@
+import config from '@src/config';
 import Log4js from 'log4js';
 
 const debugMode = process.env.DEBUG === 'true';
 
-const logLevel = debugMode ? 'debug' : 'info';
+const logLevel = config.systemConfig.logLevel || debugMode ? 'debug' : 'info';
 
 Log4js.configure({
   appenders: { console: { type: 'console' } },

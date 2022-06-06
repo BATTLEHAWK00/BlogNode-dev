@@ -19,11 +19,6 @@
     "packages/*",
     "themes/*"
   ],
-  "dependencies": {
-    "cross-env": "^7.0.3",
-    "tsconfig-paths": "^4.0.0",
-    "typescript": "^4.3.5"
-  },
   "devDependencies": {
     "@babel/core": "^7.18.2",
     "@babel/eslint-parser": "^7.18.2",
@@ -45,6 +40,9 @@
     "nodemon": "^2.0.16",
     "ts-node": "^10.8.0",
     "tsc-alias": "^1.6.8",
-    "webpack": "^5.73.0"
+    "webpack": "^5.73.0",
+    "typescript": "^4.3.5",
+    "cross-env": "^7.0.3",
+    "tsconfig-paths": "^4.0.0"
   }
 }

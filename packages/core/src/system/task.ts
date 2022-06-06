@@ -1,5 +1,6 @@
 import { Timer } from '@src/util/utils';
 import Agenda, { Job } from 'agenda';
+
 import bus from './bus';
 import database from './database';
 import { EventType } from './events';
@@ -12,7 +13,7 @@ const agenda = new Agenda({
     address: database.getDatabaseUri(),
     collection: 'tasks',
   },
-  maxConcurrency: 50,
+  maxConcurrency: 10,
 });
 
 function onTaskStarted(task:Job) {
@@ -42,7 +43,7 @@ bus.once(EventType.SYS_DatabaseConnected, async () => {
     agenda.on('start', onTaskStarted);
     await agenda.start();
   });
-  logging.systemLogger.info(`Task scheduler started.(${time}ms)`);
+  logging.systemLogger.debug(`Task scheduler started.(${time}ms)`);
 });
 
 bus.once(EventType.SYS_BeforeSystemStop, async () => {

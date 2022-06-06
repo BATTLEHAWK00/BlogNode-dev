@@ -2,7 +2,7 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  distDir: '.next',
+  distDir: 'dist/.next',
   pageExtensions: ['tsx'],
   cleanDistDir: true,
 };
