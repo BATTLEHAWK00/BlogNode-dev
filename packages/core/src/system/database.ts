@@ -1,10 +1,12 @@
 import config from '@src/config';
+import { getDatabaseUri } from '@src/util/system';
 import { Timer } from '@src/util/utils';
 import mongoose, { Model } from 'mongoose';
 
 import bus from './bus';
 import { EventType } from './events';
 import logging from './logging';
+import task from './task';
 
 const logger = logging.getLogger('Database');
 
@@ -16,10 +18,6 @@ if (config.systemConfig.logLevel === 'trace') {
   mongoose.set('debug', (coll, method, query, doc) => {
     logger.trace(`[${method}]${coll}:`, JSON.stringify(query), doc);
   });
-}
-
-function getDatabaseUri() {
-  return `mongodb://${dbConfig.host}:${dbConfig.port}/${dbConfig.dbName}`;
 }
 
 async function connectDB() {
@@ -65,6 +63,13 @@ bus.once(EventType.SYS_BeforeSystemStop, async () => {
 });
 
 bus.once(EventType.SYS_DatabaseConnected, () => bus.broadcast(EventType.DB_EnsureIndexes));
+bus.once(EventType.SYS_TaskPoolStarted, async () => {
+  const job = task.create('ensureIndexes', null)
+    .repeatEvery('5 seconds')
+    .enable();
+  await job.save();
+  await job.touch();
+});
 
 export default {
   registerModel,

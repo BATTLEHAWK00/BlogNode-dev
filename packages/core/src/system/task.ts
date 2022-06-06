@@ -1,8 +1,8 @@
+import { getDatabaseUri } from '@src/util/system';
 import { Timer } from '@src/util/utils';
 import Agenda, { Job } from 'agenda';
 
 import bus from './bus';
-import database from './database';
 import { EventType } from './events';
 import logging from './logging';
 
@@ -10,7 +10,7 @@ const logger = logging.getLogger('taskScheduler');
 
 const agenda = new Agenda({
   db: {
-    address: database.getDatabaseUri(),
+    address: getDatabaseUri(),
     collection: 'tasks',
   },
   maxConcurrency: 10,
@@ -18,10 +18,6 @@ const agenda = new Agenda({
 
 function onTaskStarted(task:Job) {
   logger.debug(`Task execution ${task.attrs.name} started.`);
-}
-
-function onTaskFinished(task:Job) {
-  logger.debug(`Task execution ${task.attrs.name} finished.`);
 }
 
 function onTaskSuccess(task:Job) {
@@ -39,11 +35,11 @@ bus.once(EventType.SYS_DatabaseConnected, async () => {
   const time = await timer.decorate(async () => {
     agenda.on('success', onTaskSuccess);
     agenda.on('fail', onTaskFail);
-    agenda.on('complete', onTaskFinished);
     agenda.on('start', onTaskStarted);
     await agenda.start();
   });
   logging.systemLogger.debug(`Task scheduler started.(${time}ms)`);
+  await bus.broadcast(EventType.SYS_TaskPoolStarted);
 });
 
 bus.once(EventType.SYS_BeforeSystemStop, async () => {
@@ -51,3 +47,12 @@ bus.once(EventType.SYS_BeforeSystemStop, async () => {
   await agenda.stop();
   await agenda.close();
 });
+
+export default {
+  schedule: agenda.schedule.bind(agenda),
+  jobs: agenda.jobs.bind(agenda),
+  cancel: agenda.cancel.bind(agenda),
+  create: agenda.create.bind(agenda),
+  disable: agenda.disable.bind(agenda),
+  enable: agenda.enable.bind(agenda),
+};
