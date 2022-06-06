@@ -1,0 +1,42 @@
+:root {
+  --blognode-main-shadow-depth: 5px;
+}
+
+body {
+  background-color: rgb(246, 246, 246);
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+input[type="text"] {
+  padding: 6px 10px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  border: solid 2px rgb(231, 231, 231);
+  box-shadow: 0 0 2px rgb(231, 231, 231);
+  transition: all 0.5s;
+}
+
+input[type="text"]:hover {
+  box-shadow: 0 0 8px gray;
+}
+
+.bn-content-block {
+  padding: 10px 20px;
+  overflow: hidden;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.bn-shadow {
+  box-shadow: 0 5px var(--blognode-main-shadow-depth) rgb(228, 228, 228);
+  transition: all 0.5s;
+}
+
+.bn-shadow:hover {
+  box-shadow: 0 10px 10px rgb(228, 228, 228);
+}

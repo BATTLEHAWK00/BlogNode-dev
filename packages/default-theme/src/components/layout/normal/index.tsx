@@ -1,11 +1,12 @@
-import NavBar, { INavBarItem } from '@components/navbar';
+import NavBar from '@components/navbar';
 import context from '@src/components/context';
 import Footer from '@src/components/footer';
+import { INavItemProps } from '@src/components/navbar/nav-item';
 import React, { useContext } from 'react';
 
 import styles from './index.module.css';
 
-const navbarItems:INavBarItem[] = [
+const navbarItems:INavItemProps[] = [
   {
     name: 'posts',
     displayName: '文章',
@@ -37,7 +38,7 @@ function NormalLayout({ children }:{ children:any | undefined }) {
   return (
     <>
       <NavBar items={navbarItems} />
-      <main className={styles.main}>{children}</main>
+      <main className={[styles.main, 'bn-content-block', 'bn-shadow'].join(' ')}>{children}</main>
       <footer>
         <Footer footerHtml={footerHtml} />
       </footer>

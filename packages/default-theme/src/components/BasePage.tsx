@@ -7,17 +7,15 @@ export interface IPage<T extends ReactComponent> extends RenderFunction<T>{
   pageTitle?:string
   pageLayout?:RenderFunction<T>
 }
-
 export default abstract class BasePage<T extends ReactComponent> {
-  private page:IPage<T>;
+  private page?:IPage<T>;
 
   protected setPageTitle():string | void {}
 
   protected setPageLayout():RenderFunction<T> | void {}
 
   protected setPageRenderer():RenderFunction<T> {
-    if (!this.page) throw new Error('No page renderer set!');
-    return null;
+    throw new Error('No page renderer set!');
   }
 
   constructor(page?:RenderFunction<T>) {
@@ -26,9 +24,10 @@ export default abstract class BasePage<T extends ReactComponent> {
   }
 
   public getFinalPage() {
+    if (!this.page) throw new Error('No page renderer set!');
     const { page } = this;
-    page.pageLayout = this.setPageLayout() || null;
-    page.pageTitle = this.setPageTitle() || null;
+    page.pageLayout = this.setPageLayout() || undefined;
+    page.pageTitle = this.setPageTitle() || undefined;
     return page;
   }
 }

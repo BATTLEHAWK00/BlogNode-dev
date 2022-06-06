@@ -18,11 +18,12 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "project": ["tsconfig.json", "packages/core/tsconfig.json"]
+    "project": ["tsconfig.json"]
   },
   "rules": {
     "class-methods-use-this": "off",
-    "no-plusplus": "off"
+    "no-plusplus": "off",
+    "react/prop-types": "off"
   },
   "settings": {
     "next": {

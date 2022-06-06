@@ -42,7 +42,6 @@ async function loadSystem() {
 async function loadDao() {
   moduleLoader.loadDir(daoDir, true);
 }
-
 async function loadService() {
   moduleLoader.loadDir(serviceDir, true);
 }

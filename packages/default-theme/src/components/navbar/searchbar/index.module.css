@@ -1,0 +1,39 @@
+@value nav from '../index.module.css';
+.searchbar-container {
+  padding: 4px 10px;
+}
+
+.searchbar {
+  width: 10em;
+  height: 1rem;
+  color: gray;
+  box-shadow: none !important;
+  border-radius: 10px !important;
+}
+
+.searchbar:focus::placeholder {
+  opacity: 0;
+}
+
+.searchbar:hover {
+  box-shadow: none !important;
+}
+
+.nav:hover .searchbar {
+  height: 1.5rem;
+}
+
+.searchbar:focus-visible {
+  color: black;
+  width: 20em;
+}
+
+.searchbar-button {
+  cursor: pointer;
+  margin-left: 10px;
+  transition: all 0.5s;
+}
+
+.searchbar-button:hover {
+  color: gray;
+}

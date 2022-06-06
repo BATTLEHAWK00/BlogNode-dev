@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 
 import styles from './index.module.css';
@@ -9,7 +10,7 @@ interface IFooterProps{
 function Footer({ footerHtml }:IFooterProps) {
   return (
     <>
-      <div className={styles.footer}>
+      <div className={[styles.footer, 'bn-content-block', 'bn-shadow'].join(' ')}>
         <div dangerouslySetInnerHTML={{ __html: footerHtml }} />
         <p>Powered by BlogNode</p>
       </div>
