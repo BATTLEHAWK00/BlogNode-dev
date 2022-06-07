@@ -35,7 +35,7 @@ function registerModel(model:Model<any>) {
   registeredModels.set(model.modelName, model);
 }
 
-async function ensureIndexes() {
+async function ensureIndexes(logInfo:boolean = true) {
   const indexTimer = new Timer();
   const totalTime = await indexTimer.decorate(
     () => Promise.all([...registeredModels.values()].map(async (m) => {
@@ -44,7 +44,7 @@ async function ensureIndexes() {
       logger.debug(`Ensured indexes for model ${m.modelName} (${time}ms)`);
     })),
   );
-  logger.info(`Database indexes ensured.(${totalTime}ms)`);
+  if (logInfo) logger.info(`Database indexes ensured.(${totalTime}ms)`);
 }
 
 bus.on(EventType.DB_EnsureIndexes, ensureIndexes);
@@ -62,13 +62,10 @@ bus.once(EventType.SYS_BeforeSystemStop, async () => {
   await mongoose.disconnect();
 });
 
-bus.once(EventType.SYS_DatabaseConnected, () => bus.broadcast(EventType.DB_EnsureIndexes));
+bus.once(EventType.SYS_DatabaseConnected, () => bus.broadcast(EventType.DB_EnsureIndexes), false);
 bus.once(EventType.SYS_TaskPoolStarted, async () => {
-  const job = task.create('ensureIndexes', null)
-    .repeatEvery('5 seconds')
-    .enable();
-  await job.save();
-  await job.touch();
+  task.define('ensureIndexes', { priority: -20 }, () => bus.broadcast(EventType.DB_EnsureIndexes, false));
+  await task.every('6 hours', 'ensureIndexes');
 });
 
 export default {

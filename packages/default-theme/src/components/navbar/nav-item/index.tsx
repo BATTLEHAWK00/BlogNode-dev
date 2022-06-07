@@ -15,11 +15,13 @@ function NavItem({ props }:{ props:INavItemProps }) {
   const {
     linkTo, iconName, displayName, name,
   } = props;
+  console.log(styles['item-icon']);
+
   return (
     <>
       <Link href={linkTo} replace>
         <span className={`${styles['nav-item']}`}>
-          {iconName && <RemixIcon iconName={iconName} />}
+          {iconName && <RemixIcon iconName={iconName} className={styles['item-icon']} />}
                   &nbsp;
           <span>{displayName || name}</span>
         </span>

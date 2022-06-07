@@ -1,4 +1,5 @@
 @value nav from '../index.module.css';
+
 .nav-item {
   cursor: pointer;
   display: block;
@@ -17,6 +18,14 @@
   padding: 0 20px;
   color: white;
   background-color: blueviolet;
+}
+
+.nav-item:hover .item-icon {
+  transform: scale(1.2);
+}
+
+.nav-item:hover .item-icon {
+  transform: scale(1.5);
 }
 
 .nav-item .active {

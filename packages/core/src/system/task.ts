@@ -49,7 +49,10 @@ bus.once(EventType.SYS_BeforeSystemStop, async () => {
 });
 
 export default {
+  every: agenda.every.bind(agenda),
+  now: agenda.now.bind(agenda),
   schedule: agenda.schedule.bind(agenda),
+  define: agenda.define.bind(agenda),
   jobs: agenda.jobs.bind(agenda),
   cancel: agenda.cancel.bind(agenda),
   create: agenda.create.bind(agenda),

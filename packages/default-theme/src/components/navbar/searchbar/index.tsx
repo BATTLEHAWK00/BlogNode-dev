@@ -14,7 +14,7 @@ function SearchBar() {
 
   const handleSearch = _.throttle(() => {
     if (searchText) router.replace({ pathname: '/search', query: { s: searchText } });
-  }, 500, { leading: false });
+  }, 1000, { leading: false });
 
   useEffect(handleSearch, [searchText]);
 

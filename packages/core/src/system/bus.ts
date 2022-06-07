@@ -11,10 +11,11 @@ type InfiniteArgsFunction =
 
 const emitter = new EventEmitter();
 
-function on(eventName: EventType, callback: InfiniteArgsFunction) {
+function on(eventName: EventType, callback: InfiniteArgsFunction, wait:boolean = true) {
   const eventNameStr: string = EventType[eventName];
-  emitter.on(eventNameStr, async (ack: any, ...args: any[]) => {
-    await callback(args);
+  emitter.on(eventNameStr, async (ack: any, args:any, ...remainingArgs: any[]) => {
+    const res = callback(args, ...remainingArgs);
+    if (wait) await res;
     ack();
   });
   logger.trace(
@@ -24,7 +25,7 @@ function on(eventName: EventType, callback: InfiniteArgsFunction) {
   );
 }
 
-async function broadcast(eventName: EventType, ...args: any[]) {
+async function broadcast<T>(eventName: EventType, args?: T, ...remainingArgs:any) {
   const eventNameStr: string = EventType[eventName];
   const listeners: any[] = emitter.listeners(eventNameStr);
   logger.debug(
@@ -37,15 +38,16 @@ async function broadcast(eventName: EventType, ...args: any[]) {
       ackNum++;
       if (ackNum === listeners.length) resolve();
     };
-    emitter.emit(eventNameStr, ack, args);
+    emitter.emit(eventNameStr, ack, args, ...remainingArgs);
   });
   await broadcastAck;
   logger.debug(`Event ${eventNameStr} complete.`);
 }
-function once(eventName: EventType, callback: InfiniteArgsFunction) {
+function once(eventName: EventType, callback: InfiniteArgsFunction, wait:boolean = true) {
   const eventNameStr: string = EventType[eventName];
-  emitter.on(eventNameStr, async (ack: any, ...args: any[]) => {
-    await callback(args);
+  emitter.on(eventNameStr, async (ack: any, args:any, ...remainingArgs: any[]) => {
+    const res = callback(args, ...remainingArgs);
+    if (wait) await res;
     ack();
   });
   const listeners: any[] = emitter.listeners(eventNameStr);
