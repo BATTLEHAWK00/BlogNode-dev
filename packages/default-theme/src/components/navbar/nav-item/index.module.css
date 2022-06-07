@@ -3,14 +3,14 @@
   cursor: pointer;
   display: block;
   line-height: 3.5rem;
-  padding: 0 10px;
+  padding: 0 5px;
   color: blueviolet;
   text-decoration: none;
   transition: all 0.5s;
 }
 
 .nav:hover .nav-item {
-  line-height: 5rem;
+  line-height: 4.5rem;
 }
 
 .nav-item:hover {

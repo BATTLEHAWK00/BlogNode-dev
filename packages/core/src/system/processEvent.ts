@@ -1,9 +1,10 @@
+import _ from 'lodash';
+
 import bus from './bus';
 import { EventType } from './events';
 import logging from './logging';
 
 const logger = logging.systemLogger;
-let isShuttingDown = false;
 
 const exitSinals:NodeJS.Signals[] = [
   'SIGINT',
@@ -25,12 +26,10 @@ async function gracefulShutdown() {
 }
 
 function handleProcessExit() {
-  if (isShuttingDown) return;
-  isShuttingDown = true;
   exitSinals.forEach((signal) => process.on(signal, gracefulShutdown));
 }
 
 export default {
-  handleProcessExit,
+  handleProcessExit: _.once(handleProcessExit),
   handlePromiseRejection,
 };

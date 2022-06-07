@@ -1,6 +1,7 @@
 import RemixIcon from '@src/components/remixicon';
 import Link from 'next/link';
 import React from 'react';
+
 import styles from './index.module.css';
 
 export interface INavItemProps{
@@ -16,7 +17,7 @@ function NavItem({ props }:{ props:INavItemProps }) {
   } = props;
   return (
     <>
-      <Link href={linkTo}>
+      <Link href={linkTo} replace>
         <span className={`${styles['nav-item']}`}>
           {iconName && <RemixIcon iconName={iconName} />}
                   &nbsp;
