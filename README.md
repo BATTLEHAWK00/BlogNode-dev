@@ -9,16 +9,22 @@ BlogNode是一个使用 TypeScript + Next.js 搭建的博客项目
 3. 易于部署，计划使用Docker来简化部署流程
 4. 易于扩展，计划提供一系列API来通过插件及主题扩充原有功能
 
-# Todo
+# Todo List
 - [ ] static中间件
+- [ ] 路由平滑切换
 - [ ] userDao, userService编写
 - [ ] 后台登录注册功能
 - [ ] postSchema, postDao, postService编写
 - [ ] config结构编写
 - [ ] 后台文章发布功能
+- [ ] 博客首页
 - [ ] 任务池与mongoose共用connection
 - [ ] 本地文件存取API
 - [ ] 实现minio对象存储
+- [ ] 完整的SEO支持
+- [ ] Sitemap支持
+- [ ] 搜索功能
+- [ ] Redis支持
 
 # 贡献/Contribute
 目前项目处于初始阶段，你可以根据Todo上的内容提交PR，对于GitHub新手来说，这是很好的机会哟~  
