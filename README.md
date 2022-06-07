@@ -1,8 +1,12 @@
 # BlogNode
-
-一个使用 TypeScript + Next.js 搭建的博客项目  
 A blog written in TypeScript using Next.js  
+BlogNode是一个使用 TypeScript + Next.js 搭建的博客项目  
 当项目可用于正式生产环境时，我会将个人博客迁移到此项目
+特点：
+1. 迅速
+2. 轻量化
+3. 易于部署，计划使用Docker来简化部署流程
+4. 易于扩展，计划提供一系列API来通过插件及主题扩充原有功能
 
 # Todo
 - [ ] static中间件
