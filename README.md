@@ -1,7 +1,7 @@
 # BlogNode
 A blog written in TypeScript using Next.js  
 BlogNode是一个使用 TypeScript + Next.js 搭建的博客项目  
-当项目可用于正式生产环境时，我会将个人博客迁移到此项目
+当项目可用于正式生产环境时，我会将个人博客迁移到此项目  
 特点：
 1. 迅速
 2. 轻量化
