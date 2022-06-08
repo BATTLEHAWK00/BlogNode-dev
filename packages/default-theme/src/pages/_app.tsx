@@ -19,7 +19,7 @@ interface IAppProps<T extends React.Component>{
 
 function BlogNodeApp({ Component, pageProps }:IAppProps<any>) {
   const Layout = Component.Layout || NormalLayout;
-  const pageTitle = Component.pageTitle || 'BlogNode';
+  const pageTitle = pageProps.title || Component.pageTitle || 'BlogNode';
   const { seo } = pageProps;
   return (
     <>

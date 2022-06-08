@@ -1,4 +1,5 @@
 import bus from '@src/system/bus';
+import { BlogNodeError } from '@src/system/error';
 import { EventType } from '@src/system/events';
 
 export const sleep = (time: number) => new Promise((resolve) => setTimeout(resolve, time));
@@ -25,8 +26,8 @@ export class Timer {
   }
 
   public result() {
-    if (!this.startTime || !this.endTime) { throw new Error("timer didn't start or stop!"); }
-    if (this.endTime < this.startTime) throw new Error('Usage incorrect');
+    if (!this.startTime || !this.endTime) { throw new BlogNodeError("timer didn't start or stop!"); }
+    if (this.endTime < this.startTime) throw new BlogNodeError('Usage incorrect');
     return this.endTime.valueOf() - this.startTime.valueOf();
   }
 

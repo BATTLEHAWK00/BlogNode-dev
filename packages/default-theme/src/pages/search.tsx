@@ -31,6 +31,7 @@ export const getServerSideProps:GetServerSideProps = async (ctx) => {
   const test = '';
   return {
     props: {
+      title: `搜索结果：${ctx.query.s}`,
       postContent: ctx.query.s,
     },
   };
