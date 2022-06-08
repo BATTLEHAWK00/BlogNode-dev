@@ -9,6 +9,7 @@ BlogNode是一个使用 TypeScript + Next.js 搭建的博客项目，具有迅�
 - [ ] 路由平滑切换
 - [ ] userDao, userService编写
 - [ ] 后台登录注册功能
+- [ ] 搭建项目文档
 - [ ] postSchema, postDao, postService编写
 - [ ] config结构编写
 - [ ] 后台文章发布功能
@@ -22,5 +23,5 @@ BlogNode是一个使用 TypeScript + Next.js 搭建的博客项目，具有迅�
 - [ ] Redis支持
 
 # 贡献/Contribute
-目前项目处于初始阶段，你可以根据Todo上的内容提交PR，对于GitHub新手来说，这是很好的机会哟~  
+目前项目处于初始阶段，你可以根据Todo上的内容提交PR或Issue，对于GitHub新手来说，这是很好的机会哟~  
 当项目可用于正式生产环境时，我会将个人博客迁移到此项目  
