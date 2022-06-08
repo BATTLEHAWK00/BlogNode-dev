@@ -13,6 +13,7 @@ class StaticMiddleware extends ServerMiddleware {
     const themeName = theme.getCurrentTheme().getThemeName();
     const themeDir = theme.getCurrentTheme().getThemeDir();
     const staticDir = theme.getCurrentTheme().getStaticDir();
+    if (!staticDir) return null;
     const assetsDir = path.resolve(themeDir, staticDir);
     if (fs.existsSync(assetsDir)) {
       const serveStatic = koaStatic(assetsDir, {
