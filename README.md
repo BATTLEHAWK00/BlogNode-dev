@@ -27,6 +27,7 @@ Bugs 和功能建议请在 Issues 提出。
 - [ ] 完整的 SEO 支持
 - [ ] Sitemap 支持
 - [ ] 搜索功能
+- [ ] 本地化支持
 - [ ] Redis 支持
 
 # 贡献 / Contribute
