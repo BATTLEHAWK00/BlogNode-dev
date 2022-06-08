@@ -2,7 +2,7 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/BATTLEHAWK00/BlogNode-dev)  
 A blog written in TypeScript using Next.js  
 BlogNode 是一个使用 TypeScript + Next.js 搭建的博客项目，具有迅速、轻量化、易于部署、易于扩展的特点。  
-项目目前处于初期阶段，如果对你有用，请务必点个 star 哦~
+项目目前处于初期阶段，如果对你有用，请务必点个 star 哦~  
 Bugs和功能建议请在 Issues 提出。
 # Todo List
 - [ ] static 中间件
