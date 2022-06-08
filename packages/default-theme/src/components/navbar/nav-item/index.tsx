@@ -15,8 +15,6 @@ function NavItem({ props }:{ props:INavItemProps }) {
   const {
     linkTo, iconName, displayName, name,
   } = props;
-  console.log(styles['item-icon']);
-
   return (
     <>
       <Link href={linkTo} replace>

@@ -8,33 +8,28 @@ import React, { useEffect, useState } from 'react';
 
 import styles from './index.module.css';
 
+type OnInputChange = React.ChangeEventHandler<HTMLInputElement>;
+
 function SearchBar() {
-  const [searchText, setSearchText] = useState('');
   const router = useRouter();
 
-  const handleSearch = _.throttle(() => {
-    if (searchText) router.replace({ pathname: '/search', query: { s: searchText } });
-  }, 1000, { leading: false });
-
-  useEffect(handleSearch, [searchText]);
+  const handleSearch = _.throttle<OnInputChange>((evt) => {
+    const { value } = evt.target;
+    if (value) router.replace({ pathname: '/search', query: { s: value } });
+  }, 500, { leading: false });
 
   return (
-    <>
-      <div className={styles['searchbar-container']}>
-        <input
-          type="text"
-          placeholder="Search something..."
-          className={styles.searchbar}
-          value={searchText}
-          onChange={(evt) => setSearchText(evt.target.value)}
-        />
-        <Link href={{ pathname: '/search', query: { s: searchText } }} replace>
-          <span className={styles['searchbar-button']}>
-            <RemixIcon iconName="ri-search-2-line" prop="ri-lg" />
-          </span>
-        </Link>
-      </div>
-    </>
+    <div className={styles['searchbar-container']}>
+      <input
+        type="text"
+        placeholder="Search something..."
+        className={styles.searchbar}
+        onChange={handleSearch}
+      />
+      <span className={styles['searchbar-button']}>
+        <RemixIcon iconName="ri-search-2-line" prop="ri-lg" />
+      </span>
+    </div>
   );
 }
 
