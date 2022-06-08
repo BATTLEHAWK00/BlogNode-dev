@@ -1,6 +1,7 @@
 import { SystemSetting } from '@src/interface/entities/systemSetting';
-import cache, { cacheOperation, CacheOperation } from '@src/system/cache';
+import cache, { CacheOperation, cacheOperation } from '@src/system/cache';
 import mongoose, { Model } from 'mongoose';
+
 import systemSettingSchema from '../schema/systemSettingSchema';
 import BaseDao from './baseDao';
 
@@ -26,7 +27,7 @@ class SystemDao extends BaseDao<SystemSetting> {
       .single
       .ifUncached(async () => this.getModel().findOne({ _id: name }));
     const res = await op.get(getCacheKeyByName(name));
-    return res?.value || null;
+    return res?.toObject().value || null;
   }
 
   async setSystemSetting(name:string, value:any) {

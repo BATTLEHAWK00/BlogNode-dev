@@ -17,10 +17,15 @@ export class ThemeProcessor {
   async register() {
     if (!this.themeDir) logging.systemLogger.info('Using fallback theme: default-theme.');
     const pkgDir = this.themeDir || '@blognode/default-theme';
-    const m = (await import(pkgDir)).default;
-    this.themeDir = m.themeDir;
-    this.themeName = m.themeName;
-    this.staticDir = m.staticDir;
+    try {
+      const m = (await import(pkgDir)).default;
+      this.themeDir = m.themeDir;
+      this.themeName = m.themeName;
+      this.staticDir = m.staticDir;
+    } catch (e) {
+      logging.systemLogger.error(e);
+      throw new BlogNodeFatalError('Error when loading theme package!');
+    }
   }
 
   getThemeDir() {
