@@ -29,7 +29,7 @@ function onTaskFail(err:any, task:Job) {
   logger.error(err);
 }
 
-bus.once(EventType.SYS_DatabaseConnected, async () => {
+async function start() {
   const timer = new Timer();
   logging.systemLogger.info('Starting task scheduler...');
   const time = await timer.decorate(async () => {
@@ -40,15 +40,17 @@ bus.once(EventType.SYS_DatabaseConnected, async () => {
   });
   logging.systemLogger.debug(`Task scheduler started.(${time}ms)`);
   await bus.broadcast(EventType.SYS_TaskPoolStarted);
-});
+}
 
-bus.once(EventType.SYS_BeforeSystemStop, async () => {
+async function stop() {
   logging.systemLogger.debug('Closing task pool...');
   await agenda.stop();
   await agenda.close();
-});
+}
 
 export default {
+  start,
+  stop,
   every: agenda.every.bind(agenda),
   now: agenda.now.bind(agenda),
   schedule: agenda.schedule.bind(agenda),

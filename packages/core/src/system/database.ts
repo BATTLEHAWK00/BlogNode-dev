@@ -3,10 +3,7 @@ import { getDatabaseUri } from '@src/util/system';
 import { Timer } from '@src/util/utils';
 import mongoose, { Model } from 'mongoose';
 
-import bus from './bus';
-import { EventType } from './events';
 import logging from './logging';
-import task from './task';
 
 const logger = logging.getLogger('Database');
 
@@ -20,7 +17,7 @@ if (config.systemConfig.logLevel === 'trace') {
   });
 }
 
-async function connectDB() {
+async function connect() {
   return new Promise<void>((resolve, reject) => {
     const uri = getDatabaseUri();
     mongoose.connect(uri, { ...dbConfig.options, dbName: dbConfig.dbName }, (err) => {
@@ -47,28 +44,13 @@ async function ensureIndexes(logInfo:boolean = true) {
   if (logInfo) logger.info(`Database indexes ensured.(${totalTime}ms)`);
 }
 
-bus.on(EventType.DB_EnsureIndexes, ensureIndexes);
-
-bus.once(EventType.SYS_BeforeDatabaseConnect, async () => {
-  const timer = new Timer();
-  logging.systemLogger.info('Connecting to database...');
-  const time = await timer.decorate(() => connectDB());
-  logging.systemLogger.debug(`Database connected.(${time}ms)`);
-  await bus.broadcast(EventType.SYS_DatabaseConnected);
-});
-
-bus.once(EventType.SYS_BeforeSystemStop, async () => {
-  logging.systemLogger.debug('Closing database...');
+async function disconnect() {
   await mongoose.disconnect();
-});
-
-bus.once(EventType.SYS_DatabaseConnected, () => bus.broadcast(EventType.DB_EnsureIndexes), false);
-bus.once(EventType.SYS_TaskPoolStarted, async () => {
-  task.define('ensureIndexes', { priority: -20 }, () => bus.broadcast(EventType.DB_EnsureIndexes, false));
-  await task.every('6 hours', 'ensureIndexes');
-});
+}
 
 export default {
+  connect,
+  ensureIndexes,
   registerModel,
-  getDatabaseUri,
+  disconnect,
 };

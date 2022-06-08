@@ -7,5 +7,4 @@ export enum EventType {
   SYS_BeforeDatabaseConnect,
   SYS_TaskPoolStarted,
   SYS_GC,
-  DB_EnsureIndexes,
 }

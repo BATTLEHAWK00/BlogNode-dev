@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import bus from './bus';
+import { BlogNodeFatalError } from './error';
 import { EventType } from './events';
 import logging from './logging';
 
@@ -12,17 +13,21 @@ const exitSinals:NodeJS.Signals[] = [
   'SIGBREAK',
   'SIGHUP',
 ];
-
-function handlePromiseRejection() {
-  process.on('unhandledRejection', (e) => {
-    logger.error(e);
-  });
-}
-
 async function gracefulShutdown() {
   logger.info('Shutting down BlogNode...');
   await bus.broadcast(EventType.SYS_BeforeSystemStop);
+  await logging.handleShutdown();
   process.exit(0);
+}
+
+function handlePromiseRejection() {
+  process.on('unhandledRejection', (e) => {
+    if (e instanceof BlogNodeFatalError) {
+      logger.fatal(e);
+      process.exit(1);
+    }
+    logger.error(e);
+  });
 }
 
 function handleProcessExit() {

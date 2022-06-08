@@ -40,7 +40,12 @@ async function broadcast<T>(eventName: EventType, args?: T, ...remainingArgs:any
     };
     emitter.emit(eventNameStr, ack, args, ...remainingArgs);
   });
-  await broadcastAck;
+  try {
+    await broadcastAck;
+  } catch (e) {
+    logger.error(`Error occured during event: ${eventName}.`);
+    throw e;
+  }
   logger.debug(`Event ${eventNameStr} complete.`);
 }
 function once(eventName: EventType, callback: InfiniteArgsFunction, wait:boolean = true) {

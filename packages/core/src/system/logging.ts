@@ -19,7 +19,16 @@ function getLogger(name: string): Log4js.Logger {
 const systemLogger = getLogger('BlogNode');
 systemLogger.info(`Log level: ${logLevel}`);
 
+async function handleShutdown() {
+  systemLogger.debug('Shutting down loggers...');
+  return new Promise<void>((resolve, reject) => Log4js.shutdown((err) => {
+    if (err) reject(err);
+    resolve();
+  }));
+}
+
 export default {
   getLogger,
   systemLogger,
+  handleShutdown,
 };

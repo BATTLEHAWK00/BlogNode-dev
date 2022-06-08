@@ -1,12 +1,13 @@
 import config from '@src/config';
+import system from '@src/orm/service/system';
+import bus from '@src/system/bus';
+import { BlogNodeFatalError } from '@src/system/error';
+import { EventType } from '@src/system/events';
+import logging from '@src/system/logging';
+import { KoaMiddleware, ServerMiddleware } from '@src/system/middleware';
+import theme, { ThemeProcessor } from '@src/system/theme';
 import { Timer } from '@src/util/utils';
 import NextApp, { NextConfig } from 'next';
-
-import bus from '../bus';
-import { EventType } from '../events';
-import logging from '../logging';
-import { KoaMiddleware, ServerMiddleware } from '../middleware';
-import ThemeProcessor from '../theme';
 
 const defaultNextConfig:NextConfig = {
   distDir: config.isDev ? '.next/development' : '.next',
@@ -21,23 +22,13 @@ class SsrMiddleware extends ServerMiddleware {
 
   private nextApp?:any;
 
-  protected setName(): string {
-    return 'SSR';
-  }
-
   async beforeSetting(): Promise<void> {
     logging.systemLogger.debug('Initializing SSR engine...');
     this.timer.start();
     setTimeout(() => {
-      if (!this.timer.isStopped()) {
-        const errMsg = 'SSR Engine start timed out!';
-        throw new Error(errMsg);
-      }
+      if (!this.timer.isStopped()) throw new BlogNodeFatalError('SSR Engine start timed out!');
     }, 20000);
-    this.theme = new ThemeProcessor(config.systemConfig.themeDir);
-    await this.theme.register();
-    logging.systemLogger.info(`Registered theme: ${this.theme.getThemeName()}`);
-    logging.systemLogger.debug(`Theme location: ${this.theme.getThemeDir()}`);
+    this.theme = await theme.register(await system.get('themePath'));
   }
 
   afterSetting(): void | Promise<void> {
@@ -56,7 +47,7 @@ class SsrMiddleware extends ServerMiddleware {
       dir: this.theme?.getThemeDir(),
       conf: { ...defaultNextConfig },
     });
-    if (!this.nextApp) throw new Error('SSR initialization failed!');
+    if (!this.nextApp) throw new BlogNodeFatalError('SSR initialization failed!');
     this.nextApp.options.quiet = true;
     await this.nextApp.prepare();
     const nextHandler = this.nextApp.getRequestHandler();

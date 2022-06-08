@@ -1,60 +1,85 @@
+/* eslint-disable max-classes-per-file */
 import { Timer } from '@src/util/utils';
 import Application from 'koa';
 import Router from 'koa-router';
 
+import { BlogNodeFatalError } from './error';
 import logging from './logging';
 
 const logger = logging.getLogger('Middleware');
 
 export type KoaMiddleware = Application.Middleware<any, any, any>;
 
-export abstract class ServerMiddleware {
+export abstract class BlogNodeMiddleware {
+  public getName() {
+    return this.constructor.name;
+  }
+}
+
+export abstract class SystemMiddleware extends BlogNodeMiddleware {
+  onRegisterEvents():void | Promise<void> {}
+
+  abstract onInit():void | Promise<void>;
+
+  onServerStarted():void | Promise<void> {}
+}
+
+export abstract class ServerMiddleware extends BlogNodeMiddleware {
   private router?:Router;
 
-  private name:string;
-
-  abstract getKoaMiddleware():KoaMiddleware | Promise<KoaMiddleware>;
-
-  protected abstract setName():string;
-
-  public getName() {
-    return this.name;
-  }
-
-  setRouter(router:Router) {
-    this.router = router;
-  }
+  abstract getKoaMiddleware():KoaMiddleware | null | Promise<KoaMiddleware | null>;
 
   beforeSetting():void | Promise<void> {}
 
   afterSetting():void | Promise<void> {}
 
-  protected getKoaRouter():Router {
-    if (!this.router) throw new Error('Router is undefined.');
-    return this.router;
+  setRouter(router:Router) {
+    this.router = router;
   }
 
-  constructor() {
-    this.name = this.setName();
+  protected getKoaRouter():Router {
+    if (!this.router) throw new BlogNodeFatalError('Router is undefined.');
+    return this.router;
   }
 }
 
-async function register(koaApp:Application, koaRouter:Router, middlewares:ServerMiddleware[]) {
+async function registerServer(
+  koaApp:Application,
+  koaRouter:Router,
+  middlewares:ServerMiddleware[],
+) {
   const timer = new Timer();
   // eslint-disable-next-line no-restricted-syntax
   for await (const middleware of middlewares) {
     const name = middleware.getName();
-    logger.trace(`Loading middleware: ${name}...`);
+    logger.trace(`Loading server middleware: ${name}...`);
     const time = await timer.decorate(async () => {
-      middleware.setRouter(koaRouter);
       await middleware.beforeSetting();
-      koaApp.use(await middleware.getKoaMiddleware());
+      middleware.setRouter(koaRouter);
+      const koaMiddleware = await middleware.getKoaMiddleware();
+      if (koaMiddleware) koaApp.use(koaMiddleware);
       await middleware.afterSetting();
     });
-    logger.debug(`Loaded middleware: ${name} (${time}ms)`);
+    logger.debug(`Loaded server middleware: ${name} (${time}ms)`);
+  }
+}
+
+async function loadSystemMiddlewares(middlewares:SystemMiddleware[]) {
+  const timer = new Timer();
+  // eslint-disable-next-line no-restricted-syntax
+  for await (const middleware of middlewares) {
+    const name = middleware.getName();
+    logger.trace(`Loading system middleware: ${name}...`);
+    const time = await timer.decorate(async () => {
+      await middleware.onRegisterEvents();
+      await middleware.onInit();
+      await middleware.onServerStarted();
+    });
+    logger.debug(`Loaded system middleware: ${name} (${time}ms)`);
   }
 }
 
 export default {
-  register,
+  registerServer,
+  loadSystemMiddlewares,
 };
