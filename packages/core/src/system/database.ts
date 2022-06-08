@@ -1,4 +1,4 @@
-import config from '@src/config';
+import config from '@src/system/config';
 import { getDatabaseUri } from '@src/util/system';
 import { Timer } from '@src/util/utils';
 import mongoose, { Model } from 'mongoose';

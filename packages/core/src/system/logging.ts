@@ -1,4 +1,4 @@
-import config from '@src/config';
+import config from '@src/system/config';
 import Log4js from 'log4js';
 
 const debugMode = process.env.DEBUG === 'true';

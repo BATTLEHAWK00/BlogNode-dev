@@ -1,5 +1,5 @@
-import config from '@src/config';
 import bus from '@src/system/bus';
+import config from '@src/system/config';
 import { EventType } from '@src/system/events';
 import logging from '@src/system/logging';
 import middleware, { SystemMiddleware } from '@src/system/middleware';

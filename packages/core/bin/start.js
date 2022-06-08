@@ -1,6 +1,5 @@
-const isDev = process.env.NODE_ENV === "development";
+/* eslint-disable global-require */
+const isDev = process.env.NODE_ENV === 'development';
 
-// require("../src/entry");
-if (isDev) require("../src/entry");
-else require("../dist/src/entry");
-exports = {};
+if (isDev) require('../src/entry');
+else require('../dist/src/entry');

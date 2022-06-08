@@ -2,14 +2,16 @@ import { ServerMiddleware } from '@src/system/middleware';
 
 import compress from './server/compress';
 import logging from './server/logging';
+import serveStatic from './server/serveStatic';
 import ssr from './server/ssr';
-import _static from './server/static';
+import theme from './server/theme';
 
 const serverMiddlewares:ServerMiddleware[] = [
+  theme,
   compress,
   logging,
+  serveStatic,
   ssr,
-  _static,
 ];
 
 export default serverMiddlewares;

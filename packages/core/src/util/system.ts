@@ -1,4 +1,4 @@
-import config from '@src/config';
+import config from '@src/system/config';
 import path from 'path';
 
 const srcPath = path.resolve(__dirname, '../');

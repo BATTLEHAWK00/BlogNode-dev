@@ -1,6 +1,5 @@
-import config from '@src/config';
-import system from '@src/orm/service/system';
 import bus from '@src/system/bus';
+import config from '@src/system/config';
 import { BlogNodeFatalError } from '@src/system/error';
 import { EventType } from '@src/system/events';
 import logging from '@src/system/logging';
@@ -28,7 +27,7 @@ class SsrMiddleware extends ServerMiddleware {
     setTimeout(() => {
       if (!this.timer.isStopped()) throw new BlogNodeFatalError('SSR Engine start timed out!');
     }, 20000);
-    this.theme = await theme.register(await system.get('themePath'));
+    this.theme = theme.getCurrentTheme();
   }
 
   afterSetting(): void | Promise<void> {

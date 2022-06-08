@@ -1,4 +1,4 @@
-import { DatabaseConfig, HttpConfig, SystemConfig } from './interface/config';
+import { DatabaseConfig, HttpConfig, SystemConfig } from '../interface/config';
 
 const systemConfig:SystemConfig = {
   blogName: 'Blog-Node',

@@ -14,9 +14,6 @@ const logger = logging.systemLogger;
 
 const isDev = process.env.NODE_ENV === 'development';
 
-const bannerText = fs.readFileSync(path.resolve(__dirname, './banner.txt'), { encoding: 'utf-8' });
-logger.info(bannerText);
-
 async function bindTimer() {
   const timer: Timer = new Timer();
   const time = await timer.measureEvents(
@@ -27,14 +24,24 @@ async function bindTimer() {
 }
 
 async function loadConfig() {
-  return moduleLoader.loadModule(__dirname, 'config');
+  return moduleLoader.loadModule(__dirname, 'system/config');
+}
+
+function printBanner() {
+  const bannerText = fs.readFileSync(path.resolve(__dirname, './banner.txt'), { encoding: 'utf-8' });
+  logger.info(bannerText);
+}
+
+function registerProcessEvent() {
+  processEvent.handlePromiseRejection();
+  processEvent.handleProcessExit();
 }
 
 if (global.gc) bus.on(EventType.SYS_GC, () => global.gc && global.gc());
 (async () => {
+  registerProcessEvent();
+  printBanner();
   logger.info(`Starting in ${isDev ? 'development' : 'production'} mode.`);
-  processEvent.handlePromiseRejection();
-  processEvent.handleProcessExit();
   bindTimer();
   await bus.broadcast(EventType.SYS_BeforeSystemStart);
   await loadConfig();

@@ -8,6 +8,8 @@ export class ThemeProcessor {
 
   private themeName?:string;
 
+  private staticDir?:string;
+
   constructor(themeDir?:string) {
     this.themeDir = themeDir;
   }
@@ -18,6 +20,7 @@ export class ThemeProcessor {
     const m = (await import(pkgDir)).default;
     this.themeDir = m.themeDir;
     this.themeName = m.themeName;
+    this.staticDir = m.staticDir;
   }
 
   getThemeDir() {
@@ -28,6 +31,11 @@ export class ThemeProcessor {
   getThemeName() {
     if (!this.themeDir) throw new BlogNodeFatalError('Theme registration failed!');
     return this.themeName;
+  }
+
+  getStaticDir() {
+    if (!this.themeDir) throw new BlogNodeFatalError('Theme registration failed!');
+    return <string> this.staticDir;
   }
 }
 
