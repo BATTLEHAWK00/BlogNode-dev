@@ -3,7 +3,14 @@
 A blog written in TypeScript using Next.js  
 BlogNode 是一个使用 TypeScript + Next.js 搭建的博客项目，具有迅速、轻量化、易于部署、易于扩展的特点。  
 项目目前处于初期阶段，如果对你有用，请务必点个 star 哦~  
-Bugs和功能建议请在 Issues 提出。
+Bugs 和功能建议请在 Issues 提出。
+
+# 文档 / Documentation
+待定...
+
+# 部署 / Deploy
+待定...
+
 # Todo List
 - [ ] static 中间件
 - [ ] 路由平滑切换
@@ -22,6 +29,9 @@ Bugs和功能建议请在 Issues 提出。
 - [ ] 搜索功能
 - [ ] Redis 支持
 
-# 贡献/Contribute
+# 贡献 / Contribute
 目前项目处于初始阶段，你可以根据 Todo List 上的内容提交 PR，对于 GitHub 新手来说，这是很好的机会哟~  
 当项目可用于正式生产环境时，我会将个人博客迁移到此项目  
+
+# 支持 / Support
+* Email: [battlehawk0_0@163.com](mailto:battlehawk0_0@163.com)
