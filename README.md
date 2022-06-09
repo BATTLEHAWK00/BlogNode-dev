@@ -12,7 +12,21 @@ Bugs 和功能建议请在 Issues 提出。
 待定...
 
 # 部署 / Deploy
-待定...
+> 目前本项目未推出正式版，请勿用于正式生产环境！  
+```shell
+# 生产环境运行
+yarn start
+# 开发环境运行
+yarn start:dev
+# 开发环境运行（输出debug日志）
+yarn start:dev:debug
+# 生产环境构建
+yarn build
+# 生产环境构建（核心）
+yarn build:core
+# 生产环境构建（默认主题）
+yarn build:theme
+```
 
 # Todo List
 - [x] static 中间件
