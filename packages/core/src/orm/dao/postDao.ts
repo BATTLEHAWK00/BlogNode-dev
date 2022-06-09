@@ -4,7 +4,7 @@ import mongoose, { Model } from 'mongoose';
 import postSchema from '../schema/postSchema';
 import BaseDao from './baseDao';
 
-class PostDao extends BaseDao<Post> {
+export default class PostDao extends BaseDao<Post> {
   protected setLoggerName(): string {
     return 'PostDao';
   }
@@ -18,4 +18,4 @@ class PostDao extends BaseDao<Post> {
   }
 }
 
-export default new PostDao();
+export const postDao = new PostDao();

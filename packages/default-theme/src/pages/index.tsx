@@ -26,6 +26,7 @@ export const getStaticProps:GetStaticProps = () => ({
   props: {
     postContent: 'asdddddasd',
   },
+
 });
 
 export default new HomePage().getFinalPage();
