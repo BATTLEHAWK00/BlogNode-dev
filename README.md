@@ -5,6 +5,9 @@ BlogNode 是一个使用 TypeScript + Next.js 搭建的博客项目，具有迅�
 项目目前处于初期阶段，如果对你有用，请务必点个 star 哦~  
 Bugs 和功能建议请在 Issues 提出。
 
+# 预览 / Preview
+![image](https://user-images.githubusercontent.com/45313304/172744462-2a94e483-dead-4d18-94ff-1af363838f20.png)
+
 # 文档 / Documentation
 待定...
 
