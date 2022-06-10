@@ -22,7 +22,7 @@ const cli = cac(packageInfo.name);
 
 cli.version(packageInfo.version);
 
-cli.help((setions) => {
+cli.help((setions: { title?:string, body:string }[]) => {
   setions.splice(1, 0, {
     body: `Github repo: ${packageInfo.repository}`,
   });

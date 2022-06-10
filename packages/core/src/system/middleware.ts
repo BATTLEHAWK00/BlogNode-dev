@@ -52,7 +52,6 @@ async function registerServer(
   // eslint-disable-next-line no-restricted-syntax
   for await (const middleware of middlewares) {
     const name = middleware.getName();
-    logger.trace(`Loading server middleware: ${name}...`);
     const time = await timer.decorate(async () => {
       await middleware.beforeSetting();
       middleware.setRouter(koaRouter);
@@ -69,7 +68,7 @@ async function loadSystemMiddlewares(middlewares:SystemMiddleware[]) {
   // eslint-disable-next-line no-restricted-syntax
   for await (const middleware of middlewares) {
     const name = middleware.getName();
-    logger.trace(`Loading system middleware: ${name}...`);
+    logger.debug(`Loading system middleware: ${name}...`);
     const time = await timer.decorate(async () => {
       await middleware.onRegisterEvents();
       await middleware.onInit();

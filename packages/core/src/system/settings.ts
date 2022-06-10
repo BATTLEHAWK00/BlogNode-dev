@@ -58,6 +58,12 @@ registerSetting({
   }),
   preload: true,
 });
+registerSetting({
+  name: 'postLinkStyle',
+  description: '',
+  defaultValue: '{id}.html',
+  preload: true,
+});
 
 export default {
   getSettings,
