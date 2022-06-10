@@ -12,7 +12,7 @@ export interface Post extends Entity{
   status:PostStatus,
   allowComment:boolean,
   comments:Comment[],
-  postedBy:number,
+  author:number,
   postedAt:Date,
   lastModified:Date
 }

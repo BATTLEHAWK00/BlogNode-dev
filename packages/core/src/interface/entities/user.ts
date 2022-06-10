@@ -3,8 +3,11 @@ import { Entity } from '../interface';
 export type Gender = 'male' | 'female' | 'unknown';
 
 export type Role = 'admin' | 'subscriber';
+
+export type PasswordHashType = 'sha256' | 'sha512' | 'none';
+
 export interface User extends Entity {
-  userId: number;
+  _id: number;
   username: string;
   nickname: string;
   gender: Gender;
@@ -15,7 +18,7 @@ export interface User extends Entity {
   avatar: string;
   passwordHash: string;
   passwordSalt: string;
-  passwordHashType: string;
+  passwordHashType: PasswordHashType;
   role:Role;
   registerTime: Date;
   lastLogin: Date;

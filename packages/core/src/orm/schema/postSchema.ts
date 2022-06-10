@@ -17,6 +17,6 @@ export default new Schema<Post>({
     default: [],
   },
   postedAt: { type: Date, required: true, index: true },
-  postedBy: { type: Number, required: true, index: true },
+  author: { type: Number, required: true, index: true },
   lastModified: { type: Date },
 });

@@ -24,7 +24,7 @@ async function connect() {
       options, dbName, userName, password,
     } = dbConfig;
     mongoose.connect(uri, {
-      ...options, dbName, user: userName, pass: password,
+      ...options, dbName, user: userName, pass: password, autoIndex: false,
     }, (err) => {
       if (err) reject(err);
       resolve();
