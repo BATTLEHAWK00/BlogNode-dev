@@ -9,6 +9,8 @@
   "dependencies": {
     "agenda": "^4.3.0",
     "cac": "^6.7.12",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.1",
     "koa": "^2.13.1",
     "koa-compress": "^5.0.1",
     "koa-logger": "^3.2.1",

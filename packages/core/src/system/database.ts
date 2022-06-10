@@ -20,7 +20,12 @@ if (config.systemConfig.logLevel === 'trace') {
 async function connect() {
   return new Promise<void>((resolve, reject) => {
     const uri = getDatabaseUri();
-    mongoose.connect(uri, { ...dbConfig.options, dbName: dbConfig.dbName }, (err) => {
+    const {
+      options, dbName, userName, password,
+    } = dbConfig;
+    mongoose.connect(uri, {
+      ...options, dbName, user: userName, pass: password,
+    }, (err) => {
       if (err) reject(err);
       resolve();
     });
