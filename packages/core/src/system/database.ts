@@ -13,7 +13,7 @@ const registeredModels:Map<string, Model<any>> = new Map();
 
 if (config.systemConfig.logLevel === 'trace') {
   mongoose.set('debug', (coll, method, query, doc) => {
-    logger.trace(`[${method}]${coll}:`, JSON.stringify(query), doc);
+    logger.trace(`[${method}] ${coll}:`, JSON.stringify(query), doc);
   });
 }
 
