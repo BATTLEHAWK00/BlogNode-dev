@@ -22,7 +22,6 @@ function handleServerListening() {
   logger.info(
     `Server listening on http://${config.httpConfig.address}:${config.httpConfig.port}`,
   );
-  bus.broadcast(EventType.SYS_SystemStarted);
 }
 
 class KoaMiddleware extends SystemMiddleware {
@@ -31,11 +30,14 @@ class KoaMiddleware extends SystemMiddleware {
   async onInit(): Promise<void> {
     logger.info('Starting server...');
     await middleware.registerServer(koaServer, router, middlewares);
-    this.server = koaServer
-      .listen(config.httpConfig.port, config.httpConfig.address)
-      .on('listening', handleServerListening)
-      .on('error', handleFatalError);
     koaServer.use(router.routes());
+    return new Promise((resolve) => {
+      this.server = koaServer
+        .listen(config.httpConfig.port, config.httpConfig.address)
+        .on('listening', handleServerListening)
+        .on('listening', () => resolve())
+        .on('error', handleFatalError);
+    });
   }
 
   async onRegisterEvents(): Promise<void> {

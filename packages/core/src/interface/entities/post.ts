@@ -4,6 +4,7 @@ import { Comment } from './comment';
 export interface Post extends Entity{
   postId:number,
   content:string,
+  commentDisabled:boolean,
   comments:Comment[],
   postedBy:number,
   postedAt:Date,

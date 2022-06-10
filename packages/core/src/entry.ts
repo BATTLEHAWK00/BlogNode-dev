@@ -6,7 +6,6 @@ import config from './system/config';
 import { EventType } from './system/events';
 import logging from './system/logging';
 import middleware from './system/middleware';
-import systemMiddlewares from './system/middlewares/systemMiddlewares';
 import processEvent from './system/processEvent';
 import { Timer } from './util/utils';
 
@@ -34,6 +33,8 @@ function registerProcessEvent() {
 }
 
 if (global.gc) bus.on(EventType.SYS_GC, () => global.gc && global.gc());
+bus.once(EventType.SYS_SystemStarted, () => bus.broadcast(EventType.SYS_GC));
+
 (async () => {
   registerProcessEvent();
   printBanner();
@@ -42,6 +43,7 @@ if (global.gc) bus.on(EventType.SYS_GC, () => global.gc && global.gc());
   bindTimer();
   await bus.broadcast(EventType.SYS_BeforeSystemStart);
   logger.info('Loading modules...');
-  await middleware.loadSystemMiddlewares(systemMiddlewares);
-  bus.once(EventType.SYS_SystemStarted, () => bus.broadcast(EventType.SYS_GC));
+  const middlewares = (await import('./system/middlewares/systemMiddlewares')).default;
+  await middleware.loadSystemMiddlewares(middlewares);
+  bus.broadcast(EventType.SYS_SystemStarted);
 })();

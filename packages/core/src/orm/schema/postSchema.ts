@@ -1,5 +1,6 @@
 import { Post } from '@src/interface/entities/post';
 import { Schema } from 'mongoose';
+
 import commentSchema from './commentSchema';
 
 export default new Schema<Post>({
@@ -7,6 +8,7 @@ export default new Schema<Post>({
     type: Number, required: true, min: 1, index: true, unique: true,
   },
   content: { type: String, required: true, default: '' },
+  commentDisabled: { type: Boolean, required: true, default: false },
   comments: {
     type: [commentSchema],
     default: [],
