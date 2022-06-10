@@ -1,6 +1,6 @@
 import { SystemSetting } from '@src/interface/entities/systemSetting';
 
-import systemDao from '../dao/systemDao';
+import { systemDao } from '../dao/systemDao';
 import BaseService from './baseService';
 
 class SystemService extends BaseService<SystemSetting> {

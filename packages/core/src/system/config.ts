@@ -1,9 +1,19 @@
-import cac from 'cac';
+import type { DatabaseConfig, HttpConfig, SystemConfig } from '../interface/config';
 
-import { DatabaseConfig, HttpConfig, SystemConfig } from '../interface/config';
+const cliArgs = global.parsedArgs;
+const { env } = process;
 
-const cli = cac();
-const cliArgs = cli.parse();
+declare global{
+  namespace NodeJS{
+    interface ProcessEnv{
+      'server-address':string
+      'server-port':string
+      'db-port':number
+      'db-host':string
+      'db-name':string
+    }
+  }
+}
 
 const systemConfig:SystemConfig = {
   blogName: 'Blog-Node',
@@ -11,17 +21,17 @@ const systemConfig:SystemConfig = {
 };
 
 const httpConfig: HttpConfig = {
-  address: process.env.HOST || '0.0.0.0',
-  port: Number.parseInt(process.env.PORT || '8080', 10),
+  address: env['server-address'] || '0.0.0.0',
+  port: Number.parseInt(env['server-port'] || '8080', 10),
 };
 
 const dbConfig: DatabaseConfig = {
-  host: 'localhost',
-  port: 27017,
-  dbName: 'test',
+  host: env['db-host'] || 'localhost',
+  port: env['db-port'] || 27017,
+  dbName: env['db-name'] || 'blognode',
 };
 
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = env.NODE_ENV === 'development';
 
 export default {
   systemConfig,

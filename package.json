@@ -8,10 +8,11 @@
   "main": "package.json",
   "private": true,
   "scripts": {
-    "start:dev": "cd packages/core && nodemon --config config/nodemon.json bin/start.js",
-    "start:dev:debug": "cd packages/core && cross-env DEBUG=true nodemon --config ./config/nodemon.json bin/start.js",
-    "start": "cd packages/core && node --expose-gc bin/start.js",
-    "build:core": "cd packages/core && node bin/build.js",
+    "start:dev": "cd packages/core && nodemon --config config/nodemon.json bin/entry.ts -- start",
+    "start:debug": "cd packages/core && nodemon --config ./config/nodemon.json bin/entry.ts -- start --loglevel=debug",
+    "start:trace": "cd packages/core && nodemon --config ./config/nodemon.json bin/entry.ts -- start --loglevel=trace",
+    "start": "cd packages/core && blognode start",
+    "build:core": "cd packages/core && ts-node -r tsconfig-paths/register bin/build.ts",
     "build:theme": "cd packages/default-theme && next build --no-lint && tsc",
     "build": "concurrently npm:build:core npm:build:theme"
   },

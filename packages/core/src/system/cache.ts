@@ -1,6 +1,10 @@
 import _, { isNull } from 'lodash';
 import LRU from 'lru-cache';
 
+import logging from './logging';
+
+const logger = logging.getLogger('LocalCache');
+
 const cacheList: LRU<string, any>[] = [];
 
 const cacheOptions: LRU.Options<string, any> = {
@@ -49,7 +53,11 @@ export function cacheOperation<T>(cache:LRU<string, T>):CacheOperation<T> {
       ifUncached<P extends Asyncable<T>>(getFunc:()=>P) {
         return {
           get(key, getOptions, setOptions) {
-            if (cache.has(key)) return cache.get(key, getOptions) || null;
+            if (cache.has(key)) {
+              logger.trace(`Cache hit: ${key}`);
+              return cache.get(key, getOptions) || null;
+            }
+            logger.trace(`Cache miss: ${key}`);
             const res = getFunc();
             if (res instanceof Promise) res.then((data) => cache.set(key, data, setOptions));
             return res;
@@ -66,6 +74,8 @@ export function cacheOperation<T>(cache:LRU<string, T>):CacheOperation<T> {
             const cachedRes = <T[]>cacheGroups.cachedKeys
               .map((k) => cache.get(k, getOptions) || null)
               .filter((d) => !isNull(d));
+            if (cacheGroups.cachedKeys) logger.trace(`Cache hit: ${cacheGroups.cachedKeys}`);
+            if (cacheGroups.nonCachedKeys) logger.trace(`Cache miss: ${cacheGroups.nonCachedKeys}`);
             if (fetchedRes instanceof Promise<T[]>) {
               return <P>(async () => {
                 const data = <T[]>(await fetchedRes);

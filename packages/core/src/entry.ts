@@ -1,9 +1,8 @@
-import './system/config';
-
 import fs from 'fs';
 import path from 'path';
 
 import bus from './system/bus';
+import config from './system/config';
 import { EventType } from './system/events';
 import logging from './system/logging';
 import middleware from './system/middleware';
@@ -39,6 +38,7 @@ if (global.gc) bus.on(EventType.SYS_GC, () => global.gc && global.gc());
   registerProcessEvent();
   printBanner();
   logger.info(`Starting in ${isDev ? 'development' : 'production'} mode.`);
+  logger.trace('System config:', config);
   bindTimer();
   await bus.broadcast(EventType.SYS_BeforeSystemStart);
   logger.info('Loading modules...');
