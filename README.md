@@ -19,7 +19,9 @@ yarn start
 # 开发环境运行
 yarn start:dev
 # 开发环境运行（输出debug日志）
-yarn start:dev:debug
+yarn start:debug
+# 开发环境运行（输出trace日志）
+yarn start:trace
 # 生产环境构建
 yarn build
 # 生产环境构建（核心）
@@ -46,6 +48,7 @@ yarn build:theme
 - [ ] 搜索功能
 - [ ] 本地化支持
 - [ ] Redis 支持
+- [ ] JWT 鉴权
 
 # 贡献 / Contribute
 目前项目处于初始阶段，你可以根据 Todo List 上的内容提交 PR，对于 GitHub 新手来说，这是很好的机会哟~  
