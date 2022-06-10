@@ -27,16 +27,11 @@ function printBanner() {
   logger.info(bannerText);
 }
 
-function registerProcessEvent() {
-  processEvent.handlePromiseRejection();
-  processEvent.handleProcessExit();
-}
-
 if (global.gc) bus.on(EventType.SYS_GC, () => global.gc && global.gc());
 bus.once(EventType.SYS_SystemStarted, () => bus.broadcast(EventType.SYS_GC));
 
 (async () => {
-  registerProcessEvent();
+  processEvent.registerEvents();
   printBanner();
   logger.info(`Starting in ${isDev ? 'development' : 'production'} mode.`);
   logger.trace('System config:', config);

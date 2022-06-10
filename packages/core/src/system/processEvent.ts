@@ -13,28 +13,32 @@ const exitSinals:NodeJS.Signals[] = [
   'SIGBREAK',
   'SIGHUP',
 ];
-async function gracefulShutdown() {
+
+const handleGracefulShutdown = _.once(async () => {
   logger.info('Shutting down BlogNode...');
   await bus.broadcast(EventType.SYS_BeforeSystemStop);
   await logging.handleShutdown();
-  process.exit(0);
+});
+
+function handlePromiseRejection(e:any) {
+  if (e instanceof BlogNodeFatalError) {
+    logger.fatal(e);
+    process.exit(1);
+  }
+  logger.error(e);
 }
 
-function handlePromiseRejection() {
-  process.on('unhandledRejection', (e) => {
-    if (e instanceof BlogNodeFatalError) {
-      logger.fatal(e);
-      process.exit(1);
-    }
-    logger.error(e);
-  });
+async function handleProcessSignal(s:string) {
+  logger.debug(`Received ${s}. Performing graceful shutdown...`);
+  await handleGracefulShutdown();
+  process.exit();
 }
 
-function handleProcessExit() {
-  exitSinals.forEach((signal) => process.on(signal, gracefulShutdown));
+function registerEvents() {
+  process.on('unhandledRejection', handlePromiseRejection);
+  exitSinals.forEach((s) => process.once(s, handleProcessSignal));
 }
 
 export default {
-  handleProcessExit: _.once(handleProcessExit),
-  handlePromiseRejection,
+  registerEvents,
 };
