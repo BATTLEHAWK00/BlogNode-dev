@@ -8,7 +8,7 @@ function getCacheKeyById(id:number) {
   return `id:${id}`;
 }
 
-class UserDao extends BaseDao<User> {
+export default class UserDao extends BaseDao<User> {
   protected setLoggerName(): string {
     return 'UserDao';
   }
@@ -53,4 +53,4 @@ class UserDao extends BaseDao<User> {
   }
 }
 
-export default new UserDao();
+export const userDao = new UserDao();

@@ -9,7 +9,7 @@ function getCacheKeyByName(name:string) {
   return `name:${name}`;
 }
 
-class SystemDao extends BaseDao<SystemSetting> {
+export default class SystemDao extends BaseDao<SystemSetting> {
   protected setModel(): Model<SystemSetting, {}, {}, {}> {
     return mongoose.model('setting', systemSettingSchema);
   }
@@ -36,4 +36,4 @@ class SystemDao extends BaseDao<SystemSetting> {
   }
 }
 
-export default new SystemDao();
+export const systemDao = new SystemDao();
