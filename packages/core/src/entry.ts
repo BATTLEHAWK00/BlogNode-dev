@@ -1,3 +1,5 @@
+import './system/config';
+
 import fs from 'fs';
 import path from 'path';
 
@@ -6,7 +8,6 @@ import { EventType } from './system/events';
 import logging from './system/logging';
 import middleware from './system/middleware';
 import systemMiddlewares from './system/middlewares/systemMiddlewares';
-import moduleLoader from './system/moduleLoader';
 import processEvent from './system/processEvent';
 import { Timer } from './util/utils';
 
@@ -21,10 +22,6 @@ async function bindTimer() {
     EventType.SYS_SystemStarted,
   );
   logger.info(`BlogNode started in ${time}ms`);
-}
-
-async function loadConfig() {
-  return moduleLoader.loadModule(__dirname, 'system/config');
 }
 
 function printBanner() {
@@ -44,7 +41,6 @@ if (global.gc) bus.on(EventType.SYS_GC, () => global.gc && global.gc());
   logger.info(`Starting in ${isDev ? 'development' : 'production'} mode.`);
   bindTimer();
   await bus.broadcast(EventType.SYS_BeforeSystemStart);
-  await loadConfig();
   logger.info('Loading modules...');
   await middleware.loadSystemMiddlewares(systemMiddlewares);
   bus.once(EventType.SYS_SystemStarted, () => bus.broadcast(EventType.SYS_GC));

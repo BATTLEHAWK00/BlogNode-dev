@@ -12,8 +12,8 @@ export interface HttpConfig {
 export interface DatabaseConfig {
   host: string;
   port: number;
-  userName: string;
-  password: string;
+  userName?: string;
+  password?: string;
   dbName: string;
   options?: Partial<mongoose.ConnectOptions>
 }

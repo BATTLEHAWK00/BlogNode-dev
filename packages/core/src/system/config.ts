@@ -1,7 +1,13 @@
+import cac from 'cac';
+
 import { DatabaseConfig, HttpConfig, SystemConfig } from '../interface/config';
+
+const cli = cac();
+const cliArgs = cli.parse();
 
 const systemConfig:SystemConfig = {
   blogName: 'Blog-Node',
+  logLevel: cliArgs.options.loglevel,
 };
 
 const httpConfig: HttpConfig = {
@@ -12,8 +18,6 @@ const httpConfig: HttpConfig = {
 const dbConfig: DatabaseConfig = {
   host: 'localhost',
   port: 27017,
-  userName: 'root',
-  password: 'yxl123456.',
   dbName: 'test',
 };
 

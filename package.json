@@ -33,8 +33,6 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
-    "gulp": "^4.0.2",
-    "gulp-typescript": "^6.0.0-alpha.1",
     "nodemon": "^2.0.16",
     "ts-node": "^10.8.0",
     "tsc-alias": "^1.6.8",
