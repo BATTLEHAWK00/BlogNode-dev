@@ -23,7 +23,8 @@
   "rules": {
     "class-methods-use-this": "off",
     "no-plusplus": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "no-underscore-dangle": "off"
   },
   "settings": {
     "next": {

@@ -1,6 +1,7 @@
 import { User } from '@src/interface/entities/user';
+import cache from '@src/system/cache';
 import mongoose from 'mongoose';
-import cache, { CacheOperation, cacheOperation } from '@system/cache';
+
 import userSchema from '../schema/userSchema';
 import BaseDao from './baseDao';
 
@@ -13,8 +14,8 @@ export default class UserDao extends BaseDao<User> {
     return 'UserDao';
   }
 
-  protected setCacheOperation(): CacheOperation<User> {
-    return cacheOperation(cache.getCache<User>(500));
+  protected setCache() {
+    return cache.getCache<User>(500);
   }
 
   protected setModel(): mongoose.Model<User, {}, {}, {}> {
@@ -22,34 +23,34 @@ export default class UserDao extends BaseDao<User> {
   }
 
   async getAllUsers(): Promise<User[]> {
-    return this.getModel().find()
+    return this.model.find()
       .sort({ userId: 1 })
       .exec();
   }
 
   async getUserByIds(ids: number[]): Promise<User[]> {
-    const op = this.getCache()
+    const op = this.cached()
       .multiple
       .ifUncached(
-        async (keys) => this.getModel().find({ userId: keys }),
+        async (keys) => this.model.find({ userId: keys }),
         (user) => getCacheKeyById(user.userId),
       );
     return op.get(ids.map(getCacheKeyById));
   }
 
   async getUserById(id: number): Promise<User | null> {
-    const op = this.getCache()
+    const op = this.cached()
       .single
-      .ifUncached(async () => this.getModel().findOne({ userId: id }));
+      .ifUncached(async () => this.model.findOne({ userId: id }));
     return op.get(getCacheKeyById(id));
   }
 
   async getEstimatedUserCount() {
-    return this.getModel().estimatedDocumentCount();
+    return this.model.estimatedDocumentCount();
   }
 
   async getUserCount() {
-    return this.getModel().countDocuments();
+    return this.model.countDocuments();
   }
 }
 

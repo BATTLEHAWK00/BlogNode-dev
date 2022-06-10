@@ -1,5 +1,8 @@
 import { SystemSetting } from '@src/interface/entities/systemSetting';
-import cache, { CacheOperation, cacheOperation } from '@src/system/cache';
+import cache from '@src/system/cache';
+import logging from '@src/system/logging';
+import settings from '@src/system/settings';
+import _ from 'lodash';
 import mongoose, { Model } from 'mongoose';
 
 import systemSettingSchema from '../schema/systemSettingSchema';
@@ -14,8 +17,8 @@ export default class SystemDao extends BaseDao<SystemSetting> {
     return mongoose.model('setting', systemSettingSchema);
   }
 
-  protected setCacheOperation(): CacheOperation<SystemSetting> {
-    return cacheOperation(cache.getCache());
+  protected setCache() {
+    return cache.getCache<SystemSetting>(200, 1000 * 60 * 60 * 12);
   }
 
   protected setLoggerName(): string {
@@ -23,16 +26,45 @@ export default class SystemDao extends BaseDao<SystemSetting> {
   }
 
   async getSystemSetting(name:string):Promise<any> {
-    const op = this.getCache()
+    const op = this.cached()
       .single
-      .ifUncached(async () => this.getModel().findOne({ _id: name }));
+      .ifUncached(async () => this.model.findOne({ _id: name }));
     const res = await op.get(getCacheKeyByName(name));
     return res?.toObject().value || null;
   }
 
-  async setSystemSetting(name:string, value:any) {
-    await this.getModel().updateOne({ _id: name }, { $set: { value } }, { upsert: true });
-    this.getCache().evict(getCacheKeyByName(name));
+  async setSystemSetting(name:string, value:any, preload?:boolean) {
+    await this.model.updateOne({ _id: name }, { $set: { value, preload } }, { upsert: true });
+    this.cache.delete(getCacheKeyByName(name));
+  }
+
+  private async preload() {
+    const res:SystemSetting[] = await this.model.find({ preload: true });
+    res.forEach((setting) => this.cache.set(getCacheKeyByName(setting._id), setting));
+    this.logger.debug(`Preloaded ${res.length} settings.`);
+  }
+
+  private async initSettings() {
+    const defaultSettings:SystemSetting[] = settings
+      .getSettings()
+      .map(({ name, defaultValue, preload }) => ({
+        _id: name,
+        value: defaultValue,
+        preload,
+      }));
+    const docs:SystemSetting[] = await this.model.find(
+      { _id: defaultSettings.map((s) => s._id) },
+      { _id: 1 },
+    );
+    const newSettings = _.differenceBy(defaultSettings, docs, (s) => s._id);
+    if (!newSettings.length) return;
+    logging.systemLogger.info('Initializing settings...');
+    await this.model.insertMany(newSettings);
+  }
+
+  protected async onDatabaseConnected(): Promise<void> {
+    await this.initSettings();
+    await this.preload();
   }
 }
 

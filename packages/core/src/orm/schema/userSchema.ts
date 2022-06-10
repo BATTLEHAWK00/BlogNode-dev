@@ -29,6 +29,7 @@ export default new Schema<User>({
   passwordHash: { type: String, required: true, index: true },
   passwordSalt: { type: String, required: true },
   registerTime: { type: Date, required: true },
+  role: { type: String, required: true },
   lastLogin: { type: Date },
   registerIp: { type: String, required: true, maxlength: 64 },
   loginIp: { type: String, maxlength: 64 },

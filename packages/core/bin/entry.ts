@@ -3,6 +3,13 @@ import cac from 'cac';
 import dotenv from 'dotenv';
 import fs from 'fs';
 
+import type PackageInfo from '../package.json';
+
+const isDev = process.env.NODE_ENV === 'development';
+
+// eslint-disable-next-line import/no-dynamic-require
+const packageInfo:typeof PackageInfo = require(isDev ? '../package.json' : '../../package.json');
+
 declare global{
   // eslint-disable-next-line no-var,vars-on-top
   var parsedArgs:{
@@ -11,11 +18,18 @@ declare global{
   };
 }
 
-const cli = cac('blognode');
+const cli = cac(packageInfo.name);
 
-cli.help();
+cli.version(packageInfo.version);
 
-cli.option('--env <option>', 'Set path of .env file to load');
+cli.help((setions) => {
+  setions.splice(1, 0, {
+    body: `Github repo: ${packageInfo.repository}`,
+  });
+  return setions;
+});
+
+cli.option('--env <option>', 'Set path of .env file to be loaded');
 
 cli.command('start', 'Start BlogNode server')
   .option('--loglevel <trace|debug|info|warn|error>', 'Set log level')

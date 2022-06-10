@@ -23,7 +23,8 @@ export interface NextConfig {
 }
 
 export interface SystemConfig{
-  blogName:string,
+  blogName?:string,
+  blogDescription?:string,
   themeDir?:string,
   faviconPath?:string
   logLevel?:'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal'

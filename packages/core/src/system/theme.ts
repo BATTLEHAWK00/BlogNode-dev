@@ -1,4 +1,5 @@
 import system from '@src/orm/service/system';
+
 import { BlogNodeFatalError } from './error';
 import logging from './logging';
 
@@ -18,7 +19,7 @@ export class ThemeProcessor {
   async register() {
     if (!this.themeDir) {
       logging.systemLogger.warn('Using fallback theme: default-theme.');
-      system.set('themePackage', '@blognode/default-theme');
+      system.set('themePackage', '@blognode/default-theme', true);
     }
     const pkgDir = this.themeDir || '@blognode/default-theme';
     try {

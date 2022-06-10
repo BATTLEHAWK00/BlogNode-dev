@@ -1,46 +1,42 @@
 import bus from '@src/system/bus';
-import { CacheOperation } from '@src/system/cache';
+import { CacheOperation, cacheOperation } from '@src/system/cache';
 import database from '@src/system/database';
 import { EventType } from '@src/system/events';
 import logging from '@src/system/logging';
 import { Logger } from 'log4js';
+import Cache from 'lru-cache';
 import { Model } from 'mongoose';
 
 export default abstract class BaseDao<T> {
   static databaseConnectedEvents:(()=>void | Promise<void>)[] = [];
 
-  private model:Model<T>;
+  private readonly cacheOp:CacheOperation<T>;
 
-  private cacheOp:CacheOperation<T>;
+  protected readonly model:Model<T>;
 
-  private logger:Logger;
+  protected readonly cache:Cache<string, T>;
+
+  protected readonly logger:Logger;
 
   protected abstract setModel():Model<T>;
 
-  protected abstract setCacheOperation():CacheOperation<T>;
+  protected abstract setCache():Cache<string, T>;
 
   protected abstract setLoggerName():string;
 
-  protected getCache() {
+  protected cached() {
     return this.cacheOp;
-  }
-
-  protected getModel() {
-    return this.model;
-  }
-
-  protected getLogger() {
-    return this.logger;
   }
 
   protected onDatabaseConnected():Promise<void> | void {}
 
   constructor() {
     this.model = this.setModel();
-    this.cacheOp = this.setCacheOperation();
+    this.cache = this.setCache();
+    this.cacheOp = cacheOperation(this.cache);
     this.logger = logging.getLogger(this.setLoggerName());
     database.registerModel(this.model);
-    bus.once(EventType.SYS_DatabaseConnected, () => this.onDatabaseConnected());
+    BaseDao.databaseConnectedEvents.push(() => this.onDatabaseConnected());
   }
 }
 

@@ -4,11 +4,14 @@ import { Schema } from 'mongoose';
 import commentSchema from './commentSchema';
 
 export default new Schema<Post>({
-  postId: {
-    type: Number, required: true, min: 1, index: true, unique: true,
+  _id: {
+    type: Number, required: true, min: 1, auto: true,
   },
   content: { type: String, required: true, default: '' },
-  commentDisabled: { type: Boolean, required: true, default: false },
+  allowComment: { type: Boolean, required: true, default: true },
+  status: { type: String, required: true },
+  pathName: { type: String },
+  type: { type: String, required: true },
   comments: {
     type: [commentSchema],
     default: [],

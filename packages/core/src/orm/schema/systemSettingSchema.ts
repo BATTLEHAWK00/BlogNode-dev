@@ -5,5 +5,6 @@ export default new Schema<SystemSetting>({
   _id: {
     type: String, required: true,
   },
-  value: { default: {} },
+  value: { type: Schema.Types.Mixed, default: {} },
+  preload: { type: Boolean, default: false },
 });

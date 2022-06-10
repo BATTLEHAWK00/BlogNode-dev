@@ -8,8 +8,8 @@ class SystemService extends BaseService<SystemSetting> {
     return systemDao.getSystemSetting(name);
   }
 
-  async set(name:string, value:any) {
-    return systemDao.setSystemSetting(name, value);
+  async set(name:string, value:any, preload?:boolean) {
+    return systemDao.setSystemSetting(name, value, preload);
   }
 }
 
