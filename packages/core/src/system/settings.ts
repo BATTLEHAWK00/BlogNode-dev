@@ -1,4 +1,5 @@
 import { Setting } from '@src/interface/setting';
+import crypto from 'crypto';
 
 import { BlogNodeError } from './error';
 
@@ -9,6 +10,10 @@ function registerSetting(setting:Setting) {
   settingMap.set(setting.name, setting);
 }
 
+function getSettings() {
+  return [...settingMap.values()];
+}
+
 registerSetting({
   name: 'blogName',
   description: 'The global blog name that the server uses.',
@@ -17,32 +22,42 @@ registerSetting({
 });
 registerSetting({
   name: 'blogDescription',
-  description: 'The global blog name that the server uses.',
+  description: 'A brief description of your blog.',
   defaultValue: 'A BlogNode app',
   preload: true,
 });
 registerSetting({
   name: 'adminEmail',
-  description: 'The global blog name that the server uses.',
+  description: 'Email address to send system notifications.',
   defaultValue: 'example@example.com',
   preload: true,
 });
 registerSetting({
   name: 'firstStartAt',
-  description: 'The global blog name that the server uses.',
-  defaultValue: new Date(),
+  description: 'The time at the server first start.',
+  defaultValue: () => new Date(),
   preload: false,
 });
 registerSetting({
   name: 'themePackage',
-  description: 'The global blog name that the server uses.',
+  description: 'The theme package that server uses when starting.',
   defaultValue: '@blognode/default-theme',
   preload: true,
 });
-
-function getSettings() {
-  return [...settingMap.values()];
-}
+registerSetting({
+  name: 'faviconPath',
+  description: 'Favicon path',
+  defaultValue: '/favicon.ico',
+  preload: true,
+});
+registerSetting({
+  name: 'cookie',
+  description: '',
+  defaultValue: () => ({
+    secret: crypto.randomBytes(16).toString('hex'),
+  }),
+  preload: true,
+});
 
 export default {
   getSettings,

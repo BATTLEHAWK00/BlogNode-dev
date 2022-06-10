@@ -16,7 +16,6 @@ declare global{
 }
 
 const systemConfig:SystemConfig = {
-  blogName: 'Blog-Node',
   logLevel: cliArgs.options.loglevel,
 };
 

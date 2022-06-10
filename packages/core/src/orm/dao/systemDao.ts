@@ -38,18 +38,18 @@ export default class SystemDao extends BaseDao<SystemSetting> {
     this.cache.delete(getCacheKeyByName(name));
   }
 
-  private async preload() {
+  private async preloadSettings() {
     const res:SystemSetting[] = await this.model.find({ preload: true });
     res.forEach((setting) => this.cache.set(getCacheKeyByName(setting._id), setting));
     this.logger.debug(`Preloaded ${res.length} settings.`);
+    this.logger.trace('Preloaded settings:', res.map((s) => s._id).join(', '));
   }
 
   private async initSettings() {
-    const defaultSettings:SystemSetting[] = settings
-      .getSettings()
+    const defaultSettings:SystemSetting[] = settings.getSettings()
       .map(({ name, defaultValue, preload }) => ({
         _id: name,
-        value: defaultValue,
+        value: defaultValue instanceof Function ? defaultValue() : defaultValue,
         preload,
       }));
     const docs:SystemSetting[] = await this.model.find(
@@ -64,7 +64,7 @@ export default class SystemDao extends BaseDao<SystemSetting> {
 
   protected async onDatabaseConnected(): Promise<void> {
     await this.initSettings();
-    await this.preload();
+    await this.preloadSettings();
   }
 }
 
