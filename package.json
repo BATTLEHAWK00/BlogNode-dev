@@ -16,7 +16,7 @@
     "lint": "eslint packages/core --ext ts --fix",
     "start": "cd packages/core && blognode start",
     "test": "mocha",
-    "prebuild:core": "",
+    "prebuild:core": "yarn test",
     "build:core": "cd packages/core && ts-node -r tsconfig-paths/register bin/build.ts",
     "build:theme": "cd packages/default-theme && next build --no-lint && tsc",
     "build": "concurrently npm:build:core npm:build:theme",
