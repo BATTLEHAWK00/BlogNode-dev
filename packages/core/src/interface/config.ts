@@ -1,5 +1,7 @@
 import type mongoose from 'mongoose';
 
+export type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal';
+
 export interface CompressionConfig {
   threshold: number;
 }
@@ -23,5 +25,5 @@ export interface NextConfig {
 }
 
 export interface SystemConfig{
-  logLevel?: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal'
+  logLevel?: LogLevel
 }

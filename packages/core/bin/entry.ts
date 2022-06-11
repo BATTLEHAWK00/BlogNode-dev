@@ -14,7 +14,7 @@ const packageInfo: typeof PackageInfo = require(isDev ? '../package.json' : '../
 declare global{
   // eslint-disable-next-line no-var,vars-on-top
   var parsedArgs: {
-    options: Record<string, string>,
+    options: Record<string, unknown>,
     args: readonly string[]
   };
 }
@@ -47,7 +47,7 @@ cli.command('').action(() => {
 
 try {
   global.parsedArgs = cli.parse();
-  const envPath = global.parsedArgs.options.env;
+  const envPath = <string | undefined>global.parsedArgs.options.env;
   if (envPath) {
     if (!fs.existsSync(envPath)) throw new Error(".env file doesn't exists.");
     dotenv.config({ path: envPath });

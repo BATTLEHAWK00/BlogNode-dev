@@ -1,15 +1,14 @@
-import { AllowedTypes, SystemSetting } from '@src/interface/entities/systemSetting';
+import { CompoundTypes, SystemSetting } from '@src/interface/entities/systemSetting';
 
 import { systemDao } from '../dao/systemDao';
 import BaseService from './baseService';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-class SystemService extends BaseService<SystemSetting<any>> {
-  async get(name: string) {
-    return systemDao.getSystemSetting(name);
+class SystemService extends BaseService<SystemSetting> {
+  async get<T extends CompoundTypes>(name: string): Promise<T | null> {
+    return systemDao.getSystemSetting(name) as Promise<T | null>;
   }
 
-  async set<T>(name: string, value: AllowedTypes<T>, preload?: boolean) {
+  async set(name: string, value: CompoundTypes, preload?: boolean): Promise<void> {
     return systemDao.setSystemSetting(name, value, preload);
   }
 }

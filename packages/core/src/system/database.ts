@@ -10,7 +10,7 @@ const logger = logging.getLogger('Database');
 
 const { dbConfig } = config;
 
-const registeredModels: Map<string, Model<Entity>> = new Map();
+const registeredModels: Map<string, Model<unknown>> = new Map();
 
 if (config.systemConfig.logLevel === 'trace') {
   mongoose.set('debug', (coll, method, query, doc) => {
@@ -33,9 +33,9 @@ async function connect(): Promise<void> {
   });
 }
 
-function registerModel(model: Model<Entity>): void {
+function registerModel<T extends Entity>(model: Model<T>): void {
   logging.systemLogger.debug(`Registered Model: ${model.modelName}`);
-  registeredModels.set(model.modelName, model);
+  registeredModels.set(model.modelName, <Model<unknown>> model);
 }
 
 async function ensureIndexes(logInfo = true): Promise<void> {

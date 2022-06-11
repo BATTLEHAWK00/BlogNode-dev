@@ -1,4 +1,6 @@
-import type { DatabaseConfig, HttpConfig, SystemConfig } from '../interface/config';
+import type {
+  DatabaseConfig, HttpConfig, LogLevel, SystemConfig,
+} from '../interface/config';
 
 const cliArgs = global.parsedArgs;
 const { env } = process;
@@ -17,7 +19,7 @@ declare global{
 }
 
 const systemConfig: SystemConfig = {
-  logLevel: cliArgs.options.loglevel,
+  logLevel: <LogLevel>cliArgs.options.loglevel,
 };
 
 const httpConfig: HttpConfig = {

@@ -1,13 +1,15 @@
 import { Entity } from './base';
 
-export type AllowedTypes<T> = string | number | SettingObject<T> | boolean | Array<T> | Date;
+type AllowedTypes = string | number | boolean | Date;
 
-export interface SettingObject<T>{
-  [key: string]: AllowedTypes<T>
+export type CompoundTypes = AllowedTypes | SettingObject | AllowedTypes[];
+
+interface SettingObject{
+  [key: string]: CompoundTypes
 }
 
-export interface SystemSetting<T> extends Entity{
+export interface SystemSetting extends Entity{
   _id: string,
-  value: AllowedTypes<T>
+  value: CompoundTypes
   preload?: boolean
 }

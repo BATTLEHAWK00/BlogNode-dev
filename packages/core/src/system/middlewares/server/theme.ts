@@ -4,7 +4,7 @@ import theme from '@src/system/theme';
 
 class ThemeMiddleware extends ServerMiddleware {
   async getKoaMiddleware(): Promise<null> {
-    await theme.register(await system.get('themePackage'));
+    await theme.register(await system.get<string>('themePackage') || undefined);
     return null;
   }
 }

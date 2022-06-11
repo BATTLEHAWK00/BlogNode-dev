@@ -8,7 +8,7 @@ import { Logger } from 'log4js';
 import Cache from 'lru-cache';
 import { Model } from 'mongoose';
 
-export default abstract class BaseDao<T> {
+export default abstract class BaseDao<T extends Entity> {
   static databaseConnectedEvents: (()=> void | Promise<void>)[] = [];
 
   private readonly cacheOp: CacheOperation<T>;
@@ -36,7 +36,7 @@ export default abstract class BaseDao<T> {
     this.cache = this.setCache();
     this.cacheOp = cacheOperation(this.cache);
     this.logger = logging.getLogger(this.setLoggerName());
-    database.registerModel(<Model<Entity, unknown, unknown, unknown>> this.model);
+    database.registerModel(this.model);
     BaseDao.databaseConnectedEvents.push(() => this.onDatabaseConnected());
   }
 }
