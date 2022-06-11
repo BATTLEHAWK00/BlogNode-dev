@@ -39,6 +39,8 @@ yarn build:theme
 - [ ] postSchema, postDao, postService 编写
 - [ ] config 结构编写
 - [ ] 后台文章发布功能
+- [ ] 主题热重载
+- [ ] 提供SSR中间件的接口（Next.js/Nuxt.js）
 - [ ] 博客首页
 - [ ] 任务池与 mongoose 共用 connection
 - [ ] 本地文件存取 API
