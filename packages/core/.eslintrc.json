@@ -17,6 +17,7 @@
     "project": ["tsconfig.json"]
   },
   "rules": {
+    "no-console": "error",
     "no-plusplus": "off",
     "no-underscore-dangle": "off",
     "@typescript-eslint/no-explicit-any": "error"

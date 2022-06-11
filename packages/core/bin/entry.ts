@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 import cac from 'cac';
 import dotenv from 'dotenv';
 import fs from 'fs';
