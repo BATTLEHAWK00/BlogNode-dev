@@ -1,8 +1,8 @@
 import { AllowedTypes } from './entities/systemSetting';
 
-export interface Setting{
+export interface Setting<T>{
   name: string,
   description: string,
-  defaultValue?: AllowedTypes,
+  defaultValue?: AllowedTypes<T>,
   preload?: boolean,
 }

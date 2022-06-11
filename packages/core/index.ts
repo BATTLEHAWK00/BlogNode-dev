@@ -1,13 +1,11 @@
-import bus from '@src/system/bus';
-import cache from '@src/system/cache';
-import database from '@src/system/database';
-import { EventType } from '@src/system/events';
-import logging from '@src/system/logging';
+/* eslint-disable no-var */
+/* eslint-disable vars-on-top */
+import type Bus from 'src/system/bus';
 
-export default {
-  bus,
-  logging,
-  database,
-  cache,
-  EventType,
-};
+export type * from 'src/interface/interface';
+interface BlogNodeCore{
+  bus: typeof Bus
+}
+declare global{
+  var blogNodeCore: BlogNodeCore;
+}

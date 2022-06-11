@@ -1,4 +1,4 @@
-import { Entity } from '../interface';
+import { Entity } from './base';
 
 export type Gender = 'male' | 'female' | 'unknown';
 

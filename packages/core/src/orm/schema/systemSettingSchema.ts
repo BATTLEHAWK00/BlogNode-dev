@@ -1,7 +1,7 @@
 import { SystemSetting } from '@src/interface/entities/systemSetting';
 import { Schema } from 'mongoose';
 
-export default new Schema<SystemSetting>({
+export default new Schema<SystemSetting<unknown>>({
   _id: {
     type: String, required: true,
   },

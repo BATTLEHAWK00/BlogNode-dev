@@ -1,4 +1,4 @@
-import { Entity } from '../interface';
+import { Entity } from './base';
 
 export type AllowedTypes<T> = string | number | SettingObject<T> | boolean | Array<T> | Date;
 

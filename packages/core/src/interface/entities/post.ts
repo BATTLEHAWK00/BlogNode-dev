@@ -1,4 +1,4 @@
-import { Entity } from '../interface';
+import { Entity } from './base';
 import { Comment } from './comment';
 
 export type PostStatus = 'publish' | 'hidden';

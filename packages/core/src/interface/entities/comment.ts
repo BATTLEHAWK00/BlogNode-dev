@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongoose';
-import { Entity } from '../interface';
+
+import { Entity } from './base';
 
 export interface Comment extends Entity{
   content: string,

@@ -1,4 +1,4 @@
-import { Entity } from '../interface';
+import { Entity } from './base';
 
 export interface Category extends Entity{
   displayName: string,

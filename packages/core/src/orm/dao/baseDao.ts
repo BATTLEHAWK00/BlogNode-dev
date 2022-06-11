@@ -1,4 +1,4 @@
-import { Entity } from '@src/interface/interface';
+import { Entity } from '@src/interface/entities/base';
 import bus from '@src/system/bus';
 import { CacheOperation, cacheOperation } from '@src/system/cache';
 import database from '@src/system/database';
