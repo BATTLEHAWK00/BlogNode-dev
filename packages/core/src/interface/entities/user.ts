@@ -19,7 +19,7 @@ export interface User extends Entity {
   passwordHash: string;
   passwordSalt: string;
   passwordHashType: PasswordHashType;
-  role:Role;
+  role: Role;
   registerTime: Date;
   lastLogin: Date;
   registerIp: string;

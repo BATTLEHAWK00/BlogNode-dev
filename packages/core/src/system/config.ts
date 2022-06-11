@@ -4,18 +4,19 @@ const cliArgs = global.parsedArgs;
 const { env } = process;
 
 declare global{
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace NodeJS{
     interface ProcessEnv{
-      'server-address':string
-      'server-port':string
-      'db-port':number
-      'db-host':string
-      'db-name':string
+      'server-address': string
+      'server-port': string
+      'db-port': number
+      'db-host': string
+      'db-name': string
     }
   }
 }
 
-const systemConfig:SystemConfig = {
+const systemConfig: SystemConfig = {
   logLevel: cliArgs.options.loglevel,
 };
 

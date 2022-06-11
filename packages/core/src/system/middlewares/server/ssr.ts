@@ -6,20 +6,29 @@ import logging from '@src/system/logging';
 import { KoaMiddleware, ServerMiddleware } from '@src/system/middleware';
 import theme, { ThemeProcessor } from '@src/system/theme';
 import { Timer } from '@src/util/utils';
-import NextApp, { NextConfig } from 'next';
+import NextApp, {
+  NextApiHandler, NextApiRequest, NextApiResponse, NextConfig,
+} from 'next';
 
-const defaultNextConfig:NextConfig = {
+const defaultNextConfig: NextConfig = {
   distDir: config.isDev ? '.next/development' : '.next',
   pageExtensions: ['tsx'],
   cleanDistDir: true,
 };
 
+interface INextApp{
+  close: ()=> Promise<void>
+  options: { quiet?: boolean }
+  prepare: ()=> Promise<void>
+  getRequestHandler: ()=> NextApiHandler
+}
+
 class SsrMiddleware extends ServerMiddleware {
   private timer = new Timer();
 
-  private theme?:ThemeProcessor;
+  private theme?: ThemeProcessor;
 
-  private nextApp?:any;
+  private nextApp?: INextApp;
 
   async beforeSetting(): Promise<void> {
     logging.systemLogger.debug('Initializing SSR engine...');
@@ -33,7 +42,7 @@ class SsrMiddleware extends ServerMiddleware {
   afterSetting(): void | Promise<void> {
     bus.once(EventType.SYS_BeforeSystemStop, async () => {
       logging.systemLogger.debug('Closing SSR engine...');
-      await this.nextApp.close();
+      await this.nextApp?.close();
     });
 
     this.timer.end();
@@ -51,7 +60,7 @@ class SsrMiddleware extends ServerMiddleware {
     await this.nextApp.prepare();
     const nextHandler = this.nextApp.getRequestHandler();
     this.getKoaRouter().all('(.*)', async (ctx) => {
-      await nextHandler(ctx.req, ctx.res);
+      await nextHandler(<NextApiRequest>ctx.req, <NextApiResponse>ctx.res);
       ctx.respond = false;
     });
     return async (ctx, next) => {

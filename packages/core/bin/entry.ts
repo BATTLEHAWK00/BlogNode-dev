@@ -7,14 +7,14 @@ import type PackageInfo from '../package.json';
 
 const isDev = process.env.NODE_ENV === 'development';
 
-// eslint-disable-next-line import/no-dynamic-require
-const packageInfo:typeof PackageInfo = require(isDev ? '../package.json' : '../../package.json');
+// eslint-disable-next-line import/no-dynamic-require,@typescript-eslint/no-var-requires
+const packageInfo: typeof PackageInfo = require(isDev ? '../package.json' : '../../package.json');
 
 declare global{
   // eslint-disable-next-line no-var,vars-on-top
-  var parsedArgs:{
-    options:any,
-    args:any
+  var parsedArgs: {
+    options: Record<string, string>,
+    args: Record<string, string>
   };
 }
 
@@ -22,7 +22,7 @@ const cli = cac(packageInfo.name);
 
 cli.version(packageInfo.version);
 
-cli.help((setions: { title?:string, body:string }[]) => {
+cli.help((setions: { title?: string, body: string }[]) => {
   setions.splice(1, 0, {
     body: `Github repo: ${packageInfo.repository}`,
   });

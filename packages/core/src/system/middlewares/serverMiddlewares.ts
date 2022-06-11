@@ -6,7 +6,7 @@ import serveStatic from './server/serveStatic';
 import ssr from './server/ssr';
 import theme from './server/theme';
 
-const serverMiddlewares:ServerMiddleware[] = [
+const serverMiddlewares: ServerMiddleware[] = [
   theme,
   compress,
   logging,

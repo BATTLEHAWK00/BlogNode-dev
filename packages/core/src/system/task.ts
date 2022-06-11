@@ -16,20 +16,20 @@ const agenda = new Agenda({
   maxConcurrency: 10,
 });
 
-function onTaskStarted(task:Job) {
+function onTaskStarted(task: Job) {
   logger.debug(`Task execution ${task.attrs.name} started.`);
 }
 
-function onTaskSuccess(task:Job) {
+function onTaskSuccess(task: Job) {
   logger.debug(`Task execution ${task.attrs.name} success.`);
 }
 
-function onTaskFail(err:any, task:Job) {
+function onTaskFail(err: Error, task: Job) {
   logger.error(`Task execution ${task.attrs.name} failed!`);
   logger.error(err);
 }
 
-async function start() {
+async function start(): Promise<void> {
   const timer = new Timer();
   logging.systemLogger.info('Starting task scheduler...');
   const time = await timer.decorate(async () => {
@@ -42,7 +42,7 @@ async function start() {
   await bus.broadcast(EventType.SYS_TaskPoolStarted);
 }
 
-async function stop() {
+async function stop(): Promise<void> {
   logging.systemLogger.debug('Closing task pool...');
   await agenda.stop();
   await agenda.close();

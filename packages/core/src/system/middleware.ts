@@ -8,46 +8,42 @@ import logging from './logging';
 
 const logger = logging.getLogger('Middleware');
 
-export type KoaMiddleware = Application.Middleware<any, any, any>;
+export type KoaMiddleware = Application.Middleware<unknown, unknown, unknown>;
 
 export abstract class BlogNodeMiddleware {
-  public getName() {
+  public getName(): string {
     return this.constructor.name;
   }
 }
 
 export abstract class SystemMiddleware extends BlogNodeMiddleware {
-  onRegisterEvents():void | Promise<void> {}
+  onRegisterEvents(): void | Promise<void> {}
 
-  abstract onInit():void | Promise<void>;
+  abstract onInit(): void | Promise<void>;
 
-  onServerStarted():void | Promise<void> {}
+  onServerStarted(): void | Promise<void> {}
 }
 
 export abstract class ServerMiddleware extends BlogNodeMiddleware {
-  private router?:Router;
+  private router?: Router;
 
-  abstract getKoaMiddleware():KoaMiddleware | null | Promise<KoaMiddleware | null>;
+  abstract getKoaMiddleware(): KoaMiddleware | null | Promise<KoaMiddleware | null>;
 
-  beforeSetting():void | Promise<void> {}
+  beforeSetting(): void | Promise<void> {}
 
-  afterSetting():void | Promise<void> {}
+  afterSetting(): void | Promise<void> {}
 
-  setRouter(router:Router) {
+  setRouter(router: Router): void {
     this.router = router;
   }
 
-  protected getKoaRouter():Router {
+  protected getKoaRouter(): Router {
     if (!this.router) throw new BlogNodeFatalError('Router is undefined.');
     return this.router;
   }
 }
 
-async function registerServer(
-  koaApp:Application,
-  koaRouter:Router,
-  middlewares:ServerMiddleware[],
-) {
+async function registerServer(koaApp: Application, koaRouter: Router, middlewares: ServerMiddleware[]): Promise<void> {
   const timer = new Timer();
   // eslint-disable-next-line no-restricted-syntax
   for await (const middleware of middlewares) {
@@ -63,7 +59,7 @@ async function registerServer(
   }
 }
 
-async function loadSystemMiddlewares(middlewares:SystemMiddleware[]) {
+async function loadSystemMiddlewares(middlewares: SystemMiddleware[]): Promise<void> {
   const timer = new Timer();
   // eslint-disable-next-line no-restricted-syntax
   for await (const middleware of middlewares) {

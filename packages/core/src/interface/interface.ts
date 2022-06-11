@@ -1,1 +1,1 @@
-export interface Entity{}
+export type Entity = Record<string, unknown>;

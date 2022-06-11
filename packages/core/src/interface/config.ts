@@ -23,5 +23,5 @@ export interface NextConfig {
 }
 
 export interface SystemConfig{
-  logLevel?:'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal'
+  logLevel?: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal'
 }

@@ -6,14 +6,14 @@ import logging from './logging';
 const logger = logging.getLogger('Event');
 
 type InfiniteArgsFunction =
-  | ((...args: any[]) => void)
-  | ((...args: any[]) => Promise<void>);
+  | ((...args: unknown[])=> void)
+  | ((...args: unknown[])=> Promise<void>);
 
 const emitter = new EventEmitter();
 
-function on(eventName: EventType, callback: InfiniteArgsFunction, wait:boolean = true) {
+function on(eventName: EventType, callback: InfiniteArgsFunction, wait = true): void {
   const eventNameStr: string = EventType[eventName];
-  emitter.on(eventNameStr, async (ack: any, args:any, ...remainingArgs: any[]) => {
+  emitter.on(eventNameStr, async (ack: ()=> void, args: unknown, ...remainingArgs: unknown[]) => {
     const res = callback(args, ...remainingArgs);
     if (wait) await res;
     ack();
@@ -25,9 +25,9 @@ function on(eventName: EventType, callback: InfiniteArgsFunction, wait:boolean =
   );
 }
 
-async function broadcast<T>(eventName: EventType, args?: T, ...remainingArgs:any) {
+async function broadcast<T>(eventName: EventType, args?: T, ...remainingArgs: unknown[]): Promise<void> {
   const eventNameStr: string = EventType[eventName];
-  const listeners: any[] = emitter.listeners(eventNameStr);
+  const listeners: unknown[] = emitter.listeners(eventNameStr);
   logger.debug(
     `Broadcast Event ${eventNameStr} Emitted. Current listeners: ${listeners.length}`,
   );
@@ -48,14 +48,14 @@ async function broadcast<T>(eventName: EventType, args?: T, ...remainingArgs:any
   }
   logger.debug(`Event ${eventNameStr} complete.`);
 }
-function once(eventName: EventType, callback: InfiniteArgsFunction, wait:boolean = true) {
+function once(eventName: EventType, callback: InfiniteArgsFunction, wait = true): void {
   const eventNameStr: string = EventType[eventName];
-  emitter.on(eventNameStr, async (ack: any, args:any, ...remainingArgs: any[]) => {
+  emitter.on(eventNameStr, async (ack: ()=> void, args: unknown, ...remainingArgs: unknown[]) => {
     const res = callback(args, ...remainingArgs);
     if (wait) await res;
     ack();
   });
-  const listeners: any[] = emitter.listeners(eventNameStr);
+  const listeners: unknown[] = emitter.listeners(eventNameStr);
   logger.trace(
     `Once Event ${eventNameStr} registered. Current listeners: ${listeners.length}`,
   );

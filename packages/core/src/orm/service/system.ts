@@ -1,14 +1,14 @@
-import { SystemSetting } from '@src/interface/entities/systemSetting';
+import { AllowedTypes, SystemSetting } from '@src/interface/entities/systemSetting';
 
 import { systemDao } from '../dao/systemDao';
 import BaseService from './baseService';
 
 class SystemService extends BaseService<SystemSetting> {
-  async get(name:string) {
+  async get(name: string) {
     return systemDao.getSystemSetting(name);
   }
 
-  async set(name:string, value:any, preload?:boolean) {
+  async set(name: string, value: AllowedTypes, preload?: boolean) {
     return systemDao.setSystemSetting(name, value, preload);
   }
 }

@@ -1,3 +1,4 @@
+import { Entity } from '@src/interface/interface';
 import config from '@src/system/config';
 import { getDatabaseUri } from '@src/util/system';
 import { Timer } from '@src/util/utils';
@@ -9,7 +10,7 @@ const logger = logging.getLogger('Database');
 
 const { dbConfig } = config;
 
-const registeredModels:Map<string, Model<any>> = new Map();
+const registeredModels: Map<string, Model<Entity>> = new Map();
 
 if (config.systemConfig.logLevel === 'trace') {
   mongoose.set('debug', (coll, method, query, doc) => {
@@ -17,7 +18,7 @@ if (config.systemConfig.logLevel === 'trace') {
   });
 }
 
-async function connect() {
+async function connect(): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const uri = getDatabaseUri();
     const {
@@ -32,12 +33,12 @@ async function connect() {
   });
 }
 
-function registerModel(model:Model<any>) {
+function registerModel(model: Model<Entity>): void {
   logging.systemLogger.debug(`Registered Model: ${model.modelName}`);
   registeredModels.set(model.modelName, model);
 }
 
-async function ensureIndexes(logInfo:boolean = true) {
+async function ensureIndexes(logInfo = true): Promise<void> {
   const indexTimer = new Timer();
   const totalTime = await indexTimer.decorate(
     () => Promise.all([...registeredModels.values()].map(async (m) => {
@@ -49,7 +50,7 @@ async function ensureIndexes(logInfo:boolean = true) {
   if (logInfo) logger.info(`Database indexes ensured.(${totalTime}ms)`);
 }
 
-async function disconnect() {
+async function disconnect(): Promise<void> {
   await mongoose.disconnect();
 }
 

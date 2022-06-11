@@ -3,20 +3,20 @@ import system from '@src/orm/service/system';
 import { BlogNodeFatalError } from './error';
 import logging from './logging';
 
-let currentTheme:ThemeProcessor;
+let currentTheme: ThemeProcessor;
 
 export class ThemeProcessor {
-  private themeDir?:string;
+  private themeDir?: string;
 
-  private themeName?:string;
+  private themeName?: string;
 
-  private staticDir?:string;
+  private staticDir?: string;
 
-  constructor(themeDir?:string) {
+  constructor(themeDir?: string) {
     this.themeDir = themeDir;
   }
 
-  async register() {
+  async register(): Promise<void> {
     if (!this.themeDir) {
       logging.systemLogger.warn('Using fallback theme: default-theme.');
       system.set('themePackage', '@blognode/default-theme', true);
@@ -36,23 +36,23 @@ export class ThemeProcessor {
     }
   }
 
-  getThemeDir() {
+  getThemeDir(): string {
     if (!this.themeDir) throw new BlogNodeFatalError('Theme registration failed!');
     return this.themeDir;
   }
 
-  getThemeName() {
+  getThemeName(): string {
     if (!this.themeDir) throw new BlogNodeFatalError('Theme registration failed!');
-    return this.themeName;
+    return <string> this.themeName;
   }
 
-  getStaticDir() {
+  getStaticDir(): string {
     if (!this.themeDir) throw new BlogNodeFatalError('Theme registration failed!');
     return <string> this.staticDir;
   }
 }
 
-async function register(pathName?:string) {
+async function register(pathName?: string): Promise<ThemeProcessor> {
   const themeProcessor = new ThemeProcessor(pathName);
   await themeProcessor.register();
   logging.systemLogger.info(`Registered theme: ${themeProcessor.getThemeName()}`);
@@ -61,7 +61,7 @@ async function register(pathName?:string) {
   return themeProcessor;
 }
 
-function getCurrentTheme() {
+function getCurrentTheme(): ThemeProcessor {
   if (!currentTheme) throw new BlogNodeFatalError("Theme hasn't been registered yet!");
   return currentTheme;
 }

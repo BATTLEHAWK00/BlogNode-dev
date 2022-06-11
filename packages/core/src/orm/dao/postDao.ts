@@ -1,11 +1,12 @@
 import { Post } from '@src/interface/entities/post';
 import cache from '@src/system/cache';
+import LRUCache from 'lru-cache';
 import mongoose, { Model } from 'mongoose';
 
 import postSchema from '../schema/postSchema';
 import BaseDao from './baseDao';
 
-function getKeyById(id:number) {
+function getKeyById(id: number) {
   return `id:${id}`;
 }
 
@@ -14,21 +15,22 @@ export default class PostDao extends BaseDao<Post> {
     return 'PostDao';
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   protected setModel(): Model<Post, {}, {}, {}> {
     return mongoose.model('post', postSchema);
   }
 
-  protected setCache() {
+  protected setCache(): LRUCache<string, Post> {
     return cache.getCache<Post>(400);
   }
 
-  async findPostById(id:number) {
+  async findPostById(id: number): Promise<Post | null> {
     return this.cached().single
       .ifUncached(async () => this.model.findById(id))
       .get(getKeyById(id));
   }
 
-  async getEstimatedPostCounts() {
+  async getEstimatedPostCounts(): Promise<number> {
     return this.model.estimatedDocumentCount();
   }
 }

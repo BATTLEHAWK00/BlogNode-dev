@@ -1,11 +1,13 @@
-type AllowedTypes = string | number | SettingObject | boolean | Array<any> | Date;
+import { Entity } from '../interface';
 
-export interface SettingObject{
-  [key:string]:AllowedTypes
+export type AllowedTypes<T> = string | number | SettingObject<T> | boolean | Array<T> | Date;
+
+export interface SettingObject<T>{
+  [key: string]: AllowedTypes<T>
 }
 
-export interface SystemSetting{
-  _id:string,
-  value:AllowedTypes
-  preload?:boolean
+export interface SystemSetting<T> extends Entity{
+  _id: string,
+  value: AllowedTypes<T>
+  preload?: boolean
 }

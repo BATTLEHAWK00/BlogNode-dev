@@ -3,14 +3,14 @@ import crypto from 'crypto';
 
 import { BlogNodeError } from './error';
 
-const settingMap:Map<string, Setting> = new Map<string, Setting>();
+const settingMap: Map<string, Setting> = new Map<string, Setting>();
 
-function registerSetting(setting:Setting) {
+function registerSetting(setting: Setting) {
   if (settingMap.has(setting.name)) throw new BlogNodeError(`Setting '${setting.name}' has already been registered.`);
   settingMap.set(setting.name, setting);
 }
 
-function getSettings() {
+function getSettings(): Setting[] {
   return [...settingMap.values()];
 }
 

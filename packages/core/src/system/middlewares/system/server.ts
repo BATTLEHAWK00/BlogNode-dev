@@ -3,6 +3,7 @@ import config from '@src/system/config';
 import { EventType } from '@src/system/events';
 import logging from '@src/system/logging';
 import middleware, { SystemMiddleware } from '@src/system/middleware';
+import { Server } from 'http';
 import Koa from 'koa';
 import KoaRouter from 'koa-router';
 
@@ -25,7 +26,7 @@ function handleServerListening() {
 }
 
 class KoaMiddleware extends SystemMiddleware {
-  private server:any;
+  private server: Server | undefined;
 
   async onInit(): Promise<void> {
     logger.info('Starting server...');
@@ -44,7 +45,7 @@ class KoaMiddleware extends SystemMiddleware {
     bus.once(EventType.SYS_BeforeSystemStop, () => {
       logger.debug('Closing server...');
       return new Promise((resolve, reject) => {
-        this.server.close((err:Error) => {
+        this.server?.close((err?: Error) => {
           if (err) reject(err);
           resolve();
         });

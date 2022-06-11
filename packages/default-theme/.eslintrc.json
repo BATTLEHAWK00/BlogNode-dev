@@ -1,3 +1,20 @@
 {
+  "extends": [
+    "../../.eslintrc.json",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:@next/next/recommended"
+  ],
+  "rules": {
+    "react/prop-types": "off"
+  },
+  "settings": {
+    "next": {
+      "rootDir": "packages/default-theme"
+    },
+    "react": {
+      "version": "detect"
+    }
+  },
   "overrides": []
 }

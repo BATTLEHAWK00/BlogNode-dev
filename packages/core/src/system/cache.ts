@@ -1,3 +1,4 @@
+import { Entity } from '@src/interface/interface';
 import _, { isNull } from 'lodash';
 import LRU from 'lru-cache';
 
@@ -5,52 +6,52 @@ import logging from './logging';
 
 const logger = logging.getLogger('LocalCache');
 
-const cacheList: LRU<string, any>[] = [];
+const cacheList: LRU<string, unknown>[] = [];
 
-const cacheOptions: LRU.Options<string, any> = {
+const cacheOptions: LRU.Options<string, unknown> = {
   max: 5000,
   sizeCalculation: () => 1,
 };
 
-function getCache<T>(
-  maxSize: number = 500,
+function getCache<T extends Entity>(
+  maxSize = 500,
   defaultTTL: number = 15 * 60 * 1000,
 ): LRU<string, T> {
-  const cache = new LRU<string, T>({
+  const cache = <LRU<string, unknown>> new LRU<string, unknown>({
     ...cacheOptions,
     maxSize,
     ttl: defaultTTL,
   });
   cacheList.push(cache);
-  return cache;
+  return <LRU<string, T>>cache;
 }
 
 type Nullable<K> = K | null;
 type Asyncable<K> = Promise<Nullable<K>> | Nullable<K>;
 
 export interface CacheOperation<T>{
-  single:{
-    ifUncached:<P extends Asyncable<T>>(getFunc:()=>P)=>{
-      get:(key:string, getOptions?:LRU.GetOptions,
-        setOptions?:LRU.SetOptions<string, T>)=>Nullable<P>
+  single: {
+    ifUncached: <P extends Asyncable<T>>(getFunc: ()=> P)=> {
+      get: (key: string, getOptions?: LRU.GetOptions,
+        setOptions?: LRU.SetOptions<string, T>)=> Nullable<P>
     }
   }
-  multiple:{
-    ifUncached:<P extends Asyncable<T[]>>(getFunc:(keys:string[])=>P, keyFunc:(data:T)=>string)=>{
-      get:(keys:string[], getOptions?:LRU.GetOptions,
-        setOptions?:LRU.SetOptions<string, T>)=>P
+  multiple: {
+    ifUncached: <P extends Asyncable<T[]>>(getFunc: (keys: string[])=> P, keyFunc: (data: T)=> string)=> {
+      get: (keys: string[], getOptions?: LRU.GetOptions,
+        setOptions?: LRU.SetOptions<string, T>)=> P
     }
   }
-  evict:(key:string)=>void
+  evict: (key: string)=> void
 }
 
-export function cacheOperation<T>(cache:LRU<string, T>):CacheOperation<T> {
+export function cacheOperation<T>(cache: LRU<string, T>): CacheOperation<T> {
   return {
     evict(key) {
       cache.delete(key);
     },
     single: {
-      ifUncached<P extends Asyncable<T>>(getFunc:()=>P) {
+      ifUncached<P extends Asyncable<T>>(getFunc: ()=> P) {
         return {
           get(key, getOptions, setOptions) {
             if (cache.has(key)) {
@@ -66,9 +67,9 @@ export function cacheOperation<T>(cache:LRU<string, T>):CacheOperation<T> {
       },
     },
     multiple: {
-      ifUncached<P extends Asyncable<T[]>>(getFunc:(keys:string[])=>P, keyFunc:(data:T)=>string) {
+      ifUncached<P extends Asyncable<T[]>>(getFunc: (keys: string[])=> P, keyFunc: (data: T)=> string) {
         return {
-          get(keys, getOptions, setOptions) :P {
+          get(keys, getOptions, setOptions): P {
             const cacheGroups = _.groupBy(keys, (key) => (cache.has(key) ? 'cachedKeys' : 'nonCachedKeys'));
             const fetchedRes = getFunc(cacheGroups.nonCachedKeys);
             const cachedRes = <T[]>cacheGroups.cachedKeys

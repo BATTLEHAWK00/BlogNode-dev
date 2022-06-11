@@ -7,7 +7,7 @@ import logging from './logging';
 
 const logger = logging.systemLogger;
 
-const exitSinals:NodeJS.Signals[] = [
+const exitSinals: NodeJS.Signals[] = [
   'SIGINT',
   'SIGTERM',
   'SIGBREAK',
@@ -20,7 +20,7 @@ const handleGracefulShutdown = _.once(async () => {
   await logging.handleShutdown();
 });
 
-function handlePromiseRejection(e:any) {
+function handlePromiseRejection(e: Error): void {
   if (e instanceof BlogNodeFatalError) {
     logger.fatal(e);
     process.exit(1);
@@ -28,13 +28,13 @@ function handlePromiseRejection(e:any) {
   logger.error(e);
 }
 
-async function handleProcessSignal(s:string) {
+async function handleProcessSignal(s: string) {
   logger.debug(`Received ${s}. Performing graceful shutdown...`);
   await handleGracefulShutdown();
   process.exit();
 }
 
-function registerEvents() {
+function registerEvents(): void {
   process.on('unhandledRejection', handlePromiseRejection);
   exitSinals.forEach((s) => process.once(s, handleProcessSignal));
 }

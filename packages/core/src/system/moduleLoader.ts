@@ -7,20 +7,20 @@ const logger = logging.getLogger('ModuleLoader');
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const isDev = process.env.NODE_ENV === 'development';
 
-function splitModuleName(filename:string) {
+function splitModuleName(filename: string): string {
   return filename.split('.', 1)[0];
 }
 
-function getModuleRegex() {
+function getModuleRegex(): RegExp {
   // return /\.ts$/;
   return isDev ? /\.ts$/ : /\.js$/;
 }
 
-function scanDir(dirname: string, regex: RegExp) {
+function scanDir(dirname: string, regex: RegExp): string[] {
   return fs.readdirSync(dirname).filter((filename) => regex.test(filename));
 }
 
-async function loadModule(dirname: string, filename: string) {
+async function loadModule(dirname: string, filename: string): Promise<unknown> {
   const moduleName = splitModuleName(filename);
   logger.trace(`loading module: ${moduleName}...`);
   const res = await import(path.resolve(dirname, moduleName));
@@ -28,11 +28,7 @@ async function loadModule(dirname: string, filename: string) {
   return res;
 }
 
-async function loadFiles(
-  dirname: string,
-  filenames: string[],
-  concurrent: boolean = false,
-) {
+async function loadFiles(dirname: string, filenames: string[], concurrent = false): Promise<unknown[]> {
   const modules = [];
   if (concurrent) {
     return Promise.all(filenames.map((file) => loadModule(dirname, file)));
@@ -46,9 +42,9 @@ async function loadFiles(
   return modules;
 }
 
-async function loadDir(dirname: string, concurrent: boolean = false) {
+async function loadDir(dirname: string, concurrent = false): Promise<unknown[]> {
   const files = scanDir(dirname, getModuleRegex());
-  await loadFiles(dirname, files, concurrent);
+  return loadFiles(dirname, files, concurrent);
 }
 
 export default {

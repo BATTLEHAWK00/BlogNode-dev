@@ -2,12 +2,13 @@ import { User } from '@src/interface/entities/user';
 import cache from '@src/system/cache';
 import { BlogNodeError } from '@src/system/error';
 import logging from '@src/system/logging';
+import LRUCache from 'lru-cache';
 import mongoose from 'mongoose';
 
 import userSchema from '../schema/userSchema';
 import BaseDao from './baseDao';
 
-function getCacheKeyById(id:number) {
+function getCacheKeyById(id: number) {
   return `id:${id}`;
 }
 
@@ -16,10 +17,11 @@ export default class UserDao extends BaseDao<User> {
     return 'UserDao';
   }
 
-  protected setCache() {
+  protected setCache(): LRUCache<string, User> {
     return cache.getCache<User>(500);
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   protected setModel(): mongoose.Model<User, {}, {}, {}> {
     return mongoose.model('user', userSchema);
   }
@@ -47,21 +49,21 @@ export default class UserDao extends BaseDao<User> {
     return op.get(getCacheKeyById(id));
   }
 
-  async getEstimatedUserCount() {
+  async getEstimatedUserCount(): Promise<number> {
     return this.model.estimatedDocumentCount();
   }
 
-  async getUserCount() {
+  async getUserCount(): Promise<number> {
     return this.model.countDocuments();
   }
 
-  async getIncrementId() {
+  async getIncrementId(): Promise<number> {
     const lastUser = await this.model.findOne({}, { _id: 1 }).sort({ _id: -1 });
     if (!lastUser) throw new BlogNodeError("Last user doesn't exists.");
     return lastUser._id + 1;
   }
 
-  async createUser(user:Partial<User>) {
+  async createUser(user: Partial<User>): Promise<void> {
     const session = await this.model.startSession();
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const _id = await this.getIncrementId();
@@ -69,8 +71,8 @@ export default class UserDao extends BaseDao<User> {
     await session.endSession();
   }
 
-  protected async onDatabaseConnected() {
-    const user:Partial<User> = {
+  protected async onDatabaseConnected(): Promise<void> {
+    const user: Partial<User> = {
       _id: 1,
       username: 'admin',
       passwordHash: '',
@@ -80,7 +82,7 @@ export default class UserDao extends BaseDao<User> {
       registerIp: '127.0.0.1',
       role: 'admin',
     };
-    const adminUser:User | null = await this.model.findOne({ _id: 1 });
+    const adminUser: User | null = await this.model.findOne({ _id: 1 });
     if (adminUser) return;
     await this.model.create(user);
     logging.systemLogger.info('Created default admin user.');

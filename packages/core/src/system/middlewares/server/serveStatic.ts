@@ -7,7 +7,7 @@ import koaStatic from 'koa-static';
 import path from 'path';
 
 class StaticMiddleware extends ServerMiddleware {
-  private static prefix:string = '/assets';
+  private static prefix = '/assets';
 
   getKoaMiddleware(): null {
     const themeName = theme.getCurrentTheme().getThemeName();

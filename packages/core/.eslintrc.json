@@ -1,14 +1,11 @@
 {
-  "root": true,
   "env": {
     "node": true,
     "browser": true,
     "es2021": true
   },
   "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "airbnb/base",
-    "airbnb-typescript/base"
+    "../../.eslintrc.json"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -20,15 +17,8 @@
     "project": ["tsconfig.json"]
   },
   "rules": {
-    "class-methods-use-this": "off",
     "no-plusplus": "off",
     "no-underscore-dangle": "off",
-    "@typescript-eslint/type-annotation-spacing": ["warn", {
-      "before": false,
-      "after": true
-    }],
-    "max-len": ["error", {
-      "code": 150
-    }]
+    "@typescript-eslint/no-explicit-any": "error"
   }
 }

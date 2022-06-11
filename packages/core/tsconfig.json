@@ -107,6 +107,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": ["**/*.ts", "**/*.js"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*.ts", "src/**/*.js", "bin/**.ts", "index.ts"],
+  "exclude": ["node_modules", "dist", "**/.*"]
 }
