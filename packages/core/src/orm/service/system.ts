@@ -3,12 +3,13 @@ import { AllowedTypes, SystemSetting } from '@src/interface/entities/systemSetti
 import { systemDao } from '../dao/systemDao';
 import BaseService from './baseService';
 
-class SystemService extends BaseService<SystemSetting> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+class SystemService extends BaseService<SystemSetting<any>> {
   async get(name: string) {
     return systemDao.getSystemSetting(name);
   }
 
-  async set(name: string, value: AllowedTypes, preload?: boolean) {
+  async set<T>(name: string, value: AllowedTypes<T>, preload?: boolean) {
     return systemDao.setSystemSetting(name, value, preload);
   }
 }

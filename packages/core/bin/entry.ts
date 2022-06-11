@@ -14,7 +14,7 @@ declare global{
   // eslint-disable-next-line no-var,vars-on-top
   var parsedArgs: {
     options: Record<string, string>,
-    args: Record<string, string>
+    args: readonly string[]
   };
 }
 
