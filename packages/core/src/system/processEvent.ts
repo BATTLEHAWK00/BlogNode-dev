@@ -7,7 +7,7 @@ import logging from './logging';
 
 const logger = logging.systemLogger;
 
-const exitSinals: NodeJS.Signals[] = [
+const exitSignals: NodeJS.Signals[] = [
   'SIGINT',
   'SIGTERM',
   'SIGBREAK',
@@ -36,7 +36,7 @@ async function handleProcessSignal(s: string) {
 
 function registerEvents(): void {
   process.on('unhandledRejection', handlePromiseRejection);
-  exitSinals.forEach((s) => process.once(s, handleProcessSignal));
+  exitSignals.forEach((s) => process.once(s, handleProcessSignal));
 }
 
 export default {

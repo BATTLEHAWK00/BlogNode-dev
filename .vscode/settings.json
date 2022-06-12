@@ -1,7 +1,16 @@
 {
     "compile-hero.disable-compile-files-on-did-save-code": false,
     "cSpell.words": [
+        "appenders",
+        "Asyncable",
         "blognode",
-        "middlewares"
+        "bodyparser",
+        "codepaths",
+        "cryptojs",
+        "loglevel",
+        "maxlength",
+        "middlewares",
+        "plusplus",
+        "tsbuildinfo"
     ]
 }

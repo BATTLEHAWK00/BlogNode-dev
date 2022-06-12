@@ -1,8 +1,8 @@
-import { AllowedTypes } from './entities/systemSetting';
+import { CompoundTypes } from './entities/systemSetting';
 
-export interface Setting<T>{
+export interface Setting{
   name: string,
   description: string,
-  defaultValue?: AllowedTypes<T>,
+  defaultValue?: CompoundTypes | (()=> CompoundTypes),
   preload?: boolean,
 }

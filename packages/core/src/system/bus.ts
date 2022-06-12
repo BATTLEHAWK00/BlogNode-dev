@@ -43,7 +43,7 @@ async function broadcast<T>(eventName: EventType, args?: T, ...remainingArgs: un
   try {
     await broadcastAck;
   } catch (e) {
-    logger.error(`Error occured during event: ${eventName}.`);
+    logger.error(`Error occurred during event: ${eventName}.`);
     throw e;
   }
   logger.debug(`Event ${eventNameStr} complete.`);

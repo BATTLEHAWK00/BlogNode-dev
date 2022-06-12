@@ -15,8 +15,7 @@ export default class PostDao extends BaseDao<Post> {
     return 'PostDao';
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  protected setModel(): Model<Post, {}, {}, {}> {
+  protected setModel(): Model<Post> {
     return mongoose.model('post', postSchema);
   }
 

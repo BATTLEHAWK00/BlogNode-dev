@@ -14,7 +14,6 @@ function getCacheKeyByName(name: string) {
 }
 
 export default class SystemDao extends BaseDao<SystemSetting> {
-  // eslint-disable-next-line @typescript-eslint/ban-types
   protected setModel(): Model<SystemSetting> {
     return mongoose.model('setting', systemSettingSchema);
   }

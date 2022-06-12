@@ -23,11 +23,11 @@ const cli = cac(packageInfo.name);
 
 cli.version(packageInfo.version);
 
-cli.help((setions: { title?: string, body: string }[]) => {
-  setions.splice(1, 0, {
+cli.help((sections: { title?: string, body: string }[]) => {
+  sections.splice(1, 0, {
     body: `Github repo: ${packageInfo.repository}`,
   });
-  return setions;
+  return sections;
 });
 
 cli.option('--env <option>', 'Set path of .env file to be loaded');

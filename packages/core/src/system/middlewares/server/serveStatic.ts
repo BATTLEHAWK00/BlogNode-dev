@@ -23,8 +23,8 @@ class StaticMiddleware extends ServerMiddleware {
       });
       const staticRouter = new Router({ prefix: '/assets' });
       staticRouter.get('/(.*)', async (ctx, next) => {
-        const rewritedPath = ctx.path.replace(StaticMiddleware.prefix, '');
-        ctx.path = rewritedPath;
+        const rewrittenPath = ctx.path.replace(StaticMiddleware.prefix, '');
+        ctx.path = rewrittenPath;
         await serveStatic(ctx, next);
       });
       this.getKoaRouter().use(staticRouter.routes());
