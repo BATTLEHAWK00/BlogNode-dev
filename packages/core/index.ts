@@ -2,8 +2,6 @@ import { CompoundTypes } from '@src/interface/entities/systemSetting';
 import system from '@src/orm/service/system';
 import bus from '@src/system/bus';
 
-export * from '@src/orm/service/system';
-
 export interface ThemeInfo{
   themePath: string,
   themeName: string,

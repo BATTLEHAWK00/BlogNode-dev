@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "bin": "dist/bin/entry.js",
   "repository": "https://github.com/BATTLEHAWK00/BlogNode-dev.git",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "preferUnplugged": true,
   "dependencies": {
