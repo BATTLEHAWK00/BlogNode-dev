@@ -1,7 +1,8 @@
 import BasePage from '@src/components/BasePage';
 import context from '@src/components/context';
 import PostsContent from '@src/components/post';
-import { GetServerSideProps } from 'next';
+import { getContext } from 'blognode';
+import { GetServerSideProps, GetServerSidePropsContext, PreviewData } from 'next';
 import React, { useContext } from 'react';
 
 class HomePage extends BasePage<JSX.Element> {
@@ -25,11 +26,25 @@ class HomePage extends BasePage<JSX.Element> {
   }
 }
 
+interface BlogNodeServerContext{
+  blogName: string
+}
+
+declare module 'http'{
+  interface IncomingMessage{
+    blogNodeCtx: BlogNodeServerContext
+  }
+}
+
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  console.log(getContext(ctx.req));
+
+  const { req: { blogNodeCtx: { blogName } } } = ctx;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const test = '';
   return {
     props: {
+      blogName,
       title: `搜索结果：${ctx.query.s}`,
       postContent: ctx.query.s,
     },

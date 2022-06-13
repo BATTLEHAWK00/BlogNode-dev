@@ -19,12 +19,13 @@
     "prebuild:core": "yarn test && cd packages/core && tsc --emitDeclarationOnly",
     "build:core": "cd packages/core && ts-node -r tsconfig-paths/register bin/build.ts",
     "build:theme": "cd packages/default-theme && next build --no-lint && tsc",
+    "build:themeIndex": "cd packages/default-theme && tsc",
     "build": "concurrently npm:build:core npm:build:theme",
     "prepare": "husky install"
   },
   "workspaces": [
     "packages/*",
-    "themes/*"
+    "packages/theme/*"
   ],
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",

@@ -3,7 +3,7 @@ import { CompoundTypes, SystemSetting } from '@src/interface/entities/systemSett
 import { systemDao } from '../dao/systemDao';
 import BaseService from './baseService';
 
-class SystemService extends BaseService<SystemSetting> {
+export default class SystemService extends BaseService<SystemSetting> {
   async get<T extends CompoundTypes>(name: string): Promise<T | null> {
     return systemDao.getSystemSetting(name) as Promise<T | null>;
   }
@@ -13,4 +13,4 @@ class SystemService extends BaseService<SystemSetting> {
   }
 }
 
-export default new SystemService();
+export const systemService = new SystemService();

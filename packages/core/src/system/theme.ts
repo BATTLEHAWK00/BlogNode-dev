@@ -1,4 +1,4 @@
-import system from '@src/orm/service/system';
+import { systemService } from '@src/orm/service/system';
 import { ThemeInfo } from 'index';
 
 import { BlogNodeFatalError } from './error';
@@ -20,7 +20,7 @@ export class ThemeProcessor {
   async register(): Promise<void> {
     if (!this.themeDir) {
       logging.systemLogger.warn('Using fallback theme: default-theme.');
-      system.set('themePackage', '@blognode/default-theme', true);
+      systemService.set('themePackage', '@blognode/default-theme', true);
     }
     const pkgDir = this.themeDir || '@blognode/default-theme';
     try {
@@ -32,7 +32,7 @@ export class ThemeProcessor {
       logging.systemLogger.error(e);
       logging.systemLogger.error('Set to fallback theme: default-theme.');
       logging.systemLogger.error('Please start the server again to make it work.');
-      await system.set('themePackage', '@blognode/default-theme');
+      await systemService.set('themePackage', '@blognode/default-theme');
       throw new BlogNodeFatalError('Error when loading theme package!');
     }
   }

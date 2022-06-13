@@ -2,6 +2,7 @@ import { ServerMiddleware } from '@src/system/middleware';
 
 import compress from './server/compress';
 import logging from './server/logging';
+import serverContext from './server/serverContext';
 import serveStatic from './server/serveStatic';
 import ssr from './server/ssr';
 import theme from './server/theme';
@@ -11,6 +12,7 @@ const serverMiddlewares: ServerMiddleware[] = [
   compress,
   logging,
   serveStatic,
+  serverContext,
   ssr,
 ];
 

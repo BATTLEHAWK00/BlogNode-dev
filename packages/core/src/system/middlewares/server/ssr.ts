@@ -55,11 +55,13 @@ class SsrMiddleware extends ServerMiddleware {
       dev: config.isDev,
       dir: this.theme?.getThemeDir(),
       conf: { ...defaultNextConfig },
+      minimalMode: true,
     });
     if (!this.nextApp) throw new BlogNodeFatalError('SSR initialization failed!');
     this.nextApp.options.quiet = true;
     await this.nextApp.prepare();
     const nextHandler = this.nextApp.getRequestHandler();
+
     this.getKoaRouter().all('(.*)', async (ctx: Context) => {
       await nextHandler(<NextApiRequest>ctx.req, <NextApiResponse>ctx.res);
       ctx.respond = false;
