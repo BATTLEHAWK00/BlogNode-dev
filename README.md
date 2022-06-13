@@ -48,7 +48,7 @@ yarn build:theme
 - [ ] 完整的 SEO 支持
 - [ ] Sitemap 支持
 - [ ] 搜索功能
-- [ ] 本地化支持
+- [ ] 国际化支持（i18n）
 - [ ] Redis 支持
 - [ ] JWT 鉴权
 
