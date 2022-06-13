@@ -6,7 +6,8 @@
     "plugin:@next/next/recommended"
   ],
   "rules": {
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "class-methods-use-this": "off"
   },
   "settings": {
     "next": {

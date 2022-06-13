@@ -9,10 +9,9 @@ class HomePage extends BasePage<JSX.Element> {
     return '搜索结果';
   }
 
-  protected setPageRenderer(): (...args: any) => JSX.Element {
-    // eslint-disable-next-line react/display-name
+  protected setPageRenderer(): (...args: any)=> JSX.Element {
     return () => {
-      const { postContent }:any = useContext(context.PageContext);
+      const { postContent }: any = useContext(context.PageContext);
       return (
         <>
           <h2>
@@ -26,7 +25,7 @@ class HomePage extends BasePage<JSX.Element> {
   }
 }
 
-export const getServerSideProps:GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const test = '';
   return {
