@@ -55,10 +55,10 @@ export function cacheOperation<T>(cache: LRU<string, T>): CacheOperation<T> {
         return {
           get(key, getOptions, setOptions) {
             if (cache.has(key)) {
-              logger.trace(`Cache hit: ${key}`);
+              logger.trace(`Cache hit: "${key}"`);
               return cache.get(key, getOptions) || null;
             }
-            logger.trace(`Cache miss: ${key}`);
+            logger.trace(`Cache miss: "${key}"`);
             const res = getFunc();
             if (res instanceof Promise) res.then((data) => cache.set(key, data, setOptions));
             return res;
@@ -75,8 +75,8 @@ export function cacheOperation<T>(cache: LRU<string, T>): CacheOperation<T> {
             const cachedRes = <T[]>cacheGroups.cachedKeys
               .map((k) => cache.get(k, getOptions) || null)
               .filter((d) => !isNull(d));
-            if (cacheGroups.cachedKeys) logger.trace(`Cache hit: ${cacheGroups.cachedKeys}`);
-            if (cacheGroups.nonCachedKeys) logger.trace(`Cache miss: ${cacheGroups.nonCachedKeys}`);
+            if (cacheGroups.cachedKeys) logger.trace(`Cache hit: "${cacheGroups.cachedKeys}"`);
+            if (cacheGroups.nonCachedKeys) logger.trace(`Cache miss: "${cacheGroups.nonCachedKeys}"`);
             if (fetchedRes instanceof Promise<T[]>) {
               return <P>(async () => {
                 const data = <T[]>(await fetchedRes);

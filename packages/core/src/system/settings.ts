@@ -3,14 +3,14 @@ import crypto from 'crypto';
 
 import { BlogNodeError } from './error';
 
-const settingMap: Map<string, Setting<unknown>> = new Map<string, Setting<unknown>>();
+const settingMap: Map<string, Setting> = new Map<string, Setting>();
 
-function registerSetting<T>(setting: Setting<T>) {
+function registerSetting(setting: Setting) {
   if (settingMap.has(setting.name)) throw new BlogNodeError(`Setting '${setting.name}' has already been registered.`);
   settingMap.set(setting.name, setting);
 }
 
-function getSettings(): Setting<unknown>[] {
+function getSettings(): Setting[] {
   return [...settingMap.values()];
 }
 
@@ -32,7 +32,7 @@ registerSetting({
   defaultValue: 'example@example.com',
   preload: true,
 });
-registerSetting<()=> Date>({
+registerSetting({
   name: 'firstStartAt',
   description: 'The time at the server first start.',
   defaultValue: () => new Date(),
@@ -62,6 +62,12 @@ registerSetting({
   name: 'postLinkStyle',
   description: '',
   defaultValue: '{id}.html',
+  preload: true,
+});
+registerSetting({
+  name: 'locale',
+  description: 'Set locale for BlogNode system.',
+  defaultValue: 'en',
   preload: true,
 });
 
