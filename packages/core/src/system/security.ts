@@ -1,4 +1,4 @@
-import cryptojs from 'crypto-js';
+import * as cryptojs from 'crypto-js';
 
 // todo 安全相关：密码/XSS/JWT
 export function sha256(content: string): string {

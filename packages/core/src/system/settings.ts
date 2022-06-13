@@ -1,5 +1,5 @@
 import { Setting } from '@src/interface/setting';
-import crypto from 'crypto';
+import * as crypto from 'crypto';
 
 import { BlogNodeError } from './error';
 

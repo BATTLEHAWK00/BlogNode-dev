@@ -27,7 +27,3 @@ export const theme = {
   getSetting,
   bus,
 };
-
-export const service = {
-  system,
-};

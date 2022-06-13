@@ -1,4 +1,4 @@
-import { service, ThemeRegisterer } from 'blognode';
+import { ThemeRegisterer } from 'blognode';
 import path from 'path';
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -10,6 +10,4 @@ const register: ThemeRegisterer = () => ({
   themeName,
   staticDir,
 });
-service.system.get();
-console.log();
 export default register;

@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import { Timer } from '@src/util/utils';
-import Application from 'koa';
-import Router from 'koa-router';
+import * as Application from 'koa';
+import * as Router from 'koa-router';
 
 import { BlogNodeFatalError } from './error';
 import logging from './logging';

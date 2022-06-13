@@ -6,6 +6,7 @@ import logging from '@src/system/logging';
 import { KoaMiddleware, ServerMiddleware } from '@src/system/middleware';
 import theme, { ThemeProcessor } from '@src/system/theme';
 import { Timer } from '@src/util/utils';
+import { Context, Next } from 'koa';
 import NextApp, {
   NextApiHandler, NextApiRequest, NextApiResponse, NextConfig,
 } from 'next';
@@ -59,11 +60,11 @@ class SsrMiddleware extends ServerMiddleware {
     this.nextApp.options.quiet = true;
     await this.nextApp.prepare();
     const nextHandler = this.nextApp.getRequestHandler();
-    this.getKoaRouter().all('(.*)', async (ctx) => {
+    this.getKoaRouter().all('(.*)', async (ctx: Context) => {
       await nextHandler(<NextApiRequest>ctx.req, <NextApiResponse>ctx.res);
       ctx.respond = false;
     });
-    return async (ctx, next) => {
+    return async (ctx: Context, next: Next) => {
       ctx.res.statusCode = 200;
       await next();
     };

@@ -1,8 +1,9 @@
 import { Entity } from '@src/interface/interface';
-import _, { isNull } from 'lodash';
-import LRU from 'lru-cache';
+import { isNull } from 'lodash';
+import _ = require('lodash');
+import * as LRU from 'lru-cache';
 
-import logging from './logging';
+import { default as logging } from './logging';
 
 const logger = logging.getLogger('LocalCache');
 

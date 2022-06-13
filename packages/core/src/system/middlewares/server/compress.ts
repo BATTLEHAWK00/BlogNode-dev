@@ -1,4 +1,4 @@
-import koaCompress from 'koa-compress';
+import * as koaCompress from 'koa-compress';
 
 import { KoaMiddleware, ServerMiddleware } from '../../middleware';
 

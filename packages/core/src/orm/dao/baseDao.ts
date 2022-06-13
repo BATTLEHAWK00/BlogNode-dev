@@ -5,7 +5,7 @@ import database from '@src/system/database';
 import { EventType } from '@src/system/events';
 import logging from '@src/system/logging';
 import { Logger } from 'log4js';
-import Cache from 'lru-cache';
+import * as Cache from 'lru-cache';
 import { Model } from 'mongoose';
 
 export default abstract class BaseDao<T extends Entity> {

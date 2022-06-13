@@ -4,14 +4,15 @@ import { EventType } from '@src/system/events';
 import logging from '@src/system/logging';
 import middleware, { SystemMiddleware } from '@src/system/middleware';
 import { Server } from 'http';
-import Koa from 'koa';
-import KoaRouter from 'koa-router';
+import * as Koa from 'koa';
+import * as KoaRouter from 'koa-router';
 
 import middlewares from '../serverMiddlewares';
 
 const logger = logging.systemLogger;
 
 const koaServer = new Koa();
+// eslint-disable-next-line new-cap
 const router = new KoaRouter();
 
 function handleFatalError(err: Error) {

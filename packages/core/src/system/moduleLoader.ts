@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 
 import logging from './logging';
 
@@ -17,7 +17,7 @@ function getModuleRegex(): RegExp {
 }
 
 function scanDir(dirname: string, regex: RegExp): string[] {
-  return fs.readdirSync(dirname).filter((filename) => regex.test(filename));
+  return fs.readdirSync(dirname).filter((filename: string) => regex.test(filename));
 }
 
 async function loadModule(dirname: string, filename: string): Promise<unknown> {

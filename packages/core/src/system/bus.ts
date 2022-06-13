@@ -1,4 +1,4 @@
-import EventEmitter from 'events';
+import * as EventEmitter from 'events';
 
 import { EventType } from './events';
 import logging from './logging';

@@ -1,10 +1,10 @@
 import logging from '@src/system/logging';
 import { ServerMiddleware } from '@src/system/middleware';
 import theme from '@src/system/theme';
-import fs from 'fs';
-import Router from 'koa-router';
-import koaStatic from 'koa-static';
-import path from 'path';
+import * as fs from 'fs';
+import * as Router from 'koa-router';
+import * as koaStatic from 'koa-static';
+import * as path from 'path';
 
 class StaticMiddleware extends ServerMiddleware {
   private static prefix = '/assets';

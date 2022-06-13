@@ -6,7 +6,7 @@ import moduleLoader from '@src/system/moduleLoader';
 import task from '@src/system/task';
 import { fromSrc } from '@src/util/system';
 import { Timer } from '@src/util/utils';
-import path from 'path';
+import * as path from 'path';
 
 import { SystemMiddleware } from '../../middleware';
 

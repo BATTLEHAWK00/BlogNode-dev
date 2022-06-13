@@ -2,8 +2,8 @@ import { CompoundTypes, SystemSetting } from '@src/interface/entities/systemSett
 import cache from '@src/system/cache';
 import logging from '@src/system/logging';
 import settings from '@src/system/settings';
-import _ from 'lodash';
-import LRUCache from 'lru-cache';
+import _ = require('lodash');
+import * as LRUCache from 'lru-cache';
 import mongoose, { Model } from 'mongoose';
 
 import systemSettingSchema from '../schema/systemSettingSchema';

@@ -1,13 +1,12 @@
 import { getDatabaseUri } from '@src/util/system';
 import { Timer } from '@src/util/utils';
-import Agenda, { Job } from 'agenda';
+import { Agenda, Job } from 'agenda';
 
 import bus from './bus';
 import { EventType } from './events';
 import logging from './logging';
 
 const logger = logging.getLogger('taskScheduler');
-
 const agenda = new Agenda({
   db: {
     address: getDatabaseUri(),

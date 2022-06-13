@@ -23,6 +23,7 @@
     "class-methods-use-this": "off",
     "no-plusplus": "off",
     "no-underscore-dangle": "off",
+    "import/no-named-default": "off",
     "@typescript-eslint/type-annotation-spacing": ["warn", {
       "before": false,
       "after": true

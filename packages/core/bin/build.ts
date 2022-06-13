@@ -1,10 +1,15 @@
 /* eslint-disable no-console,import/no-extraneous-dependencies */
-import gulp from 'gulp';
-import ts from 'gulp-typescript';
-import path from 'path';
+import * as gulp from 'gulp';
+import * as ts from 'gulp-typescript';
+import * as path from 'path';
 import { replaceTscAliasPaths } from 'tsc-alias';
 
-const tsProject = ts.createProject(path.resolve(__dirname, '../tsconfig.json'));
+const tsProject = ts.createProject(path.resolve(__dirname, '../tsconfig.json'), {
+  declaration: true,
+  // eslint-disable-next-line global-require
+  typescript: require('typescript'),
+  declarationFiles: true,
+});
 
 const compileTask = () => {
   console.log('Compiling typescripts...');
@@ -12,7 +17,6 @@ const compileTask = () => {
   return tsProject
     .src()
     .pipe(tsProject())
-    .js
     .pipe(gulp.dest('dist'));
 };
 
