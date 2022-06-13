@@ -13,7 +13,7 @@ export default abstract class BaseDao<T extends Entity> {
 
   private readonly cacheOp: CacheOperation<T>;
 
-  protected readonly model: Model<T>;
+  public readonly model: Model<T>;
 
   protected readonly cache: Cache<string, T>;
 

@@ -10,6 +10,6 @@ interface SettingObject{
 
 export interface SystemSetting extends Entity{
   _id: string,
-  value: CompoundTypes
+  value?: CompoundTypes
   preload?: boolean
 }

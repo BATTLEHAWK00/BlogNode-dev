@@ -1,4 +1,5 @@
 import system from '@src/orm/service/system';
+import { ThemeInfo } from 'index';
 
 import { BlogNodeFatalError } from './error';
 import logging from './logging';
@@ -23,10 +24,10 @@ export class ThemeProcessor {
     }
     const pkgDir = this.themeDir || '@blognode/default-theme';
     try {
-      const m = (await import(pkgDir)).default;
-      this.themeDir = m.themeDir;
-      this.themeName = m.themeName;
-      this.staticDir = m.staticDir;
+      const themeInfo: ThemeInfo = (await import(pkgDir)).default();
+      this.themeDir = themeInfo.themePath;
+      this.themeName = themeInfo.themeName;
+      this.staticDir = themeInfo.staticDir;
     } catch (e) {
       logging.systemLogger.error(e);
       logging.systemLogger.error('Set to fallback theme: default-theme.');
