@@ -51,6 +51,7 @@ yarn build:theme
 - [ ] 国际化支持（i18n）
 - [ ] Redis 支持
 - [ ] JWT 鉴权
+- [ ] Proxy 代理配置
 
 # 贡献 / Contribute
 目前项目处于初始阶段，你可以根据 Todo List 上的内容提交 PR，对于 GitHub 新手来说，这是很好的机会哟~  
