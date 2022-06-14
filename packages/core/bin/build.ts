@@ -2,7 +2,12 @@
 import * as gulp from 'gulp';
 import * as ts from 'gulp-typescript';
 import * as path from 'path';
+// import { createGulpEsbuild } from 'gulp-esbuild';
 import { replaceTscAliasPaths } from 'tsc-alias';
+
+// const esbuild = createGulpEsbuild({
+//   pipe: true,
+// });
 
 const tsProject = ts.createProject(path.resolve(__dirname, '../tsconfig.json'), {
   declaration: true,
@@ -10,6 +15,22 @@ const tsProject = ts.createProject(path.resolve(__dirname, '../tsconfig.json'), 
   typescript: require('typescript'),
   declarationFiles: true,
 });
+
+// const compileTask = () => {
+//   console.log('Compiling typescripts...');
+
+//   return gulp.src(['**/*.ts', '!dist/*', '!**/*.d.ts'])
+//     .pipe(esbuild({
+//       tsconfig: path.resolve(__dirname, '../tsconfig.json'),
+//       target: 'es2021',
+//       format: 'cjs',
+//       platform: 'node',
+//       globalName: 'global',
+//       treeShaking: true,
+//       resolveExtensions: ['.js'],
+//     }))
+//     .pipe(gulp.dest('dist'));
+// };
 
 const compileTask = () => {
   console.log('Compiling typescripts...');

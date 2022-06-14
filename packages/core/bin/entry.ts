@@ -10,6 +10,7 @@ const isDev = process.env.NODE_ENV === 'development';
 
 // eslint-disable-next-line import/no-dynamic-require,@typescript-eslint/no-var-requires
 const packageInfo: typeof PackageInfo = require(isDev ? '../package.json' : '../../package.json');
+const entryPath: string = isDev ? '../src/entry.ts' : '../src/entry.js';
 
 declare global{
   // eslint-disable-next-line no-var,vars-on-top
@@ -34,7 +35,8 @@ cli.option('--env <option>', 'Set path of .env file to be loaded');
 
 cli.command('start', 'Start BlogNode server')
   .option('--loglevel <trace|debug|info|warn|error>', 'Set log level')
-  .action(() => import('../src/entry'));
+  // eslint-disable-next-line global-require
+  .action(() => import(entryPath));
 
 cli.command('set <option> <value>', 'Set system option value');
 

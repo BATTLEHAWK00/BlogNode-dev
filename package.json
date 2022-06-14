@@ -45,6 +45,7 @@
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
     "gulp-clean": "^0.4.0",
+    "gulp-esbuild": "^0.10.3",
     "husky": "^8.0.1",
     "mocha": "^10.0.0",
     "nodemon": "^2.0.16",

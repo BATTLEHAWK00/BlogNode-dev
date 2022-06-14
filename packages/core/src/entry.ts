@@ -42,3 +42,5 @@ bus.once(EventType.SYS_SystemStarted, () => bus.broadcast(EventType.SYS_GC));
   await middleware.loadSystemMiddlewares(middlewares);
   bus.broadcast(EventType.SYS_SystemStarted);
 })();
+
+export default {};
