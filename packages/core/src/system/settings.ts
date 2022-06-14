@@ -70,6 +70,12 @@ registerSetting({
   defaultValue: 'en',
   preload: true,
 });
+registerSetting({
+  name: 'jwt-secret',
+  description: 'Set JWT secret.',
+  defaultValue: crypto.randomBytes(16).toString('hex'),
+  preload: true,
+});
 
 export default {
   getSettings,
