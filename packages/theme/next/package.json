@@ -1,5 +1,5 @@
 {
-  "name": "@blognode/theme-next",
+  "name": "@blognode/theme-api-next",
   "version": "1.0.0",
   "main": "dist/index",
   "dependencies": {

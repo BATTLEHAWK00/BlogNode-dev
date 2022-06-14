@@ -1,5 +1,5 @@
-import { ThemeRegisterer, service } from 'blognode';
-import path from 'path';
+import * as path from 'path';
+import { ThemeRegisterer } from '@blognode/theme-api-next';
 
 const isDev = process.env.NODE_ENV === 'development';
 const themePath = isDev ? path.resolve(__dirname, '../') : __dirname;
@@ -9,8 +9,5 @@ const register: ThemeRegisterer = () => ({
   themePath,
   themeName,
   staticDir,
-});
-service.systemService.get('blogName').then((res: any) => {
-  console.log(res);
 });
 export default register;

@@ -1,8 +1,7 @@
 import BasePage from '@src/components/BasePage';
 import context from '@src/components/context';
 import PostsContent from '@src/components/post';
-import { getContext } from 'blognode';
-import { GetServerSideProps, GetServerSidePropsContext, PreviewData } from 'next';
+import { GetServerSideProps } from 'next';
 import React, { useContext } from 'react';
 
 class HomePage extends BasePage<JSX.Element> {
@@ -37,8 +36,6 @@ declare module 'http'{
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  console.log(getContext(ctx.req));
-
   const { req: { blogNodeCtx: { blogName } } } = ctx;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const test = '';
