@@ -6,7 +6,7 @@ BlogNode 是一个使用 TypeScript + Next.js 搭建的博客项目，具有迅�
 Bugs 和功能建议请在 Issues 提出。
 
 # 开发路线 / Roadmap
-[Roadmap](https://github.com/users/BATTLEHAWK00/projects/1/views/1)
+[Roadmap](https://github.com/users/BATTLEHAWK00/projects/1)
 
 # 文档 / Documentation
 待定...
