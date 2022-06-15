@@ -1,11 +1,10 @@
 # BlogNode
-![GitHub commit activity](https://img.shields.io/github/commit-activity/y/BATTLEHAWK00/BlogNode-dev)
-![BlogNode Version](https://img.shields.io/github/package-json/v/BATTLEHAWK00/BlogNode-dev?filename=packages%2Fcore%2Fpackage.json&label=blognode-version)
-![UI Version](https://img.shields.io/github/package-json/v/BATTLEHAWK00/BlogNode-dev?filename=packages%2Fdefault-theme%2Fpackage.json&label=ui-version)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/BATTLEHAWK00/BlogNode-dev?label=activity)
+![BlogNode Version](https://img.shields.io/github/package-json/v/BATTLEHAWK00/BlogNode-dev?filename=packages%2Fcore%2Fpackage.json&label=blognode-ver)
+![UI Version](https://img.shields.io/github/package-json/v/BATTLEHAWK00/BlogNode-dev?filename=packages%2Fdefault-theme%2Fpackage.json&label=ui-ver)
 ![Dependencies](https://img.shields.io/librariesio/github/BATTLEHAWK00/BlogNode-dev)
 ![GitHub Contributors](https://img.shields.io/github/contributors/BATTLEHAWK00/BlogNode-dev)
-![GitHub License](https://img.shields.io/github/license/BATTLEHAWK00/BlogNode-dev)
-![GitHub Repo stars](https://img.shields.io/github/stars/BATTLEHAWK00/BlogNode-dev?style=social)  
+![GitHub License](https://img.shields.io/github/license/BATTLEHAWK00/BlogNode-dev)  
 A blog written in TypeScript using Next.js  
 BlogNode 是一个使用 TypeScript + Next.js 搭建的博客项目，具有迅速、轻量化、易于部署、易于扩展的特点。  
 项目目前处于初期阶段，如果对你有用，请务必点个 star 哦~  
