@@ -1,6 +1,6 @@
 {
   "name": "@blognode/default-theme",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "dist/index",
   "dependencies": {
     "@blognode/theme-api-next": "*",
