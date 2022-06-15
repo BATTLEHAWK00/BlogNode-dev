@@ -1,6 +1,6 @@
 {
   "name": "blognode",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "bin": "dist/bin/entry.js",
   "repository": "https://github.com/BATTLEHAWK00/BlogNode-dev.git",
   "main": "dist/index.js",
