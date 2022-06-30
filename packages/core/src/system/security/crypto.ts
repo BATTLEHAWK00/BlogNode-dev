@@ -1,6 +1,6 @@
 import * as cryptojs from 'crypto-js';
 
-// todo 安全相关：密码/XSS/JWT
+// todo 安全相关：密码
 export function sha256(content: string): string {
   return cryptojs.SHA256(content).toString();
 }
