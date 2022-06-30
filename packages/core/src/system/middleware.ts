@@ -3,7 +3,6 @@ import { Awaitable } from '@src/util/types';
 import { Timer } from '@src/util/utils';
 import * as Application from 'koa';
 import * as Router from 'koa-router';
-import { AwaitKeyword } from 'typescript';
 
 import { BlogNodeFatalError } from './error';
 import logging from './logging';
