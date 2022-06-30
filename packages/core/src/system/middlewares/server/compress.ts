@@ -3,7 +3,7 @@ import * as koaCompress from 'koa-compress';
 import { KoaMiddleware, ServerMiddleware } from '../../middleware';
 
 class CompressMiddleware extends ServerMiddleware {
-  getKoaMiddleware(): KoaMiddleware | Promise<KoaMiddleware> {
+  getKoaMiddleware(): KoaMiddleware {
     return koaCompress();
   }
 }

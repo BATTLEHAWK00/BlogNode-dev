@@ -12,7 +12,7 @@ declare module 'http'{
 }
 
 class ContextMiddleware extends ServerMiddleware {
-  getKoaMiddleware(): KoaMiddleware | Promise<KoaMiddleware> {
+  getKoaMiddleware(): KoaMiddleware {
     return async (ctx, next) => {
       ctx.req.blogNodeCtx = {
         blogName: await systemService.get('blogName') || 'BlogNode',

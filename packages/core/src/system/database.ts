@@ -18,11 +18,11 @@ if (config.systemConfig.logLevel === 'trace') {
 }
 
 async function connect(): Promise<void> {
+  const uri = getDatabaseUri();
+  const {
+    options, dbName, userName, password,
+  } = dbConfig;
   return new Promise<void>((resolve, reject) => {
-    const uri = getDatabaseUri();
-    const {
-      options, dbName, userName, password,
-    } = dbConfig;
     mongoose.connect(uri, {
       ...options, dbName, user: userName, pass: password, autoIndex: false,
     }, (err) => {

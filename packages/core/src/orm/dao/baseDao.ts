@@ -3,12 +3,13 @@ import bus from '@src/system/bus';
 import { CacheOperation, cacheOperation } from '@src/system/cache';
 import database from '@src/system/database';
 import logging from '@src/system/logging';
+import { Awaitable } from '@src/util/types';
 import { Logger } from 'log4js';
 import * as Cache from 'lru-cache';
 import { Model } from 'mongoose';
 
 export default abstract class BaseDao<T extends Entity> {
-  static databaseConnectedEvents: (()=> void | Promise<void>)[] = [];
+  static databaseConnectedEvents: (()=> Awaitable<void>)[] = [];
 
   private readonly cacheOp: CacheOperation<T>;
 
@@ -28,7 +29,7 @@ export default abstract class BaseDao<T extends Entity> {
     return this.cacheOp;
   }
 
-  protected onDatabaseConnected(): Promise<void> | void {}
+  protected onDatabaseConnected(): Awaited<void> {}
 
   constructor() {
     this.model = this.setModel();

@@ -1,7 +1,9 @@
 /* eslint-disable max-classes-per-file */
+import { Awaitable } from '@src/util/types';
 import { Timer } from '@src/util/utils';
 import * as Application from 'koa';
 import * as Router from 'koa-router';
+import { AwaitKeyword } from 'typescript';
 
 import { BlogNodeFatalError } from './error';
 import logging from './logging';
@@ -17,21 +19,21 @@ export abstract class BlogNodeMiddleware {
 }
 
 export abstract class SystemMiddleware extends BlogNodeMiddleware {
-  onRegisterEvents(): void | Promise<void> {}
+  onRegisterEvents(): Awaitable<void> {}
 
-  abstract onInit(): void | Promise<void>;
+  abstract onInit(): Awaitable<void>;
 
-  onServerStarted(): void | Promise<void> {}
+  onServerStarted(): Awaitable<void> {}
 }
 
 export abstract class ServerMiddleware extends BlogNodeMiddleware {
   private router?: Router;
 
-  abstract getKoaMiddleware(): KoaMiddleware | null | Promise<KoaMiddleware | null>;
+  abstract getKoaMiddleware(): Awaitable<KoaMiddleware | null>;
 
-  beforeSetting(): void | Promise<void> {}
+  beforeSetting(): Awaitable<void> {}
 
-  afterSetting(): void | Promise<void> {}
+  afterSetting(): Awaitable<void> {}
 
   setRouter(router: Router): void {
     this.router = router;
@@ -53,7 +55,7 @@ async function registerServer(koaApp: Application, koaRouter: Router, middleware
       middleware.setRouter(koaRouter);
       const koaMiddleware = await middleware.getKoaMiddleware();
       if (koaMiddleware) koaApp.use(koaMiddleware);
-      await middleware.afterSetting();
+      middleware.afterSetting();
     });
     logger.debug(`Loaded server middleware: ${name} (${time}ms)`);
   }

@@ -1,6 +1,7 @@
-import bus from '@src/system/bus';
+import bus, { EventType } from '@src/system/bus';
 import { BlogNodeError } from '@src/system/error';
-import { EventName } from '@src/system/events';
+import * as path from 'path';
+import { CacheKey } from './types';
 
 export const sleep = (time: number): Promise<void> => new Promise<void>((resolve) => setTimeout(resolve, time));
 
@@ -40,7 +41,7 @@ export class Timer {
     return this.result();
   }
 
-  public async measureEvents(startEvent: EventName, endEvent: EventName): Promise<bigint> {
+  public async measureEvents(startEvent: EventType, endEvent: EventType): Promise<bigint> {
     return new Promise<bigint>((resolve) => {
       bus.once(startEvent, () => this.start());
       bus.once(endEvent, () => {
@@ -50,3 +51,9 @@ export class Timer {
     });
   }
 }
+
+export function cacheKey<T extends string>(prefix: T): (key: string | number)=> CacheKey<T> {
+  return (key) => `${prefix}:${key}`;
+}
+
+export const SRC_DIR = path.resolve(__dirname, '../');

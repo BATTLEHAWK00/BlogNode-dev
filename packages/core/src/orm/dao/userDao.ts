@@ -2,15 +2,14 @@ import { User } from '@src/interface/entities/user';
 import cache from '@src/system/cache';
 import { BlogNodeError } from '@src/system/error';
 import logging from '@src/system/logging';
+import { cacheKey } from '@src/util/utils';
 import * as LRUCache from 'lru-cache';
 import mongoose from 'mongoose';
 
 import userSchema from '../schema/userSchema';
 import BaseDao from './baseDao';
 
-function getCacheKeyById(id: number) {
-  return `id:${id}`;
-}
+const getCacheKeyById = cacheKey('id');
 
 export default class UserDao extends BaseDao<User> {
   protected setLoggerName(): string {

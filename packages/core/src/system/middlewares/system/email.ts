@@ -3,7 +3,7 @@ import email from '@src/system/email';
 import { SystemMiddleware } from '@src/system/middleware';
 
 class EmailMiddleware extends SystemMiddleware {
-  onInit(): void | Promise<void> {
+  onInit(): void {
     email.init(
       {
         host: 'localhost',
@@ -15,7 +15,7 @@ class EmailMiddleware extends SystemMiddleware {
     );
   }
 
-  onRegisterEvents(): void | Promise<void> {
+  onRegisterEvents(): void {
     bus.once('system/beforeStop', () => email.close());
   }
 }

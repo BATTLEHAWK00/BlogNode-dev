@@ -4,6 +4,7 @@ import { BlogNodeFatalError } from '@src/system/error';
 import logging from '@src/system/logging';
 import { KoaMiddleware, ServerMiddleware } from '@src/system/middleware';
 import theme, { ThemeProcessor } from '@src/system/theme';
+import { Awaitable } from '@src/util/types';
 import { Timer } from '@src/util/utils';
 import { Context, Next } from 'koa';
 import NextApp, {
@@ -30,7 +31,7 @@ class SsrMiddleware extends ServerMiddleware {
 
   private nextApp?: INextApp;
 
-  async beforeSetting(): Promise<void> {
+  beforeSetting(): void {
     logging.systemLogger.debug('Initializing SSR engine...');
     this.timer.start();
     setTimeout(() => {
@@ -39,7 +40,7 @@ class SsrMiddleware extends ServerMiddleware {
     this.theme = theme.getCurrentTheme();
   }
 
-  afterSetting(): void | Promise<void> {
+  afterSetting(): void {
     bus.once('system/beforeStop', async () => {
       logging.systemLogger.debug('Closing SSR engine...');
       await this.nextApp?.close();

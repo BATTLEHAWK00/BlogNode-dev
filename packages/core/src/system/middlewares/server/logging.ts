@@ -6,7 +6,7 @@ import { levels } from 'log4js';
 const logger = logging.getLogger('HttpLog');
 
 class LoggingMiddleware extends ServerMiddleware {
-  getKoaMiddleware(): KoaMiddleware | Promise<KoaMiddleware> {
+  getKoaMiddleware(): KoaMiddleware {
     return KoaLogger((_, args) => {
       const [, method, url, status, time] = args;
       if (!status) return;

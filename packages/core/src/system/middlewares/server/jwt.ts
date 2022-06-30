@@ -4,7 +4,7 @@ import jwt = require('koa-jwt');
 
 // todo 完善jwt功能封装
 class JwtMiddleware extends ServerMiddleware {
-  async getKoaMiddleware(): Promise<KoaMiddleware | null> {
+  async getKoaMiddleware(): Promise<KoaMiddleware> {
     return jwt({ secret: await systemService.get('jwt-secret') as string });
   }
 }

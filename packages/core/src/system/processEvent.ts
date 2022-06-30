@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import { once } from 'lodash';
 
 import bus from './bus';
 import { BlogNodeFatalError } from './error';
@@ -13,9 +13,9 @@ const exitSignals: NodeJS.Signals[] = [
   'SIGHUP',
 ];
 
-const handleGracefulShutdown = _.once(async () => {
+const handleGracefulShutdown = once(async (s: string) => {
   logger.info('Shutting down BlogNode...');
-  await bus.broadcast('system/beforeStop');
+  await bus.broadcast('system/beforeStop', s);
   await logging.handleShutdown();
 });
 
@@ -29,7 +29,7 @@ function handlePromiseRejection(e: Error): void {
 
 async function handleProcessSignal(s: string) {
   logger.debug(`Received ${s}. Performing graceful shutdown...`);
-  await handleGracefulShutdown();
+  await handleGracefulShutdown(s);
   process.exit();
 }
 

@@ -1,6 +1,5 @@
 import { Entity } from '@src/interface/interface';
-import { isNull } from 'lodash';
-import _ = require('lodash');
+import { isNull, groupBy } from 'lodash';
 import * as LRU from 'lru-cache';
 
 import { default as logging } from './logging';
@@ -71,7 +70,7 @@ export function cacheOperation<T>(cache: LRU<string, T>): CacheOperation<T> {
       ifUncached<P extends Asyncable<T[]>>(getFunc: (keys: string[])=> P, keyFunc: (data: T)=> string) {
         return {
           get(keys, getOptions, setOptions): P {
-            const cacheGroups = _.groupBy(keys, (key) => (cache.has(key) ? 'cachedKeys' : 'nonCachedKeys'));
+            const cacheGroups = groupBy(keys, (key) => (cache.has(key) ? 'cachedKeys' : 'nonCachedKeys'));
             const fetchedRes = getFunc(cacheGroups.nonCachedKeys);
             const cachedRes = <T[]>cacheGroups.cachedKeys
               .map((k) => cache.get(k, getOptions) || null)
