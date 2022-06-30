@@ -20,7 +20,7 @@ function scanDir(dirname: string, regex: RegExp): string[] {
   return fs.readdirSync(dirname).filter((filename: string) => regex.test(filename));
 }
 
-async function loadModule(dirname: string, filename: string): Promise<unknown> {
+async function loadModule<T>(dirname: string, filename: string): Promise<T> {
   const moduleName = splitModuleName(filename);
   logger.trace(`loading module: ${moduleName}...`);
   const res = await import(path.resolve(dirname, moduleName));

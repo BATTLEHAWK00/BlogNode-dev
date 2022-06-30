@@ -3,9 +3,9 @@ import * as path from 'path';
 
 import bus from './system/bus';
 import config from './system/config';
-import { EventType } from './system/events';
 import logging from './system/logging';
-import middleware from './system/middleware';
+import middleware, { SystemMiddleware } from './system/middleware';
+import moduleLoader from './system/moduleLoader';
 import processEvent from './system/processEvent';
 import { Timer } from './util/utils';
 
@@ -16,8 +16,8 @@ const isDev = process.env.NODE_ENV === 'development';
 async function bindTimer() {
   const timer: Timer = new Timer();
   const time = await timer.measureEvents(
-    EventType.SYS_BeforeSystemStart,
-    EventType.SYS_SystemStarted,
+    'system/beforeStart',
+    'system/started',
   );
   logger.info(`BlogNode started in ${time}ms`);
 }
@@ -27,8 +27,16 @@ function printBanner() {
   logger.info(bannerText);
 }
 
-if (global.gc) bus.on(EventType.SYS_GC, () => global.gc && global.gc());
-bus.once(EventType.SYS_SystemStarted, () => bus.broadcast(EventType.SYS_GC));
+if (global.gc) bus.on('system/gc', () => global.gc && global.gc());
+bus.once('system/started', () => bus.broadcast('system/gc'));
+
+type SystemMiddlewares = { default: SystemMiddleware[] };
+
+async function loadMiddlewares() {
+  const middlewarePath = path.resolve(__dirname, 'system/middlewares');
+  const { default: middlewares } = await moduleLoader.loadModule<SystemMiddlewares>(middlewarePath, 'systemMiddlewares');
+  await middleware.loadSystemMiddlewares(middlewares);
+}
 
 (async () => {
   processEvent.registerEvents();
@@ -36,11 +44,9 @@ bus.once(EventType.SYS_SystemStarted, () => bus.broadcast(EventType.SYS_GC));
   logger.info(`Starting in ${isDev ? 'development' : 'production'} mode.`);
   logger.trace('System config:', config);
   bindTimer();
-  await bus.broadcast(EventType.SYS_BeforeSystemStart);
+  await bus.broadcast('system/beforeStart');
   logger.info('Loading modules...');
-  const middlewares = (await import('./system/middlewares/systemMiddlewares')).default;
-  await middleware.loadSystemMiddlewares(middlewares);
-  bus.broadcast(EventType.SYS_SystemStarted);
+  await loadMiddlewares();
+  await moduleLoader.loadModule(__dirname, 'global');
+  await bus.broadcast('system/started');
 })();
-
-export default {};

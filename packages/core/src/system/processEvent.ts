@@ -2,7 +2,6 @@ import * as _ from 'lodash';
 
 import bus from './bus';
 import { BlogNodeFatalError } from './error';
-import { EventType } from './events';
 import logging from './logging';
 
 const logger = logging.systemLogger;
@@ -16,7 +15,7 @@ const exitSignals: NodeJS.Signals[] = [
 
 const handleGracefulShutdown = _.once(async () => {
   logger.info('Shutting down BlogNode...');
-  await bus.broadcast(EventType.SYS_BeforeSystemStop);
+  await bus.broadcast('system/beforeStop');
   await logging.handleShutdown();
 });
 

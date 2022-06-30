@@ -1,44 +1,47 @@
 import * as EventEmitter from 'events';
+import { BlogNodeEvents, EventName } from './events';
 
-import { EventType } from './events';
 import logging from './logging';
 
 const logger = logging.getLogger('Event');
 
-type InfiniteArgsFunction =
-  | ((...args: unknown[])=> void)
-  | ((...args: unknown[])=> Promise<void>);
+type InfiniteArgsFunc = ((...args: unknown[])=> void) | ((...args: unknown[])=> Promise<void>);
 
 const emitter = new EventEmitter();
 
-function on(eventName: EventType, callback: InfiniteArgsFunction, wait = true): void {
-  const eventNameStr: string = EventType[eventName];
-  emitter.on(eventNameStr, async (ack: ()=> void, args: unknown, ...remainingArgs: unknown[]) => {
-    const res = callback(args, ...remainingArgs);
+function on<T extends EventName>(eventName: T, callback: BlogNodeEvents[T] | InfiniteArgsFunc, wait = true): void {
+  emitter.on(eventName, async (ack: ()=> void, ...args: unknown[]) => {
+    const res = (callback as InfiniteArgsFunc)(...args);
     if (wait) await res;
     ack();
   });
   logger.trace(
-    `Event ${eventNameStr} registered. Current listeners: ${
-      emitter.listeners(eventNameStr).length
+    `Event ${eventName} registered. Current listeners: ${
+      emitter.listeners(eventName).length
     }`,
   );
 }
 
-async function broadcast<T>(eventName: EventType, args?: T, ...remainingArgs: unknown[]): Promise<void> {
-  const eventNameStr: string = EventType[eventName];
-  const listeners: unknown[] = emitter.listeners(eventNameStr);
+async function broadcast<T extends EventName>(eventName: T, ...args: unknown[]): Promise<void> {
+  const listeners: unknown[] = emitter.listeners(eventName);
   logger.debug(
-    `Broadcast Event ${eventNameStr} Emitted. Current listeners: ${listeners.length}`,
+    `Broadcast Event ${eventName} Emitted. Current listeners: ${listeners.length}`,
   );
   if (!listeners.length) return;
-  const broadcastAck = new Promise<void>((resolve) => {
+  const broadcastAck = new Promise<void>((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      logger.error(`Time out when processing event: ${eventName}.`);
+      reject();
+    }, 30000);
     let ackNum = 0;
     const ack = () => {
       ackNum++;
-      if (ackNum === listeners.length) resolve();
+      if (ackNum === listeners.length) {
+        clearTimeout(timeout);
+        resolve();
+      }
     };
-    emitter.emit(eventNameStr, ack, args, ...remainingArgs);
+    emitter.emit(eventName, ack, ...args);
   });
   try {
     await broadcastAck;
@@ -46,18 +49,18 @@ async function broadcast<T>(eventName: EventType, args?: T, ...remainingArgs: un
     logger.error(`Error occurred during event: ${eventName}.`);
     throw e;
   }
-  logger.debug(`Event ${eventNameStr} complete.`);
+  logger.debug(`Event ${eventName} complete.`);
 }
-function once(eventName: EventType, callback: InfiniteArgsFunction, wait = true): void {
-  const eventNameStr: string = EventType[eventName];
-  emitter.on(eventNameStr, async (ack: ()=> void, args: unknown, ...remainingArgs: unknown[]) => {
-    const res = callback(args, ...remainingArgs);
+
+function once<T extends EventName>(eventName: T, callback: BlogNodeEvents[T], wait = true): void {
+  emitter.on(eventName, async (ack: ()=> void, ...args: unknown[]) => {
+    const res = (callback as InfiniteArgsFunc)(...args);
     if (wait) await res;
     ack();
   });
-  const listeners: unknown[] = emitter.listeners(eventNameStr);
+  const listeners: unknown[] = emitter.listeners(eventName);
   logger.trace(
-    `Once Event ${eventNameStr} registered. Current listeners: ${listeners.length}`,
+    `Once Event ${eventName} registered. Current listeners: ${listeners.length}`,
   );
 }
 

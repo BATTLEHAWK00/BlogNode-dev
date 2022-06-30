@@ -1,6 +1,5 @@
 import bus from '@src/system/bus';
 import database from '@src/system/database';
-import { EventType } from '@src/system/events';
 import logging from '@src/system/logging';
 import moduleLoader from '@src/system/moduleLoader';
 import task from '@src/system/task';
@@ -24,21 +23,21 @@ class DatabaseMiddleware extends SystemMiddleware {
   async onInit(): Promise<void> {
     await loadDao();
     await loadService();
-    await bus.broadcast(EventType.SYS_BeforeDatabaseConnect);
+    await bus.broadcast('database/beforeConnecting');
     const timer = new Timer();
     logging.systemLogger.info('Connecting to database...');
     const time = await timer.decorate(() => database.connect());
     logging.systemLogger.debug(`Database connected.(${time}ms)`);
-    await bus.broadcast(EventType.SYS_DatabaseConnected);
+    await bus.broadcast('database/connected');
   }
 
   onRegisterEvents(): void {
-    bus.once(EventType.SYS_BeforeSystemStop, async () => {
+    bus.once('system/beforeStop', async () => {
       logging.systemLogger.debug('Closing database...');
       await database.disconnect();
     });
-    bus.once(EventType.SYS_DatabaseConnected, () => database.ensureIndexes(true));
-    bus.once(EventType.SYS_TaskPoolStarted, async () => {
+    bus.once('database/connected', () => database.ensureIndexes(true));
+    bus.once('task/started', async () => {
       task.define('ensureIndexes', { priority: -20 }, () => database.ensureIndexes(false));
       await task.every('6 hours', 'ensureIndexes');
     });

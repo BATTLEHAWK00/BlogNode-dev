@@ -1,6 +1,5 @@
 import bus from '@src/system/bus';
 import config from '@src/system/config';
-import { EventType } from '@src/system/events';
 import logging from '@src/system/logging';
 import middleware, { SystemMiddleware } from '@src/system/middleware';
 import { Server } from 'http';
@@ -43,9 +42,9 @@ class KoaMiddleware extends SystemMiddleware {
   }
 
   async onRegisterEvents(): Promise<void> {
-    bus.once(EventType.SYS_BeforeSystemStop, () => {
+    bus.once('system/beforeStop', () => {
       logger.debug('Closing server...');
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         this.server?.close((err?: Error) => {
           if (err) reject(err);
           resolve();

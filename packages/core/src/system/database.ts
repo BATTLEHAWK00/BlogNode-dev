@@ -9,7 +9,6 @@ import logging from './logging';
 const logger = logging.getLogger('Database');
 
 const { dbConfig } = config;
-
 const registeredModels: Map<string, Model<unknown>> = new Map();
 
 if (config.systemConfig.logLevel === 'trace') {

@@ -1,6 +1,6 @@
 import bus from '@src/system/bus';
 import { BlogNodeError } from '@src/system/error';
-import { EventType } from '@src/system/events';
+import { EventName } from '@src/system/events';
 
 export const sleep = (time: number): Promise<void> => new Promise<void>((resolve) => setTimeout(resolve, time));
 
@@ -40,7 +40,7 @@ export class Timer {
     return this.result();
   }
 
-  public async measureEvents(startEvent: EventType, endEvent: EventType): Promise<bigint> {
+  public async measureEvents(startEvent: EventName, endEvent: EventName): Promise<bigint> {
     return new Promise<bigint>((resolve) => {
       bus.once(startEvent, () => this.start());
       bus.once(endEvent, () => {

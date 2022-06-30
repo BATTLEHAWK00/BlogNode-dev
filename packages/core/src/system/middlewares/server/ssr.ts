@@ -1,7 +1,6 @@
 import bus from '@src/system/bus';
 import config from '@src/system/config';
 import { BlogNodeFatalError } from '@src/system/error';
-import { EventType } from '@src/system/events';
 import logging from '@src/system/logging';
 import { KoaMiddleware, ServerMiddleware } from '@src/system/middleware';
 import theme, { ThemeProcessor } from '@src/system/theme';
@@ -41,7 +40,7 @@ class SsrMiddleware extends ServerMiddleware {
   }
 
   afterSetting(): void | Promise<void> {
-    bus.once(EventType.SYS_BeforeSystemStop, async () => {
+    bus.once('system/beforeStop', async () => {
       logging.systemLogger.debug('Closing SSR engine...');
       await this.nextApp?.close();
     });

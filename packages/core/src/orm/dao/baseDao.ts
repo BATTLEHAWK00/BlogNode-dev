@@ -2,7 +2,6 @@ import { Entity } from '@src/interface/entities/base';
 import bus from '@src/system/bus';
 import { CacheOperation, cacheOperation } from '@src/system/cache';
 import database from '@src/system/database';
-import { EventType } from '@src/system/events';
 import logging from '@src/system/logging';
 import { Logger } from 'log4js';
 import * as Cache from 'lru-cache';
@@ -42,6 +41,6 @@ export default abstract class BaseDao<T extends Entity> {
 }
 
 bus.once(
-  EventType.SYS_DatabaseConnected,
+  'database/connected',
   async () => Promise.all(BaseDao.databaseConnectedEvents.map((cb) => cb())),
 );

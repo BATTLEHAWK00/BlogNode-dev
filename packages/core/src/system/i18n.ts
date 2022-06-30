@@ -3,7 +3,7 @@
 /* eslint-disable vars-on-top */
 import * as i18n from 'i18n';
 
-function load(locale: string) {
+function load(locale: string): void {
   i18n.configure({
     locales: ['en', 'zh'],
     register: global,

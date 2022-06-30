@@ -923,6 +923,13 @@
   resolved "https://registry.npmmirror.com/@types/minimist/-/minimist-1.2.2.tgz#ee771e2ba4b3dc5b372935d549fd9617bf345b8c"
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
 
+"@types/minio@^7.0.13":
+  version "7.0.13"
+  resolved "https://registry.npmmirror.com/@types/minio/-/minio-7.0.13.tgz#53c97e1b8382a1cdb3a846bfab45ba9a81e1795c"
+  integrity sha512-Warrx6uN4KEpBCAWiTh7ngrPoaNIckawtBXqWbFzaatG/NPRZToAv/fa9yAPA7a2FHAGhe154KqaVIqacIn2pQ==
+  dependencies:
+    "@types/node" "*"
+
 "@types/mocha@^9.1.1":
   version "9.1.1"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-9.1.1.tgz#e7c4f1001eefa4b8afbd1eee27a237fee3bf29c4"

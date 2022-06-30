@@ -76,6 +76,36 @@ registerSetting({
   defaultValue: crypto.randomBytes(16).toString('hex'),
   preload: true,
 });
+registerSetting({
+  name: 'smtp.host',
+  description: 'SMTP host for email sending.',
+  defaultValue: 'localhost',
+  preload: true,
+});
+registerSetting({
+  name: 'smtp.port',
+  description: 'SMTP port for email sending.',
+  defaultValue: 123,
+  preload: true,
+});
+registerSetting({
+  name: 'smtp.secure',
+  description: 'SMTP tls for email sending.',
+  defaultValue: false,
+  preload: true,
+});
+registerSetting({
+  name: 'smtp.username',
+  description: 'SMTP username for email sending.',
+  defaultValue: 'username',
+  preload: true,
+});
+registerSetting({
+  name: 'smtp.password',
+  description: 'SMTP password for email sending.',
+  defaultValue: 'pass',
+  preload: true,
+});
 
 export default {
   getSettings,

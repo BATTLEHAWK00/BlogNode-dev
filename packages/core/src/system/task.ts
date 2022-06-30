@@ -3,7 +3,6 @@ import { Timer } from '@src/util/utils';
 import { Agenda, Job } from 'agenda';
 
 import bus from './bus';
-import { EventType } from './events';
 import logging from './logging';
 
 const logger = logging.getLogger('taskScheduler');
@@ -38,7 +37,7 @@ async function start(): Promise<void> {
     await agenda.start();
   });
   logging.systemLogger.debug(`Task scheduler started.(${time}ms)`);
-  await bus.broadcast(EventType.SYS_TaskPoolStarted);
+  await bus.broadcast('task/started');
 }
 
 async function stop(): Promise<void> {

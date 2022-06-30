@@ -7,6 +7,7 @@
   "typings": "dist/index.d.ts",
   "preferUnplugged": true,
   "dependencies": {
+    "@types/minio": "^7.0.13",
     "@types/nodemailer": "^6.4.4",
     "agenda": "^4.3.0",
     "cac": "^6.7.12",

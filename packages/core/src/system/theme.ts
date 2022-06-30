@@ -79,7 +79,6 @@ function getCurrentTheme(): ThemeProcessor {
   if (!currentTheme) throw new BlogNodeFatalError("Theme hasn't been registered yet!");
   return currentTheme;
 }
-
 export default {
   register,
   getCurrentTheme,
