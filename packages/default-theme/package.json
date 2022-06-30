@@ -5,6 +5,7 @@
   "dependencies": {
     "@blognode/theme-api-next": "*",
     "axios": "^0.27.2",
+    "blognode": "*",
     "lodash": "^4.17.21",
     "next": "^12.1.6",
     "next-seo": "^5.4.0",

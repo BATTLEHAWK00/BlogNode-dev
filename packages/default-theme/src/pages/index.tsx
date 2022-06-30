@@ -9,10 +9,10 @@ class HomePage extends BasePage<JSX.Element> {
     return '首页';
   }
 
-  protected setPageRenderer(): (...args: any) => JSX.Element {
+  protected setPageRenderer(): (...args: any)=> JSX.Element {
     // eslint-disable-next-line react/display-name
     return () => {
-      const { postContent }:any = useContext(context.PageContext);
+      const { postContent }: any = useContext(context.PageContext);
       return (
         <>
           <PostsContent postContent={postContent} />
@@ -22,9 +22,9 @@ class HomePage extends BasePage<JSX.Element> {
   }
 }
 
-export const getStaticProps:GetStaticProps = () => ({
+export const getStaticProps: GetStaticProps = () => ({
   props: {
-    postContent: 'asdddddasd',
+    postContent: 'asdasd',
   },
 
 });
