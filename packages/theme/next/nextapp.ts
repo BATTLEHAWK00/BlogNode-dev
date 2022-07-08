@@ -1,19 +1,12 @@
 /* eslint-disable max-classes-per-file */
 import { Context } from 'koa';
 import NextApp, { NextConfig } from 'next';
-import { IncomingMessage, ServerResponse } from 'http';
 import { SsrConfig } from 'blognode';
 import Server from 'next/dist/server/base-server';
 
 export interface BlogNodeContext{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   pageProps?: any
-}
-
-declare module 'http'{
-  interface IncomingMessage{
-    BlogNodeContext: BlogNodeContext
-  }
 }
 
 declare module 'koa'{
@@ -52,25 +45,13 @@ class NextRenerer {
     this.app = app;
   }
 
-  // async render(req: IncomingMessage, res: ServerResponse, view: string, pageProps?: unknown) {
-  //   if (pageProps) req.BlogNodeContext.pageProps = pageProps;
-  //   this.app.render(req, res, view);
-  // }
-
-  async renderToHtml(req: IncomingMessage, res: ServerResponse, view: string, pageProps?: unknown) {
-    if (pageProps) req.BlogNodeContext.pageProps = pageProps;
-    return this.app.renderToHTML(req as never, res as never, view);
+  async renderToHtml(koaCtx: Context, viewPath: string) {
+    const { req, res } = koaCtx;
+    if (koaCtx.pageCtx) req._ssrCtx = koaCtx.pageCtx;
+    return this.app.renderToHTML(req as never, res as never, viewPath, {
+      ...koaCtx.query,
+    });
   }
-
-  // async render404(req: IncomingMessage, res: ServerResponse, pageProps?: unknown) {
-  //   if (pageProps) req.BlogNodeContext.pageProps = pageProps;
-  //   this.app.render404(req, res);
-  // }
-
-  // async renderErrorToHtml(req: IncomingMessage, res: ServerResponse, view: string, error: Error, pageProps?: unknown) {
-  //   if (pageProps) req.BlogNodeContext.pageProps = pageProps;
-  //   return await this.app.renderErrorToHTML(error, req, res, view) || '';
-  // }
 }
 
 class NextInstance {
@@ -101,7 +82,7 @@ class NextInstance {
   async render(koaCtx: Context): Promise<string | null> {
     if (!this.renderer) throw new Error();
     if (!koaCtx.pageName) return null;
-    return this.renderer.renderToHtml(koaCtx.req, koaCtx.res, koaCtx.pageName, koaCtx.pageCtx);
+    return this.renderer.renderToHtml(koaCtx, koaCtx.pageName);
   }
 }
 

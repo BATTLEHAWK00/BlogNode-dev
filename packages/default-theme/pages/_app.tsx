@@ -10,6 +10,7 @@ import SeoHeader, { ISeoProps } from 'components/seoheader';
 
 interface IAppProps<T extends React.Component>{
   Component: T,
+  // eslint-disable-next-line react/no-unused-prop-types
   pageProps: {
     title: string,
     styles: string,

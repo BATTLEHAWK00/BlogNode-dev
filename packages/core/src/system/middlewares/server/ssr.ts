@@ -67,7 +67,9 @@ class SsrMiddleware extends ServerMiddleware {
       await bus.broadcast('routes/register');
       this.theme?.getThemeInfo().registerRoutes();
       const render = async (ctx: Context, next: Next) => {
-        await next();
+        const handlerTimer = new Timer();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const handleTime = await handlerTimer.decorate(() => next());
         if (ctx.pageName) {
           const timer = new Timer();
           timer.start();
@@ -76,6 +78,9 @@ class SsrMiddleware extends ServerMiddleware {
           if (html) logger.debug(`Rendered page: ${ctx.pageName} (${timer.result()}ms)`);
           ctx.body = html;
           ctx.type = 'text/html';
+        } else {
+          ctx.body = ctx.pageCtx;
+          ctx.type = 'application/json';
         }
       };
       this.getKoaRouter().use(render, routerRegistry.getRoutes());

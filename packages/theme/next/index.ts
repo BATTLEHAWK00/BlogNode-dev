@@ -1,6 +1,15 @@
 import { SsrMiddlewareInfo } from 'blognode';
 import nextapp from './nextapp';
 
+declare module 'http'{
+  interface IncomingMessage{
+    _blogNodeCtx: unknown
+    _ssrCtx: unknown
+  }
+}
+
+export { GetBlogNodeProps } from './props';
+
 const { middleware } = nextapp;
 
 const middlewareInfo: SsrMiddlewareInfo = {
