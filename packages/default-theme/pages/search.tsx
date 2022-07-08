@@ -1,4 +1,4 @@
-import { GetBlogNodeProps } from '@blognode/middleware-next';
+// import { GetBlogNodeProps } from '@blognode/middleware-next';
 import BasePage from 'components/BasePage';
 // import context from 'components/context';
 // import PostsContent from 'components/post';
@@ -34,8 +34,8 @@ declare module 'http'{
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const test = '';
-  const bc = GetBlogNodeProps(ctx);
-  console.log(bc);
+  console.log(ctx.query);
+
   return {
     props: {
       // blogName,

@@ -2,7 +2,9 @@ import { RegisterRoute } from 'blognode';
 import type { Context } from 'koa';
 
 export default function RegisterRoutes() {
-  RegisterRoute('get', 'test', '/search', async (ctx: Context) => {
+  console.log('test');
+
+  RegisterRoute('get', 'test', '/', async (ctx: Context) => {
     ctx.pageName = 'search';
     ctx.pageCtx = { name: 'test' };
   });

@@ -29,6 +29,24 @@ export type SsrMiddlewareModule = {
   default: SsrMiddlewareInfo
 };
 
+const render = (middleware: SsrMiddlewareInfo) => async (ctx: Context, next: Next) => {
+  const handlerTimer = new Timer();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleTime = await handlerTimer.decorate(() => next());
+  if (ctx.pageName) {
+    const timer = new Timer();
+    timer.start();
+    const html = await middleware.render(ctx);
+    timer.end();
+    if (html) logger.debug(`Rendered page: ${ctx.pageName} (${timer.result()}ms)`);
+    ctx.body = html;
+    ctx.type = 'text/html';
+  } else {
+    ctx.body = ctx.pageCtx;
+    ctx.type = 'application/json';
+  }
+};
+
 class SsrMiddleware extends ServerMiddleware {
   private timer = new Timer();
 
@@ -63,28 +81,12 @@ class SsrMiddleware extends ServerMiddleware {
         isDev: config.isDev,
         themeDir: this.theme?.getThemeInfo().themePath as string,
       });
-      await middleware.prepare();
+      const preparePromise = middleware.prepare();
       await bus.broadcast('routes/register');
       this.theme?.getThemeInfo().registerRoutes();
-      const render = async (ctx: Context, next: Next) => {
-        const handlerTimer = new Timer();
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const handleTime = await handlerTimer.decorate(() => next());
-        if (ctx.pageName) {
-          const timer = new Timer();
-          timer.start();
-          const html = await middleware.render(ctx);
-          timer.end();
-          if (html) logger.debug(`Rendered page: ${ctx.pageName} (${timer.result()}ms)`);
-          ctx.body = html;
-          ctx.type = 'text/html';
-        } else {
-          ctx.body = ctx.pageCtx;
-          ctx.type = 'application/json';
-        }
-      };
-      this.getKoaRouter().use(render, routerRegistry.getRoutes());
+      this.getKoaRouter().use(render(middleware), routerRegistry.getRoutes());
       logging.systemLogger.debug(`Registered ${routerRegistry.getRouterSize()} routes.`);
+      await preparePromise;
       return null;
     } catch (e) {
       throw new BlogNodeFatalError('SSR preparation failed!', e instanceof Error ? { cause: e } : undefined);
