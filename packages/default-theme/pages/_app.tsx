@@ -1,12 +1,12 @@
-import '@src/styles/main.css';
+import 'styles/main.css';
 import 'remixicon/fonts/remixicon.css';
 
-import Context from '@src/components/context';
-import NormalLayout from '@src/components/layout/normal';
+import Context from 'components/context';
+import NormalLayout from 'components/layout/normal';
 import Head from 'next/head';
-import App from 'next/app';
+// import App from 'next/app';
 import React from 'react';
-import SeoHeader, { ISeoProps } from '@src/components/seoheader';
+import SeoHeader, { ISeoProps } from 'components/seoheader';
 
 interface IAppProps<T extends React.Component>{
   Component: T,

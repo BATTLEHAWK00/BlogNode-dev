@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import RemixIcon from '@src/components/remixicon';
+import RemixIcon from 'components/remixicon';
 import _ from 'lodash';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import styles from './index.module.css';
 

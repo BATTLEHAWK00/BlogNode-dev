@@ -1,9 +1,14 @@
-export interface ThemeInfo{
-  themePath: string,
-  themeName: string,
-  staticDir?: string,
-}
+import { SsrMiddlewareInfo } from 'blognode';
+import nextapp from './nextapp';
 
-export type ThemeRegisterer = ()=> ThemeInfo;
+const { middleware } = nextapp;
 
-export default {};
+const middlewareInfo: SsrMiddlewareInfo = {
+  name: 'nextjs',
+  prepare: middleware.prepare.bind(middleware),
+  close: middleware.close.bind(middleware),
+  render: middleware.render.bind(middleware),
+  configure: nextapp.configure,
+};
+
+export default middlewareInfo;

@@ -6,29 +6,33 @@ import * as Router from 'koa-router';
 import * as koaStatic from 'koa-static';
 import * as path from 'path';
 
-class StaticMiddleware extends ServerMiddleware {
-  private static prefix = '/assets';
+const logger = logging.getLogger('Static');
 
+class StaticMiddleware extends ServerMiddleware {
   getKoaMiddleware(): null {
-    const themeName = theme.getCurrentTheme().getThemeName();
-    const themeDir = theme.getCurrentTheme().getThemeDir();
-    const staticDir = theme.getCurrentTheme().getStaticDir();
+    const {
+      themeName, themePath, staticDir, staticPrefix,
+    } = theme.getCurrentTheme().getThemeInfo();
     if (!staticDir) return null;
-    const assetsDir = path.resolve(themeDir, staticDir);
+    const assetsDir = path.resolve(themePath, staticDir);
     if (fs.existsSync(assetsDir)) {
       const serveStatic = koaStatic(assetsDir, {
         index: false,
         defer: false,
         hidden: false,
       });
-      const staticRouter = new Router({ prefix: '/assets' });
+      const prefix = staticPrefix || '/assets';
+      logger.trace(`Static prefix: ${prefix}`);
+      logger.trace(`Static dir: ${staticDir}`);
+      const staticRouter = new Router({ prefix });
       staticRouter.get('/(.*)', async (ctx, next) => {
-        const rewrittenPath = ctx.path.replace(StaticMiddleware.prefix, '');
+        const rewrittenPath = ctx.path.replace(prefix, '');
         ctx.path = rewrittenPath;
+        logging.systemLogger.trace(`static hit: ${rewrittenPath}`);
         await serveStatic(ctx, next);
       });
       this.getKoaRouter().use(staticRouter.routes());
-    } else logging.systemLogger.debug(`Theme ${themeName} has non-existing static directory.`);
+    } else logger.debug(`Theme ${themeName} has non-existing static directory.`);
     return null;
   }
 }

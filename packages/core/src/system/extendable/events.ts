@@ -8,4 +8,5 @@ export interface BlogNodeEvents extends Record<string, (...args: never[])=> Void
   'database/connected': ()=> VoidRet
   'task/started': ()=> VoidRet
   'settings/beforeInit': ()=> VoidRet
+  'routes/register': ()=> VoidRet
 }

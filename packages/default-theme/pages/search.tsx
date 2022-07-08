@@ -1,6 +1,6 @@
-import BasePage from '@src/components/BasePage';
-import context from '@src/components/context';
-import PostsContent from '@src/components/post';
+import BasePage from 'components/BasePage';
+import context from 'components/context';
+import PostsContent from 'components/post';
 import { GetServerSideProps } from 'next';
 import React, { useContext } from 'react';
 

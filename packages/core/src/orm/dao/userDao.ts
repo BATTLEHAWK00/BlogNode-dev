@@ -89,3 +89,4 @@ export default class UserDao extends BaseDao<User> {
 }
 
 export const userDao = new UserDao();
+__blognode.dao.userDao = userDao;

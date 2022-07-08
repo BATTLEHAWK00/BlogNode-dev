@@ -18,9 +18,13 @@
     "test": "mocha",
     "prebuild:core": "yarn test && cd packages/core && tsc --emitDeclarationOnly",
     "build:core": "cd packages/core && ts-node -r tsconfig-paths/register bin/build.ts",
-    "build:theme": "cd packages/default-theme && next build --no-lint && tsc",
-    "build:themeIndex": "cd packages/default-theme && tsc",
+    "build:theme": "concurrently npm:build:theme:next npm:build:theme:server",
+    "build:theme:next": "cd packages/default-theme && next build",
+    "build:theme:server": "cd packages/default-theme/server && tsc",
+    "build:middleware": "cd packages/theme/next && tsc",
     "build": "concurrently npm:build:core npm:build:theme",
+    "clean:dep": "rimraf node_modules packages/*/node_modules packages/theme/*/node_modules dist packages/*/dist packages/theme/*/dist",
+    "clean:tmp": "rimraf dist packages/*/dist packages/theme/*/dist",
     "prepare": "husky install"
   },
   "workspaces": [

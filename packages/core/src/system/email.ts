@@ -33,8 +33,12 @@ function close(): void {
   transporter?.close();
 }
 
-export default {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const _default = {
   send: transporter?.sendMail.bind(transporter),
   init,
   close,
 };
+
+export default _default;
+__blognode.email = _default;

@@ -10,39 +10,18 @@ import settings from './system/settings';
 import task from './system/task';
 
 export interface BlogNode{
-  bus: typeof bus,
-  task: typeof task,
+  bus?: typeof bus
+  task?: typeof task
   dao: {
-    userDao: typeof userDao,
-    systemDao: typeof systemDao,
-    postDao: typeof postDao
-  },
-  service: {
-    systemService: typeof systemService,
+    userDao?: typeof userDao
+    systemDao?: typeof systemDao
+    postDao?: typeof postDao
   }
-  logging: typeof logging
-  email: typeof email
-  settings: typeof settings
-  i18n: typeof i18n
-}
-declare global{
-  // eslint-disable-next-line @typescript-eslint/naming-convention,vars-on-top,no-var
-  var __blognode: BlogNode;
-}
-
-global.__blognode = {
-  task,
-  bus,
-  logging,
-  email,
-  settings,
-  i18n,
-  dao: {
-    userDao,
-    systemDao,
-    postDao,
-  },
   service: {
-    systemService,
-  },
-};
+    systemService?: typeof systemService
+  }
+  logging?: typeof logging
+  email?: typeof email
+  settings?: typeof settings
+  i18n?: typeof i18n
+}

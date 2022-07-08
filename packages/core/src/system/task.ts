@@ -46,7 +46,8 @@ async function stop(): Promise<void> {
   await agenda.close();
 }
 
-export default {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const _default = {
   start,
   stop,
   every: agenda.every.bind(agenda),
@@ -59,3 +60,5 @@ export default {
   disable: agenda.disable.bind(agenda),
   enable: agenda.enable.bind(agenda),
 };
+export default _default;
+__blognode.task = _default;

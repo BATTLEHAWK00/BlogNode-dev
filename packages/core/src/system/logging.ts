@@ -25,8 +25,11 @@ function handleShutdown(): Promise<void> {
   }));
 }
 
-export default {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const _default = {
   getLogger,
   systemLogger,
   handleShutdown,
 };
+export default _default;
+__blognode.logging = _default;

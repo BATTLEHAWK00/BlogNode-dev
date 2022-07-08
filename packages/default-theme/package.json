@@ -1,23 +1,24 @@
 {
   "name": "@blognode/default-theme",
   "version": "0.0.1",
-  "main": "dist/index",
+  "main": "dist/server/index",
   "dependencies": {
-    "@blognode/theme-api-next": "*",
+    "@blognode/middleware-next": "*",
     "axios": "^0.27.2",
     "blognode": "*",
     "lodash": "^4.17.21",
-    "next": "^12.1.6",
+    "next": "^12.2.0",
     "next-seo": "^5.4.0",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "remixicon": "^2.5.0",
-    "tailwindcss": "^3.0.24"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "remixicon": "^2.5.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.10",
-    "@types/react-dom": "^18.0.5",
+    "@types/koa": "^2.13.4",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
     "esbuild-loader": "^2.19.0",
-    "less": "^4.1.2"
+    "less": "^4.1.2",
+    "typescript": "4.7.4"
   }
 }

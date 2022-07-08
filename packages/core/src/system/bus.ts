@@ -61,8 +61,12 @@ function once<T extends EventType>(eventName: T, callback: BlogNodeEvents[T], wa
   );
 }
 
-export default {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const _default = {
   on,
   broadcast,
   once,
 };
+
+export default _default;
+__blognode.bus = _default;

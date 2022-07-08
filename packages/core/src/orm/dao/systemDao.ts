@@ -73,3 +73,4 @@ export default class SystemDao extends BaseDao<SystemSetting> {
 }
 
 export const systemDao = new SystemDao();
+__blognode.dao.systemDao = systemDao;

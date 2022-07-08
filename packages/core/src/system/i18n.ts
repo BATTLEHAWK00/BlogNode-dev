@@ -11,7 +11,10 @@ function load(locale: string): void {
   i18n.setLocale(locale);
 }
 
-export default {
+const _default = {
   load,
   getLocales: i18n.getLocales.bind(i18n),
 };
+
+export default _default;
+__blognode.i18n = _default;

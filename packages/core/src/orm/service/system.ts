@@ -14,3 +14,4 @@ export default class SystemService extends BaseService<SystemSetting> {
 }
 
 export const systemService = new SystemService();
+__blognode.service.systemService = systemService;

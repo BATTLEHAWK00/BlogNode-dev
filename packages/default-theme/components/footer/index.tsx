@@ -4,10 +4,10 @@ import React from 'react';
 import styles from './index.module.css';
 
 interface IFooterProps{
-  footerHtml:string
+  footerHtml: string
 }
 
-function Footer({ footerHtml }:IFooterProps) {
+function Footer({ footerHtml }: IFooterProps) {
   return (
     <>
       <div className={[styles.footer, 'bn-content-block', 'bn-shadow'].join(' ')}>

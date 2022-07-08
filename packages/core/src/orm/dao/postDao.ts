@@ -34,3 +34,4 @@ export default class PostDao extends BaseDao<Post> {
 }
 
 export const postDao = new PostDao();
+__blognode.dao.postDao = postDao;

@@ -1,17 +1,17 @@
-import RemixIcon from '@src/components/remixicon';
+import RemixIcon from 'components/remixicon';
 import Link from 'next/link';
 import React from 'react';
 
 import styles from './index.module.css';
 
 export interface INavItemProps{
-  name:string,
-  iconName?:string,
-  displayName?:string,
-  linkTo:string,
+  name: string,
+  iconName?: string,
+  displayName?: string,
+  linkTo: string,
 }
 
-function NavItem({ props }:{ props:INavItemProps }) {
+function NavItem({ props }: { props: INavItemProps }) {
   const {
     linkTo, iconName, displayName, name,
   } = props;

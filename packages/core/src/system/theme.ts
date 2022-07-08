@@ -1,25 +1,27 @@
 import { systemService } from '@src/orm/service/system';
 import { BlogNodeFatalError } from './error';
 import logging from './logging';
+import moduleLoader from './moduleLoader';
 
 let currentTheme: ThemeProcessor;
 
 const defaultThemePackageName = '@blognode/default-theme';
 
 export interface ThemeInfo{
-  themePath: string,
-  themeName: string,
-  staticDir?: string,
+  themePath: string
+  themeName: string
+  staticDir?: string
+  staticPrefix?: string
+  ssrMiddleware: string
+  registerRoutes: ()=> void
 }
 
-export class ThemeProcessor {
-  private themeDir?: string;
+type ThemeRegisterModule = { default: ()=> ThemeInfo };
 
+export class ThemeProcessor {
   private pkgName: string;
 
-  private themeName?: string;
-
-  private staticDir?: string;
+  private themeInfo?: ThemeInfo;
 
   constructor(pkgName: string) {
     this.pkgName = pkgName;
@@ -27,10 +29,7 @@ export class ThemeProcessor {
 
   async register(): Promise<void> {
     try {
-      const themeInfo: ThemeInfo = (await import(this.pkgName)).default();
-      this.themeDir = themeInfo.themePath;
-      this.themeName = themeInfo.themeName;
-      this.staticDir = themeInfo.staticDir;
+      this.themeInfo = (await moduleLoader.loadPackage<ThemeRegisterModule>(this.pkgName)).default();
     } catch (e) {
       if (this.pkgName === defaultThemePackageName) {
         logging.systemLogger.error('Loading of default theme failed.');
@@ -44,19 +43,9 @@ export class ThemeProcessor {
     }
   }
 
-  getThemeDir(): string {
-    if (!this.themeDir) throw new BlogNodeFatalError('Theme registration failed!');
-    return this.themeDir;
-  }
-
-  getThemeName(): string {
-    if (!this.themeDir) throw new BlogNodeFatalError('Theme registration failed!');
-    return <string> this.themeName;
-  }
-
-  getStaticDir(): string {
-    if (!this.themeDir) throw new BlogNodeFatalError('Theme registration failed!');
-    return <string> this.staticDir;
+  getThemeInfo(): ThemeInfo {
+    if (!this.themeInfo) throw new BlogNodeFatalError('Theme initialization failed!');
+    return this.themeInfo;
   }
 }
 
@@ -69,8 +58,8 @@ async function register(pkgName?: string): Promise<ThemeProcessor> {
   } else realPkgName = pkgName;
   const themeProcessor = new ThemeProcessor(realPkgName);
   await themeProcessor.register();
-  logging.systemLogger.info(`Registered theme: ${themeProcessor.getThemeName()}`);
-  logging.systemLogger.debug(`Theme location: ${themeProcessor.getThemeDir()}`);
+  logging.systemLogger.info(`Registered theme: ${themeProcessor.getThemeInfo().themeName}`);
+  logging.systemLogger.debug(`Theme location: ${themeProcessor.getThemeInfo().themePath}`);
   currentTheme = themeProcessor;
   return themeProcessor;
 }

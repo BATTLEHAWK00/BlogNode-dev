@@ -28,6 +28,14 @@ async function loadModule<T>(dirname: string, filename: string): Promise<T> {
   return res;
 }
 
+async function loadPackage<T>(pkgName: string): Promise<T> {
+  const moduleName = splitModuleName(pkgName);
+  logger.trace(`loading package: ${moduleName}...`);
+  const res = await import(pkgName);
+  logger.debug(`loaded package: ${moduleName}`);
+  return res;
+}
+
 async function loadFiles(dirname: string, filenames: string[], concurrent = false): Promise<unknown[]> {
   const modules = [];
   if (concurrent) {
@@ -54,4 +62,5 @@ export default {
   scanDir,
   loadModule,
   loadDir,
+  loadPackage,
 };

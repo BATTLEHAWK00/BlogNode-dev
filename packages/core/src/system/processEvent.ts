@@ -29,8 +29,10 @@ function handlePromiseRejection(e: Error): void {
 
 async function handleProcessSignal(s: string) {
   logger.debug(`Received ${s}. Performing graceful shutdown...`);
-  await handleGracefulShutdown(s);
-  process.exit();
+  setImmediate(async () => {
+    await handleGracefulShutdown(s);
+    process.exit();
+  });
 }
 
 function registerEvents(): void {

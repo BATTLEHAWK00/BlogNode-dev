@@ -1,11 +1,11 @@
 import React from 'react';
 
 export interface ISeoProps{
-  keywords:string,
-  description:string
-  author:string
+  keywords: string,
+  description: string
+  author: string
 }
-function SeoHeader({ props: { keywords, description, author } }:{ props:ISeoProps }) {
+function SeoHeader({ props: { keywords, description, author } }: { props: ISeoProps }) {
   return (
     <>
       {keywords && <meta name="keywords" content={keywords} />}

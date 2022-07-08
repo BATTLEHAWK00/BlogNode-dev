@@ -4,6 +4,7 @@
   "bin": "dist/bin/entry.js",
   "repository": "https://github.com/BATTLEHAWK00/BlogNode-dev.git",
   "typings": "dist/index.d.ts",
+  "main": "dist/index.js",
   "preferUnplugged": true,
   "dependencies": {
     "@types/minio": "^7.0.13",
@@ -27,7 +28,6 @@
     "minio": "^7.0.28",
     "moment": "^2.29.3",
     "mongoose": "^6.3.5",
-    "next": "^12.1.6",
     "nodemailer": "^6.7.5"
   },
   "devDependencies": {
@@ -44,7 +44,7 @@
     "@types/lru-cache": "^7.10.10",
     "@types/mongodb": "^4.0.7",
     "@types/mysql": "^2.15.21",
-    "@types/next": "^9.0.0",
+    "@types/node": "^18.0.3",
     "gulp": "^4.0.2",
     "gulp-typescript": "^6.0.0-alpha.1"
   }

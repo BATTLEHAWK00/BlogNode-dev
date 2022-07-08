@@ -2,34 +2,39 @@ import bus from '@src/system/bus';
 import config from '@src/system/config';
 import { BlogNodeFatalError } from '@src/system/error';
 import logging from '@src/system/logging';
-import { KoaMiddleware, ServerMiddleware } from '@src/system/middleware';
+import { ServerMiddleware } from '@src/system/middleware';
+import moduleLoader from '@src/system/moduleLoader';
+import routerRegistry from '@src/system/routerRegistry';
 import theme, { ThemeProcessor } from '@src/system/theme';
 import { Awaitable } from '@src/util/types';
 import { Timer } from '@src/util/utils';
 import { Context, Next } from 'koa';
-import NextApp, {
-  NextApiHandler, NextApiRequest, NextApiResponse, NextConfig,
-} from 'next';
 
-const defaultNextConfig: NextConfig = {
-  distDir: config.isDev ? '.next/development' : '.next',
-  pageExtensions: ['tsx'],
-  cleanDistDir: true,
-};
+const logger = logging.getLogger('PageRenderer');
 
-interface INextApp{
-  close: ()=> Promise<void>
-  options: { quiet?: boolean }
-  prepare: ()=> Promise<void>
-  getRequestHandler: ()=> NextApiHandler
+export interface SsrConfig{
+  themeDir: string
+  isDev: boolean
 }
+
+export interface SsrMiddlewareInfo {
+  name: string
+  configure: (ctx: SsrConfig)=> Awaitable<void>
+  prepare: ()=> Awaitable<void>
+  render: (koaCtx: Context)=> Promise<string | null>
+  close: ()=> Awaitable<void>
+}
+
+export type SsrMiddlewareModule = {
+  default: SsrMiddlewareInfo
+};
 
 class SsrMiddleware extends ServerMiddleware {
   private timer = new Timer();
 
   private theme?: ThemeProcessor;
 
-  private nextApp?: INextApp;
+  private middleware?: SsrMiddlewareInfo;
 
   beforeSetting(): void {
     logging.systemLogger.debug('Initializing SSR engine...');
@@ -43,39 +48,42 @@ class SsrMiddleware extends ServerMiddleware {
   afterSetting(): void {
     bus.once('system/beforeStop', async () => {
       logging.systemLogger.debug('Closing SSR engine...');
-      await this.nextApp?.close();
+      await this.middleware?.close();
     });
-
     this.timer.end();
     logging.systemLogger.debug(`SSR engine initialization complete.(${this.timer.result()}ms)`);
   }
 
-  async getKoaMiddleware(): Promise<KoaMiddleware> {
-    this.nextApp = NextApp({
-      dev: config.isDev,
-      dir: this.theme?.getThemeDir(),
-      conf: { ...defaultNextConfig },
-      minimalMode: true,
-      quiet: true,
-    });
-    if (!this.nextApp) throw new BlogNodeFatalError('SSR initialization failed!');
-
+  async getKoaMiddleware(): Promise<null> {
+    const ssrMiddlewarePkg = this.theme?.getThemeInfo().ssrMiddleware;
+    if (!ssrMiddlewarePkg) throw new BlogNodeFatalError('SSR initialization failed!');
     try {
-      await this.nextApp.prepare();
+      const middleware = (await moduleLoader.loadPackage<SsrMiddlewareModule>(ssrMiddlewarePkg)).default;
+      await middleware.configure({
+        isDev: config.isDev,
+        themeDir: this.theme?.getThemeInfo().themePath as string,
+      });
+      await middleware.prepare();
+      await bus.broadcast('routes/register');
+      this.theme?.getThemeInfo().registerRoutes();
+      const render = async (ctx: Context, next: Next) => {
+        await next();
+        if (ctx.pageName) {
+          const timer = new Timer();
+          timer.start();
+          const html = await middleware.render(ctx);
+          timer.end();
+          if (html) logger.debug(`Rendered page: ${ctx.pageName} (${timer.result()}ms)`);
+          ctx.body = html;
+          ctx.type = 'text/html';
+        }
+      };
+      this.getKoaRouter().use(render, routerRegistry.getRoutes());
+      logging.systemLogger.debug(`Registered ${routerRegistry.getRouterSize()} routes.`);
+      return null;
     } catch (e) {
       throw new BlogNodeFatalError('SSR preparation failed!', e instanceof Error ? { cause: e } : undefined);
     }
-
-    const nextHandler = this.nextApp.getRequestHandler();
-
-    this.getKoaRouter().all('(.*)', async (ctx: Context) => {
-      await nextHandler(<NextApiRequest>ctx.req, <NextApiResponse>ctx.res);
-      ctx.respond = false;
-    });
-    return async (ctx: Context, next: Next) => {
-      ctx.res.statusCode = 200;
-      await next();
-    };
   }
 }
 
