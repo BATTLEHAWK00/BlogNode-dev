@@ -7,8 +7,6 @@
   "main": "dist/index.js",
   "preferUnplugged": true,
   "dependencies": {
-    "@types/minio": "^7.0.13",
-    "@types/nodemailer": "^6.4.4",
     "agenda": "^4.3.0",
     "cac": "^6.7.12",
     "crypto-js": "^4.1.1",
@@ -32,10 +30,13 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.17.12",
+    "@types/minio": "^7.0.13",
+    "@types/nodemailer": "^6.4.4",
     "@types/crypto-js": "^4.1.1",
     "@types/gulp": "^4.0.9",
     "@types/i18n": "^0.13.3",
     "@types/koa": "^2.13.4",
+    "@types/koa-bodyparser": "^4.3.7",
     "@types/koa-compress": "^4.0.3",
     "@types/koa-logger": "^3.1.2",
     "@types/koa-router": "^7.4.4",

@@ -81,8 +81,8 @@ class NextInstance {
 
   async render(koaCtx: Context): Promise<string | null> {
     if (!this.renderer) throw new Error();
-    if (!koaCtx.pageName) return null;
-    return this.renderer.renderToHtml(koaCtx, koaCtx.pageName);
+    if (!koaCtx._pageName) return null;
+    return this.renderer.renderToHtml(koaCtx, koaCtx._pageName);
   }
 }
 

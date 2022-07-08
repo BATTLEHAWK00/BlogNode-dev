@@ -6,7 +6,8 @@ export type { SsrMiddlewareInfo, SsrConfig } from './src/system/middlewares/serv
 
 export type ThemeRegisterer = ()=> ThemeInfo;
 
-export const RegisterRoute = routerRegistry.registerRoute;
+export const RegisterApiRoute = routerRegistry.registerApiRoute;
+export const RegisterPageRoute = routerRegistry.registerPageRoute;
 
 declare global{
   // eslint-disable-next-line no-var,vars-on-top,@typescript-eslint/naming-convention

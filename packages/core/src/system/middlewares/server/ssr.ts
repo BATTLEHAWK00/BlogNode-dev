@@ -33,17 +33,15 @@ const render = (middleware: SsrMiddlewareInfo) => async (ctx: Context, next: Nex
   const handlerTimer = new Timer();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleTime = await handlerTimer.decorate(() => next());
-  if (ctx.pageName) {
+  if (ctx._pageName) {
     const timer = new Timer();
     timer.start();
     const html = await middleware.render(ctx);
     timer.end();
-    if (html) logger.debug(`Rendered page: ${ctx.pageName} (${timer.result()}ms)`);
-    ctx.body = html;
-    ctx.type = 'text/html';
-  } else {
-    ctx.body = ctx.pageCtx;
-    ctx.type = 'application/json';
+    if (html) {
+      ctx.body = html;
+      logger.debug(`Rendered page: ${ctx._pageName} (${timer.result()}ms)`);
+    }
   }
 };
 

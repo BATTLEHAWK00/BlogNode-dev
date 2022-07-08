@@ -1,11 +1,13 @@
-import { RegisterRoute } from 'blognode';
-import type { Context } from 'koa';
+import { RegisterApiRoute, RegisterPageRoute } from 'blognode';
 
 export default function RegisterRoutes() {
-  console.log('test');
+  RegisterPageRoute('get', 'test', '/', async () => {
+    console.log('test');
 
-  RegisterRoute('get', 'test', '/', async (ctx: Context) => {
-    ctx.pageName = 'search';
-    ctx.pageCtx = { name: 'test' };
+    return {
+      pagePath: 'search',
+      pageCtx: {},
+    };
   });
+  RegisterApiRoute('get', 'test2', '/test', async () => ({ state: 200, msg: 'ok', result: { test: true } }));
 }

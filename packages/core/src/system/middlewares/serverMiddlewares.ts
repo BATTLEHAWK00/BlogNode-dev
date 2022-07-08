@@ -1,4 +1,5 @@
 import { ServerMiddleware } from '@src/system/middleware';
+import bodyparser from './server/bodyparser';
 
 import compress from './server/compress';
 import logging from './server/logging';
@@ -11,6 +12,7 @@ const serverMiddlewares: ServerMiddleware[] = [
   theme,
   compress,
   logging,
+  bodyparser,
   serveStatic,
   serverContext,
   ssr,
