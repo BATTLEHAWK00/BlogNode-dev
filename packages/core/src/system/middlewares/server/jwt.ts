@@ -1,11 +1,9 @@
-import { systemService } from '@src/orm/service/system';
-import { KoaMiddleware, ServerMiddleware } from '@src/system/middleware';
-import jwt = require('koa-jwt');
+import { ServerMiddleware } from '@src/system/middleware';
 
 // todo 完善jwt功能封装
 class JwtMiddleware extends ServerMiddleware {
-  async getKoaMiddleware(): Promise<KoaMiddleware> {
-    return jwt({ secret: await systemService.get('jwt-secret') as string });
+  async getKoaMiddleware(): Promise<null> {
+    return null;
   }
 }
 export default new JwtMiddleware();

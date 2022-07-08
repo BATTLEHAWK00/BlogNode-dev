@@ -10,6 +10,7 @@ import userSchema from '../schema/userSchema';
 import BaseDao from './baseDao';
 
 const getCacheKeyById = cacheKey('id');
+const getCacheKeyByUname = cacheKey('uname');
 
 export default class UserDao extends BaseDao<User> {
   protected setLoggerName(): string {
@@ -62,12 +63,20 @@ export default class UserDao extends BaseDao<User> {
     return lastUser._id + 1;
   }
 
-  async createUser(user: Partial<User>): Promise<void> {
+  async getUserByUname(username: string): Promise<User | null> {
+    const op = this.cached().single.ifUncached(async () => this.model.findOne({ username }));
+    return op.get(getCacheKeyByUname(username));
+  }
+
+  async createUser(user: Partial<User>): Promise<number> {
     const session = await this.model.startSession();
+    session.startTransaction();
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const _id = await this.getIncrementId();
     await this.model.create({ ...user, _id });
+    await session.commitTransaction();
     await session.endSession();
+    return _id;
   }
 
   protected async onDatabaseConnected(): Promise<void> {

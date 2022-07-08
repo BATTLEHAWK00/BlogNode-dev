@@ -34,8 +34,6 @@ declare module 'http'{
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const test = '';
-  console.log(ctx.query);
-
   return {
     props: {
       // blogName,

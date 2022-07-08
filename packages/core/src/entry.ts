@@ -47,6 +47,5 @@ async function loadMiddlewares() {
   await bus.broadcast('system/beforeStart');
   logger.info('Loading modules...');
   await loadMiddlewares();
-  await moduleLoader.loadModule(__dirname, 'global');
   await bus.broadcast('system/started');
 })();

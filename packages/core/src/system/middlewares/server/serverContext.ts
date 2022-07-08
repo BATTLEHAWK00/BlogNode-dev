@@ -1,4 +1,4 @@
-import { systemService } from '@src/orm/service/system';
+import { systemService } from '@src/orm/service/systemService';
 import { KoaMiddleware, ServerMiddleware } from '@src/system/middleware';
 
 interface BlogNodeServerContext{

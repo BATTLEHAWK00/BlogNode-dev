@@ -1,3 +1,5 @@
+import { User } from '@src/interface/interface';
+
 type VoidRet = void | Promise<void | void[]>;
 export interface BlogNodeEvents extends Record<string, (...args: never[])=> VoidRet> {
   'system/beforeStart': ()=> VoidRet
@@ -9,4 +11,7 @@ export interface BlogNodeEvents extends Record<string, (...args: never[])=> Void
   'task/started': ()=> VoidRet
   'settings/beforeInit': ()=> VoidRet
   'routes/register': ()=> VoidRet
+  'auth/login': (user: User)=> VoidRet
+  'auth/register': (uid: number)=> VoidRet
+  'auth/logout': (user: User)=> VoidRet
 }

@@ -756,6 +756,13 @@
   resolved "https://registry.npmmirror.com/@types/json5/-/json5-0.0.29.tgz"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
+"@types/jsonwebtoken@^8.5.8":
+  version "8.5.8"
+  resolved "https://registry.npmmirror.com/@types/jsonwebtoken/-/jsonwebtoken-8.5.8.tgz#01b39711eb844777b7af1d1f2b4cf22fda1c0c44"
+  integrity sha512-zm6xBQpFDIDM6o9r6HSgDeIcLy82TKWctCXEPbJJcXb5AKmi5BNNdLXneixK4lplX3PqIVcwLBCGE/kAGnlD4A==
+  dependencies:
+    "@types/node" "*"
+
 "@types/keygrip@*":
   version "1.0.2"
   resolved "https://registry.nlark.com/@types/keygrip/download/@types/keygrip-1.0.2.tgz"
@@ -1329,14 +1336,6 @@ agenda@^4.3.0:
     human-interval "~2.0.0"
     moment-timezone "~0.5.27"
     mongodb "^4.1.0"
-
-aggregate-error@^3.0.0:
-  version "3.1.0"
-  resolved "https://registry.npmjs.org/aggregate-error/-/aggregate-error-3.1.0.tgz"
-  integrity sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==
-  dependencies:
-    clean-stack "^2.0.0"
-    indent-string "^4.0.0"
 
 ajv-keywords@^3.5.2:
   version "3.5.2"
@@ -2093,11 +2092,6 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
-
-clean-stack@^2.0.0:
-  version "2.2.0"
-  resolved "https://registry.npmjs.org/clean-stack/-/clean-stack-2.2.0.tgz"
-  integrity sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==
 
 cliui@^3.2.0:
   version "3.2.0"
@@ -4891,7 +4885,7 @@ jsonparse@^1.2.0:
 
 jsonwebtoken@^8.5.1:
   version "8.5.1"
-  resolved "https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz"
+  resolved "https://registry.npmmirror.com/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz#00e71e0b8df54c2121a1f26137df2280673bcc0d"
   integrity sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w==
   dependencies:
     jws "^3.2.2"
@@ -5013,15 +5007,6 @@ koa-is-json@^1.0.0:
   resolved "https://registry.npmmirror.com/koa-is-json/-/koa-is-json-1.0.0.tgz"
   integrity sha512-+97CtHAlWDx0ndt0J8y3P12EWLwTLMXIfMnYDev3wOTwH/RpBGMlfn4bDXlMEg1u73K6XRE9BbUp+5ZAYoRYWw==
 
-koa-jwt@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.npmjs.org/koa-jwt/-/koa-jwt-4.0.3.tgz"
-  integrity sha512-NCdkEZ9cTNLdfxlwlJOFpKIjIZAXgo3zNZjvAVXRVyFkgGFxn7areoqmIfu/tqel4V7j5a7c6b0ago8IoZJUyg==
-  dependencies:
-    jsonwebtoken "^8.5.1"
-    koa-unless "^1.0.7"
-    p-any "^2.1.0"
-
 koa-logger@^3.2.1:
   version "3.2.1"
   resolved "https://registry.npmjs.org/koa-logger/-/koa-logger-3.2.1.tgz"
@@ -5068,11 +5053,6 @@ koa-static@^5.0.0:
   dependencies:
     debug "^3.1.0"
     koa-send "^5.0.0"
-
-koa-unless@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.npmjs.org/koa-unless/-/koa-unless-1.0.7.tgz"
-  integrity sha512-NKiz+nk4KxSJFskiJMuJvxeA41Lcnx3d8Zy+8QETgifm4ab4aOeGD3RgR6bIz0FGNWwo3Fz0DtnK77mEIqHWxA==
 
 koa@^2.13.1, koa@^2.13.4:
   version "2.13.4"
@@ -6077,20 +6057,6 @@ os-locale@^1.4.0:
   dependencies:
     lcid "^1.0.0"
 
-p-any@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/p-any/-/p-any-2.1.0.tgz"
-  integrity sha512-JAERcaMBLYKMq+voYw36+x5Dgh47+/o7yuv2oQYuSSUml4YeqJEFznBrY2UeEkoSHqBua6hz518n/PsowTYLLg==
-  dependencies:
-    p-cancelable "^2.0.0"
-    p-some "^4.0.0"
-    type-fest "^0.3.0"
-
-p-cancelable@^2.0.0:
-  version "2.1.1"
-  resolved "https://registry.npmjs.org/p-cancelable/-/p-cancelable-2.1.1.tgz"
-  integrity sha512-BZOr3nRQHOntUjTrH8+Lh54smKHoHyur8We1V8DSMVrl5A2malOOwuJRnKRDjSnkoeBh4at6BwEnb5I7Jl31wg==
-
 p-limit@^1.1.0:
   version "1.3.0"
   resolved "https://registry.npmmirror.com/p-limit/-/p-limit-1.3.0.tgz"
@@ -6132,14 +6098,6 @@ p-locate@^5.0.0:
   integrity sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==
   dependencies:
     p-limit "^3.0.2"
-
-p-some@^4.0.0:
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/p-some/-/p-some-4.1.0.tgz"
-  integrity sha512-MF/HIbq6GeBqTrTIl5OJubzkGU+qfFhAFi0gnTAK6rgEIJIknEiABHOTtQu4e6JiXjIwuMPMUFQzyHh5QjCl1g==
-  dependencies:
-    aggregate-error "^3.0.0"
-    p-cancelable "^2.0.0"
 
 p-try@^1.0.0:
   version "1.0.0"
@@ -7651,11 +7609,6 @@ type-fest@^0.20.2:
   version "0.20.2"
   resolved "https://registry.npmmirror.com/type-fest/-/type-fest-0.20.2.tgz#1bf207f4b28f91583666cb5fbd327887301cd5f4"
   integrity sha512-Ne+eE4r0/iWnpAxD852z3A+N0Bt5RN//NjJwRd2VFHEmrywxf5vsZlh4R6lixl6B+wz/8d+maTSAkN1FIkI3LQ==
-
-type-fest@^0.3.0:
-  version "0.3.1"
-  resolved "https://registry.npmjs.org/type-fest/-/type-fest-0.3.1.tgz"
-  integrity sha512-cUGJnCdr4STbePCgqNFbpVNCepa+kAVohJs1sLhxzdH+gnEoOd8VhbYa7pD3zZYGiURWM2xzEII3fQcRizDkYQ==
 
 type-fest@^0.6.0:
   version "0.6.0"

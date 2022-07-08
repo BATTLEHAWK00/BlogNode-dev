@@ -1,4 +1,4 @@
-import { systemService } from '@src/orm/service/system';
+import { systemService } from '@src/orm/service/systemService';
 import { ServerMiddleware } from '@src/system/middleware';
 import theme from '@src/system/theme';
 

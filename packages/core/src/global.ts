@@ -1,7 +1,7 @@
 import { postDao } from '@src/orm/dao/postDao';
 import { systemDao } from '@src/orm/dao/systemDao';
 import { userDao } from '@src/orm/dao/userDao';
-import { systemService } from '@src/orm/service/system';
+import { systemService } from '@src/orm/service/systemService';
 import bus from './system/bus';
 import email from './system/email';
 import i18n from './system/i18n';

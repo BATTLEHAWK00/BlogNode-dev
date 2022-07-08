@@ -1,4 +1,4 @@
-import { systemService } from '@src/orm/service/system';
+import { systemService } from '@src/orm/service/systemService';
 import { BlogNodeFatalError } from './error';
 import logging from './logging';
 import moduleLoader from './moduleLoader';

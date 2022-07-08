@@ -1,4 +1,4 @@
-import { systemService } from '@src/orm/service/system';
+import { systemService } from '@src/orm/service/systemService';
 import i18n from '@src/system/i18n';
 import logging from '@src/system/logging';
 import { SystemMiddleware } from '@src/system/middleware';
