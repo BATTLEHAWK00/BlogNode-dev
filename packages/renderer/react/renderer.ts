@@ -19,6 +19,8 @@ class ReactRenderer {
   }
 
   async render(serverCtx: Context, pageCtx: unknown, pageName: string): Promise<string> {
+    console.log(pageCtx);
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let pageComponent: ReactComponent<any>;
     if (this.pageMap.has(pageName)) pageComponent = this.pageMap.get(pageName);

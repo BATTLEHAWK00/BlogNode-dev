@@ -1,9 +1,12 @@
 import React from 'react';
+import App from '../components/dom/app';
 
-function HomePage() {
+function HomePage(pageCtx: any) {
   return (
     <>
-      <h2>test</h2>
+      <App pageCtx={pageCtx}>
+        {() => JSON.stringify(pageCtx)}
+      </App>
     </>
   );
 }

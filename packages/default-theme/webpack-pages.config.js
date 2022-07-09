@@ -6,7 +6,7 @@ const fs = require("fs");
 const isProduction = process.env.NODE_ENV == "production";
 const stylesHandler = MiniCssExtractPlugin.loader;
 
-const pageDir = "./pages/";
+const pageDir = "pages/";
 
 const pages = fs
   .readdirSync(path.resolve(__dirname, pageDir), {
@@ -16,15 +16,17 @@ const pages = fs
   .filter((n) => n != null);
 
 const entryMap = pages.reduce((map, cur) => {
-  map[cur.replace(/(.tsx)$/, "")] = pageDir + cur;
+  map[pageDir + cur.replace(/(.tsx)$/, "")] = "./" + pageDir + cur;
   return map;
 }, {});
 
 const config = {
-  entry: entryMap,
+  entry: {
+    "static/main": "./main.tsx",
+    ...entryMap,
+  },
   output: {
-    path: path.resolve(__dirname, "dist", pageDir),
-    publicPath: "/",
+    path: path.resolve(__dirname, "dist"),
     filename: "[name].js",
     libraryTarget: "commonjs-module",
   },
@@ -60,7 +62,7 @@ const config = {
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],
   },
-  externals: ["react"],
+  // externals: ["react"],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js", "..."],
   },

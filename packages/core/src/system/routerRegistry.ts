@@ -34,7 +34,7 @@ function registerApiRoute<T>(method: HttpMethods | HttpMethods[], name: string, 
 function registerPageRoute<T>(method: HttpMethods | HttpMethods[], name: string, path: string | RegExp, handler: PageResponseHandler<T>): void {
   const handle = async (ctx: Context, next: Next) => {
     const { pageCtx, pagePath } = await handler(ctx);
-    ctx._ssrCtx = pageCtx;
+    ctx._pageCtx = pageCtx;
     ctx._pageName = pagePath;
     ctx.type = 'text/html';
     next();

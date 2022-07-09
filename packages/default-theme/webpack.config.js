@@ -6,7 +6,7 @@ const isProduction = process.env.NODE_ENV == "production";
 const stylesHandler = MiniCssExtractPlugin.loader;
 
 const config = {
-  entry: "./main.ts",
+  entry: "./main.tsx",
   output: {
     path: path.resolve(__dirname, "dist/static"),
   },
@@ -15,6 +15,7 @@ const config = {
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],
+  alias: {},
   module: {
     rules: [
       {

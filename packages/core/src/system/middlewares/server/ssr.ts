@@ -36,7 +36,10 @@ const render = (middleware: SsrMiddlewareInfo) => async (ctx: Context, next: Nex
   if (ctx._pageName) {
     const timer = new Timer();
     timer.start();
-    const html = await middleware.render(ctx, ctx._blogNodeCtx, ctx._pageName);
+    const html = await middleware.render(ctx, {
+      pageCtx: ctx._pageCtx,
+      blogNodeCtx: ctx._blogNodeCtx,
+    }, ctx._pageName);
     timer.end();
     if (html) {
       ctx.body = html;
