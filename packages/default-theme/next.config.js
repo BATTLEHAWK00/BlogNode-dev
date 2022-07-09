@@ -4,6 +4,8 @@
 const nextConfig = {
   distDir: 'dist/.next',
   pageExtensions: ['tsx'],
+  swcMinify:false,
+  cleanDistDir: true,
 //   useFileSystemPublicRoutes:false,
 };
 

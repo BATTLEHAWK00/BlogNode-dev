@@ -1,9 +1,9 @@
-import { SsrMiddlewareInfo } from 'blognode';
+import { BlogNodeServerContext, SsrMiddlewareInfo } from 'blognode';
 import nextapp from './nextapp';
 
 declare module 'http'{
   interface IncomingMessage{
-    _blogNodeCtx: unknown
+    _blogNodeCtx: BlogNodeServerContext
     _ssrCtx: unknown
   }
 }

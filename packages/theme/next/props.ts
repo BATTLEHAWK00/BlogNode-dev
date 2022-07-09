@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-underscore-dangle */
 import { GetServerSidePropsContext } from 'next';
+import { BlogNodeServerContext } from 'blognode';
 
 interface BlogNodeProps{
-  blogNodeCtx: unknown
-  pageCtx: unknown
+  blogNodeCtx: BlogNodeServerContext
+  pageCtx: any
 }
 
 // eslint-disable-next-line import/prefer-default-export

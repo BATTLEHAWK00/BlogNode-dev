@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import { Context } from 'koa';
-import NextApp, { NextConfig } from 'next';
+import NextApp, { NextConfig, RequestHandler } from 'next';
 import { SsrConfig } from 'blognode';
 import Server from 'next/dist/server/base-server';
 
@@ -26,7 +26,7 @@ export interface NextOptions{
 }
 
 interface NextServer {
-  // getRequestHandler(): RequestHandler;
+  getRequestHandler(): RequestHandler;
   setAssetPrefix(assetPrefix: string): void;
   logError(...args: Parameters<Server['logError']>): void;
   render(...args: Parameters<Server['render']>): Promise<void>;
@@ -83,6 +83,10 @@ class NextInstance {
     if (!this.renderer) throw new Error();
     if (!koaCtx._pageName) return null;
     return this.renderer.renderToHtml(koaCtx, koaCtx._pageName);
+  }
+
+  getRequestHandler() {
+    return this.nextApp?.getRequestHandler();
   }
 }
 

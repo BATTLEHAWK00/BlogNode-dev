@@ -1,7 +1,7 @@
 import { systemService } from '@src/orm/service/systemService';
 import { KoaMiddleware, ServerMiddleware } from '@src/system/middleware';
 
-interface BlogNodeServerContext{
+export interface BlogNodeServerContext{
   blogName: string
   blogDesc: string
   faviconPath: string

@@ -1,16 +1,10 @@
-import authService from '@src/orm/service/authService';
-import { systemService } from '@src/orm/service/systemService';
-import userService from '@src/orm/service/userService';
 import routerRegistry from '@src/system/routerRegistry';
 
 import type { BlogNode } from './src/global';
 import type { ThemeInfo } from './src/system/theme';
 
-export { postDao } from '@src/orm/dao/postDao';
-export { systemDao } from '@src/orm/dao/systemDao';
-export { userDao } from '@src/orm/dao/userDao';
-
 export type { SsrMiddlewareInfo, SsrConfig } from './src/system/middlewares/server/ssr';
+export type { BlogNodeServerContext } from './src/system/middlewares/server/serverContext';
 
 export type ThemeRegisterer = ()=> ThemeInfo;
 

@@ -14,7 +14,7 @@
     "start:debug": "cd packages/core && nodemon --config ./config/nodemon.json bin/entry.ts -- start --loglevel=debug",
     "start:trace": "cd packages/core && nodemon --config ./config/nodemon.json bin/entry.ts -- start --loglevel=trace",
     "lint": "eslint packages/core --ext ts --fix --cache",
-    "start": "cd packages/core && blognode start",
+    "start": "cross-env NODE_ENV=development && cd packages/core && blognode start",
     "test": "mocha",
     "prebuild:core": "yarn test && cd packages/core && tsc --emitDeclarationOnly",
     "build:core": "cd packages/core && ts-node -r tsconfig-paths/register bin/build.ts",

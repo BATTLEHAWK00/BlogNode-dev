@@ -7,6 +7,7 @@
   ],
   "rules": {
     "react/prop-types": "off",
+    "react/require-default-props": "off",
     "class-methods-use-this": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off"
   },
