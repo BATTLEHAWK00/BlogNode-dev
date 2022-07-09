@@ -3,11 +3,11 @@ import { ThemeRegisterer } from 'blognode';
 import RegisterRoutes from './routes';
 
 const register: ThemeRegisterer = () => ({
-  themePath: path.resolve(__dirname, '../../'),
+  themePath: path.resolve(__dirname, '../pages/'),
   themeName: 'default-theme',
   staticDir: path.resolve(__dirname, '../.next/static/'),
   staticPrefix: '/_next/static',
-  ssrMiddleware: '@blognode/middleware-next',
+  ssrMiddleware: '@blognode/renderer-react',
   registerRoutes: RegisterRoutes,
 });
 

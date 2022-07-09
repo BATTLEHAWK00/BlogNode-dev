@@ -2,7 +2,7 @@ import { RegisterApiRoute, RegisterPageRoute } from 'blognode';
 
 export default function RegisterRoutes() {
   RegisterPageRoute('get', 'test', '/', async () => ({
-    pagePath: 'homepage',
+    pagePath: 'homepage.js',
     pageCtx: {},
   }));
   RegisterPageRoute('get', 'test', '/search', async () => ({

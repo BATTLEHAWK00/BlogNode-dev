@@ -24,12 +24,18 @@
     "no-plusplus": "off",
     "no-underscore-dangle": "off",
     "import/no-named-default": "off",
-    "@typescript-eslint/type-annotation-spacing": ["warn", {
-      "before": false,
-      "after": true
-    }],
-    "max-len": ["error", {
-      "code": 150
-    }]
+    "@typescript-eslint/type-annotation-spacing": [
+      "warn",
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 150
+      }
+    ]
   }
 }

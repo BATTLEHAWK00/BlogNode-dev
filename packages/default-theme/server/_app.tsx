@@ -1,6 +1,3 @@
-import 'styles/main.css';
-import 'remixicon/fonts/remixicon.css';
-
 import Context from 'components/context';
 import NormalLayout from 'components/layout/normal';
 import Head from 'next/head';

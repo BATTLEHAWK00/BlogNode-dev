@@ -21,7 +21,7 @@ export interface SsrMiddlewareInfo {
   name: string
   configure: (ctx: SsrConfig)=> Awaitable<void>
   prepare: ()=> Awaitable<void>
-  render: (koaCtx: Context)=> Promise<string | null>
+  render: (koaCtx: Context, pageCtx: unknown, pageName: string)=> Promise<string | null>
   close: ()=> Awaitable<void>
 }
 
@@ -36,7 +36,7 @@ const render = (middleware: SsrMiddlewareInfo) => async (ctx: Context, next: Nex
   if (ctx._pageName) {
     const timer = new Timer();
     timer.start();
-    const html = await middleware.render(ctx);
+    const html = await middleware.render(ctx, ctx._blogNodeCtx, ctx._pageName);
     timer.end();
     if (html) {
       ctx.body = html;

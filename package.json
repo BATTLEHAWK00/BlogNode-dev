@@ -18,10 +18,10 @@
     "test": "mocha",
     "prebuild:core": "yarn test && cd packages/core && tsc --emitDeclarationOnly",
     "build:core": "cd packages/core && ts-node -r tsconfig-paths/register bin/build.ts",
-    "build:theme": "concurrently npm:build:theme:next npm:build:theme:server",
-    "build:theme:next": "cd packages/default-theme && next build",
-    "build:theme:server": "cd packages/default-theme/server && tsc",
-    "build:middleware": "cd packages/theme/next && tsc",
+    "build:theme": "concurrently npm:build:theme:frontend npm:build:theme:server",
+    "build:theme:frontend": "cd packages/default-theme && yarn build:pages",
+    "build:theme:server": "cd packages/default-theme/server && yarn build:server",
+    "build:renderer": "cd packages/renderer/react && tsc",
     "build": "concurrently npm:build:core npm:build:theme",
     "clean:dep": "rimraf node_modules packages/*/node_modules packages/theme/*/node_modules dist packages/*/dist packages/theme/*/dist",
     "clean:tmp": "rimraf dist packages/*/dist packages/theme/*/dist",
@@ -29,7 +29,7 @@
   },
   "workspaces": [
     "packages/*",
-    "packages/theme/*"
+    "packages/renderer/*"
   ],
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",

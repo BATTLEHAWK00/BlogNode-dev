@@ -1,12 +1,14 @@
 {
-  "name": "@blognode/middleware-next",
+  "name": "@blognode/renderer-react",
   "version": "1.0.0",
   "main": "dist/index",
   "dependencies": {
+    "@node-minify/core": "^6.2.0",
+    "@node-minify/html-minifier": "^6.2.0",
     "blognode": "*",
     "koa": "^2.13.4",
-    "next": "^12.1.6",
-    "react": "^18.1.0"
+    "react": "^18.1.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/koa": "^2.13.4"
