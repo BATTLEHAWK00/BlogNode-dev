@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as Module from 'module';
 import * as path from 'path';
 
 import logging from './logging';

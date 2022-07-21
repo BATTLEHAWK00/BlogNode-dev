@@ -6,6 +6,7 @@ import { ServerMiddleware } from '@src/system/middleware';
 import moduleLoader from '@src/system/moduleLoader';
 import routerRegistry from '@src/system/routerRegistry';
 import theme, { ThemeProcessor } from '@src/system/theme';
+import template from '@src/util/template';
 import { Awaitable } from '@src/util/types';
 import { Timer } from '@src/util/utils';
 import { Context, Next } from 'koa';
@@ -36,10 +37,22 @@ const render = (middleware: SsrMiddlewareInfo) => async (ctx: Context, next: Nex
   if (ctx._pageName) {
     const timer = new Timer();
     timer.start();
-    const html = await middleware.render(ctx, {
+    const pageBody = await middleware.render(ctx, {
       pageCtx: ctx._pageCtx,
       blogNodeCtx: ctx._blogNodeCtx,
     }, ctx._pageName);
+    const html = template.renderHtml({
+      pageHead: 'test',
+      pageBody: pageBody || '',
+      pageTitle: 'testTitle',
+      pageLang: 'en',
+      scriptTags: [{
+        src: 'static/main.js',
+        defer: true,
+        async: true,
+      }],
+      pageCtx: ctx._pageCtx,
+    });
     timer.end();
     if (html) {
       ctx.body = html;

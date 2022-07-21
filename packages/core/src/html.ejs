@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="<%= pageLang %>">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= pageTitle %></title>
+  <% scriptTags.forEach(script=> { %>
+  <script src="<%= script.src %>" <%= script.async ? "async":"" %> <%= script.defer ? "defer":"" %>></script>
+  <% }) %> 
+  <%- pageHead %>
+</head>
+<body>
+  <%- pageBody %>
+</body>
+</html>

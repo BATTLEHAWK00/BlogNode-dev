@@ -30,6 +30,16 @@ const config = {
     filename: "[name].js",
     libraryTarget: "commonjs-module",
   },
+  devServer: {
+    port: 8081,
+    hot: true,
+    compress: true,
+    proxy: {
+      "/": {
+        target: "http://localhost:8080",
+      },
+    },
+  },
   plugins: [
     new MiniCssExtractPlugin(),
     // Add your plugins here

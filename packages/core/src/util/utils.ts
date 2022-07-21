@@ -1,9 +1,11 @@
 import bus, { EventType } from '@src/system/bus';
 import { BlogNodeError } from '@src/system/error';
 import * as path from 'path';
+import { setTimeout } from 'timers/promises';
 import { CacheKey } from './types';
 
-export const sleep = (time: number): Promise<void> => new Promise<void>((resolve) => setTimeout(resolve, time));
+// eslint-disable-next-line @typescript-eslint/no-implied-eval
+export const sleep = (time: number): Promise<void> => setTimeout(time);
 
 const NS_PER_MS = BigInt(1e6);
 
