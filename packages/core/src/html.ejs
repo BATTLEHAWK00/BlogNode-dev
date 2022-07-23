@@ -5,10 +5,13 @@
   <title><%= pageTitle %></title>
   <% scriptTags.forEach(script=> { %>
   <script src="<%= script.src %>" <%= script.async ? "async":"" %> <%= script.defer ? "defer":"" %>></script>
-  <% }) %> 
+  <% }) %>
   <%- pageHead %>
 </head>
 <body>
   <%- pageBody %>
+  <script id="__blognode-pagedata__" type="text/json">
+    <%- JSON.stringify(pageCtx) %>
+  </script>
 </body>
 </html>

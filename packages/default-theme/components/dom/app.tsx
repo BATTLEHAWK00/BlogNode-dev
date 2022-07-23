@@ -6,10 +6,11 @@ function App(props: any) {
   const { pageCtx, children: Children } = props;
   console.log(Children);
 
-  let script = '';
+  let pageData = '';
 
-  if (typeof process === 'object') {
-    script = `window.__blogNodeCtx=${JSON.stringify(pageCtx)}`;
+  if (typeof process !== 'object') {
+    pageData = JSON.parse(document.getElementById('__blognode-pagedata__')?.innerText || '{}');
+    console.log(pageData);
   }
 
   return (
@@ -19,7 +20,6 @@ function App(props: any) {
           <Children />
         </Context.PageContext.Provider>
       </div>
-      <script dangerouslySetInnerHTML={{ __html: script }} />
     </>
   );
 }
