@@ -3,12 +3,14 @@
   "version": "0.0.1",
   "main": "dist/server/index",
   "scripts": {
-    "build": "webpack --mode=production --node-env=production",
+    "build": "concurrently npm:build:pages npm:build:server npm:build:main",
     "build:pages": "webpack -c webpack-pages.config.js --mode=production --node-env=production",
     "build:server": "webpack -c webpack-server.config.js --mode=production --node-env=production",
-    "build:prod": "webpack --mode=production --node-env=production",
-    "dev": "webpack-dev-server -c webpack.config.js --mode=development",
-    "watch": "webpack --watch"
+    "build:main": "webpack --mode=production --node-env=production",
+    "watch": "concurrently npm:watch:pages npm:watch:server npm:watch:main",
+    "watch:pages": "webpack -c webpack-pages.config.js --mode=development --node-env=development -w",
+    "watch:server": "webpack -c webpack-server.config.js --mode=development --node-env=development -w",
+    "watch:main": "webpack-dev-server -c webpack.config.js --mode=development"
   },
   "dependencies": {
     "@blognode/renderer-react": "*",

@@ -1,4 +1,4 @@
-import React, { lazy, useContext } from 'react';
+import React, { lazy, Suspense, useContext } from 'react';
 import context from '../context';
 
 import styles from './index.module.css';
@@ -23,7 +23,9 @@ const NavBar = ({ items = [] }: { items: INavItemProps[] }) => {
         </ul>
       </div>
       <div className={styles['nav-container']}>
-        <SearchBar />
+        <Suspense fallback={<></>}>
+          <SearchBar />
+        </Suspense>
       </div>
     </nav>
   );

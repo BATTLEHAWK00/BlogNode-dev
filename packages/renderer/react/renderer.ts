@@ -19,7 +19,6 @@ class ReactRenderer {
   constructor(pagePath: string, dev: boolean) {
     this.pagePath = pagePath;
     this.dev = dev;
-    console.log(dev);
   }
 
   async render(serverCtx: Context, pageCtx: unknown, pageName: string): Promise<string> {

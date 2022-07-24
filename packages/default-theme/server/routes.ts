@@ -1,5 +1,7 @@
 import { PageHandler, ApiHandler } from './util/handler';
 
+if (!__blognode.routerRegistry) throw new Error('Blognode not fully initialized!');
+
 const { registerApiRoute, registerPageRoute } = __blognode.routerRegistry;
 
 export default function RegisterRoutes() {
