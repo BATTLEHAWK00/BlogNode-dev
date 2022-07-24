@@ -1,10 +1,5 @@
 {
-  "extends": [
-    "../../.eslintrc.json",
-    "airbnb-typescript",
-    "airbnb/hooks",
-    "plugin:@next/next/recommended"
-  ],
+  "extends": ["../../.eslintrc.json", "airbnb-typescript", "airbnb/hooks"],
   "rules": {
     "react/prop-types": "off",
     "react/require-default-props": "off",
