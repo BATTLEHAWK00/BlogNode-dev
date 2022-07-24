@@ -13,7 +13,6 @@ const config = {
     filename: "index.js",
     libraryTarget: "commonjs-module",
   },
-  plugins: [],
   target: "node",
   externalsPresets: { node: true },
   module: {

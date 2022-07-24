@@ -35,6 +35,7 @@ const render = (middleware: SsrMiddlewareInfo) => async (ctx: Context, next: Nex
   const handlerTimer = new Timer();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleTime = await handlerTimer.decorate(() => next());
+  logger.info(ctx._pageName);
   if (ctx._pageName) {
     const timer = new Timer();
     timer.start();

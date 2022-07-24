@@ -14,7 +14,7 @@ export interface JsonResponseContext<T>{
 }
 
 export interface HtmlResponseContext<T>{
-  pagePath: string
+  pageName: string
   pageTitle?: string
   pageCtx: T
   pageScripts: ScriptTag[]
@@ -37,10 +37,10 @@ function registerApiRoute<T>(method: HttpMethods | HttpMethods[], name: string, 
 function registerPageRoute<T>(method: HttpMethods | HttpMethods[], name: string, path: string | RegExp, handler: PageResponseHandler<T>): void {
   const handle = async (ctx: Context, next: Next) => {
     const {
-      pageCtx, pagePath, pageScripts, pageLinks,
+      pageCtx, pageName, pageScripts, pageLinks,
     } = await handler(ctx);
     ctx._pageCtx = pageCtx;
-    ctx._pageName = pagePath;
+    ctx._pageName = pageName;
     ctx._pageScripts = pageScripts;
     ctx._pageLinks = pageLinks;
     ctx.type = 'text/html';

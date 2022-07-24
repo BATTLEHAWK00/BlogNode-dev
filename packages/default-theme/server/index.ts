@@ -1,7 +1,6 @@
 import * as path from 'path';
 import { ThemeRegisterer } from 'blognode';
 import RegisterRoutes from './routes';
-// import App from '../components/dom/app';
 
 const isDev = process.env.NODE_ENV === 'development';
 
