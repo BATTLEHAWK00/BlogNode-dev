@@ -2,20 +2,24 @@
 /* eslint-disable max-classes-per-file */
 import { Asyncable } from './common';
 
-export interface PageContext{
+export interface PageResult{
+
+}
+
+export interface ApiResult{
 
 }
 
 interface IPageHandlerMethods{
-  get?(): Asyncable<PageContext>
-  post?(): Asyncable<PageContext>
+  get?(): Asyncable<PageResult>
+  post?(): Asyncable<PageResult>
 }
 
 interface IApiHandlerMethods{
-  get?(): Asyncable<PageContext>
-  post?(): Asyncable<PageContext>
-  put?(): Asyncable<PageContext>
-  del?(): Asyncable<PageContext>
+  get?(): Asyncable<ApiResult>
+  post?(): Asyncable<ApiResult>
+  put?(): Asyncable<ApiResult>
+  del?(): Asyncable<ApiResult>
 }
 
 abstract class Handler {

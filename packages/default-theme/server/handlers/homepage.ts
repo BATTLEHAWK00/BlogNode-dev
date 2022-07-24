@@ -1,9 +1,9 @@
 import { buildPageContext } from '../util/page';
 import { Asyncable } from '../util/common';
-import { PageContext, PageHandler } from '../util/handler';
+import { PageHandler, PageResult } from '../util/handler';
 
 class HomePageHandler extends PageHandler {
-  get(): Asyncable<PageContext> {
+  get(): Asyncable<PageResult> {
     return buildPageContext({
       test: 'asdasdas',
     }).setPageName('homepage');
