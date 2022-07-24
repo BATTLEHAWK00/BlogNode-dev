@@ -26,6 +26,7 @@
     "theme:dev": "cd packages/default-theme && yarn dev",
     "build:theme": "cd packages/default-theme && yarn build",
     "build:theme:pages": "cd packages/default-theme && yarn build:pages",
+    "build:theme:main": "cd packages/default-theme && yarn build:main",
     "build:theme:server": "cd packages/default-theme/server && yarn build:server",
     "build:renderer": "cd packages/renderer/react && tsc",
     "build": "concurrently npm:build:core npm:build:theme npm:build:renderer",

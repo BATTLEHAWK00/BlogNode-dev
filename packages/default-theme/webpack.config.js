@@ -36,16 +36,15 @@ const config = {
                     name: "vendor",
                     chunks: 'async',
                     test: /[\\/]node_modules[\\/]/,
-                    priority: -10,
+                    priority: -20,
                     minSize: 0
                 },
                 components: {
                     name: "components",
-                    chunks: 'initial',
+                    chunks: 'all',
                     test: /[\\/]components[\\/]/,
-                    priority: -10,
+                    priority: -20,
                     minSize: 0,
-                    enforce: true
                 },
             }
         }

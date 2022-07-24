@@ -1,3 +1,4 @@
+import config from '@src/system/config';
 import logging from '@src/system/logging';
 import { ServerMiddleware } from '@src/system/middleware';
 import theme from '@src/system/theme';
@@ -20,6 +21,7 @@ class StaticMiddleware extends ServerMiddleware {
         index: false,
         defer: false,
         hidden: false,
+        maxAge: config.isDev ? undefined : 14 * 60 * 60 * 1000,
       });
       const prefix = staticPrefix || '/assets';
       logger.trace(`Static prefix: ${prefix}`);
