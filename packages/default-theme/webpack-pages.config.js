@@ -1,6 +1,7 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { ESBuildMinifyPlugin } = require("esbuild-loader")
 const fs = require("fs");
 const { alias } = require("./webpack-base");
 
@@ -36,6 +37,13 @@ const config = {
       experimentalUseImportModule: true
     }),
   ],
+  optimization: {
+    minimizer: [
+      new ESBuildMinifyPlugin({
+        target: 'es2015',  // Syntax to compile to (see options below for possible values)
+      })
+    ],
+  },
   target: "node",
   module: {
     rules: [

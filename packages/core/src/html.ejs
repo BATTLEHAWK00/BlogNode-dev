@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <title><%= pageTitle %></title>
-  <% linkTags.forEach(link=> { %>
+  <% linkTags.forEach(link=> { -%>
   <link rel="<%- link.rel %>" type="<%= link.type %>" href="<%= link.href %>">
-  <% }) %>
-  <% scriptTags.forEach(script=> { %>
+  <% }) -%>
+  <% scriptTags.forEach(script=> { -%>
   <script src="<%- script.src %>" <%= script.async ? "async":"" %> <%= script.defer ? "defer":"" %>></script>
-  <% }) %>
-  <%- pageHead %>
+  <% }) -%>
+  <%- pageHead -%>
 </head>
 <body>
-  <%- pageBody %>
+  <%- pageBody -%>
   <script id="__blognode-pagedata__" type="text/json"><%- JSON.stringify(pageCtx) %></script>
   <script id="__pagename" type="text/plain"><%- pageName %></script>
 </body>
