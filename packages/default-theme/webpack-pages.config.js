@@ -2,6 +2,7 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const fs = require("fs");
+const { alias } = require("./webpack-base");
 
 const isProduction = process.env.NODE_ENV == "production";
 const stylesHandler = MiniCssExtractPlugin.loader;
@@ -16,35 +17,25 @@ const pages = fs
   .filter((n) => n != null);
 
 const entryMap = pages.reduce((map, cur) => {
-  map[pageDir + cur.replace(/(.tsx)$/, "")] = "./" + pageDir + cur;
+  map[cur.replace(/(.tsx)$/, "")] = "./" + pageDir + cur;
   return map;
 }, {});
 
 const config = {
   entry: {
-    "static/main": "./main.tsx",
     ...entryMap,
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "dist/pages"),
     filename: "[name].js",
     libraryTarget: "commonjs-module",
   },
-  devServer: {
-    port: 8081,
-    hot: true,
-    compress: true,
-    proxy: {
-      "/": {
-        target: "http://localhost:8080",
-      },
-    },
-  },
   plugins: [
-    new MiniCssExtractPlugin(),
-    // Add your plugins here
-    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    new MiniCssExtractPlugin({
+      experimentalUseImportModule: true
+    }),
   ],
+  target: "node",
   module: {
     rules: [
       {
@@ -56,25 +47,29 @@ const config = {
         exclude: ["/node_modules/"],
       },
       {
-        test: /\.less$/i,
-        use: [stylesHandler, "css-loader", "postcss-loader", "less-loader"],
-      },
-      {
         test: /\.css$/i,
-        use: [stylesHandler, "css-loader", "postcss-loader"],
+        use: [
+          {
+            loader: stylesHandler,
+            options: {
+              emit: false
+            }
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+            },
+          },
+        ],
+        exclude: ["/node_modules/"],
       },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: "asset",
-      },
-
-      // Add your rules for custom modules here
-      // Learn more about loaders from https://webpack.js.org/loaders/
     ],
   },
-  // externals: ["react"],
+  externals: ["react"],
   resolve: {
-    extensions: [".tsx", ".ts", ".jsx", ".js", "..."],
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".css"],
+    alias,
   },
 };
 

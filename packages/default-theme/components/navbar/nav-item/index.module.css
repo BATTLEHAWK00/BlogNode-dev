@@ -10,6 +10,10 @@
   transition: all 0.5s;
 }
 
+.nav-item-a {
+  text-decoration: none;
+}
+
 .nav:hover .nav-item {
   line-height: 4.5rem;
 }

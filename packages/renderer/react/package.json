@@ -11,6 +11,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/koa": "^2.13.4"
+    "@types/koa": "^2.13.4",
+    "@types/webpack-env": "^1.17.0"
   }
 }

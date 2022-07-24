@@ -107,6 +107,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
+  "ts-node": {
+    "transpileOnly": true
+  },
   "include": ["src/**/*.ts", "src/**/*.js", "bin/**.ts", "index.ts"],
   "exclude": ["node_modules", "dist", "**/.*"]
 }

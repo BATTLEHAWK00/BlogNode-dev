@@ -1,3 +1,4 @@
+import routerRegistry from '@src/system/routerRegistry';
 import { postDao } from '@src/orm/dao/postDao';
 import { systemDao } from '@src/orm/dao/systemDao';
 import { userDao } from '@src/orm/dao/userDao';
@@ -20,6 +21,7 @@ export interface BlogNode{
   service: {
     systemService?: typeof systemService
   }
+  routerRegistry?: typeof routerRegistry
   logging?: typeof logging
   email?: typeof email
   settings?: typeof settings

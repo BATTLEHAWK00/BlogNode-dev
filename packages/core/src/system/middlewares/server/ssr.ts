@@ -1,6 +1,7 @@
+import * as path from 'path';
 import bus from '@src/system/bus';
 import config from '@src/system/config';
-import { BlogNodeFatalError } from '@src/system/error';
+import { BlogNodeFatalError, BlogNodeInternalServerError } from '@src/system/error';
 import logging from '@src/system/logging';
 import { ServerMiddleware } from '@src/system/middleware';
 import moduleLoader from '@src/system/moduleLoader';
@@ -37,26 +38,29 @@ const render = (middleware: SsrMiddlewareInfo) => async (ctx: Context, next: Nex
   if (ctx._pageName) {
     const timer = new Timer();
     timer.start();
-    const pageBody = await middleware.render(ctx, {
+    const pageCtx = {
       pageCtx: ctx._pageCtx,
-      blogNodeCtx: ctx._blogNodeCtx,
-    }, ctx._pageName);
-    const html = template.renderHtml({
-      pageHead: 'test',
-      pageBody: pageBody || '',
-      pageTitle: 'testTitle',
-      pageLang: 'en',
-      scriptTags: [{
-        src: 'static/main.js',
-        defer: true,
-        async: true,
-      }],
-      pageCtx: ctx._pageCtx,
-    });
-    timer.end();
-    if (html) {
-      ctx.body = html;
-      logger.debug(`Rendered page: ${ctx._pageName} (${timer.result()}ms)`);
+      blogNodeCtx: ctx._blogNodeCtx || {},
+    };
+    try {
+      const pageBody = await middleware.render(ctx, pageCtx, ctx._pageName);
+      const html = template.renderHtml({
+        pageHead: ctx._pageHead || '',
+        pageBody: pageBody || '',
+        pageTitle: 'testTitle',
+        pageLang: 'en',
+        scriptTags: ctx._pageScripts || [],
+        linkTags: ctx._pageLinks || [],
+        pageCtx,
+        pageName: path.basename(ctx._pageName),
+      });
+      timer.end();
+      if (html) {
+        ctx.body = html;
+        logger.debug(`Rendered page: ${ctx._pageName} (${timer.result()}ms)`);
+      }
+    } catch (e) {
+      throw new BlogNodeInternalServerError(`Error occurred when rendering page: ${ctx._pageName}`, { cause: e instanceof Error ? e : undefined });
     }
   }
 };

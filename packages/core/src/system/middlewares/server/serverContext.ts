@@ -8,22 +8,20 @@ export interface BlogNodeServerContext{
   firstStartAt: Date | null
 }
 
-declare module 'http'{
-  interface IncomingMessage{
-    _blogNodeCtx: BlogNodeServerContext
-  }
-}
-
 class ContextMiddleware extends ServerMiddleware {
   getKoaMiddleware(): KoaMiddleware {
     return async (ctx, next) => {
-      ctx.req._blogNodeCtx = {
+      ctx._blogNodeCtx = {
         blogName: await systemService.get('blogName') || 'BlogNode',
         blogDesc: await systemService.get('blogDescription') || 'BlogNode',
         faviconPath: await systemService.get('faviconPath') || '/favicon.ico',
         firstStartAt: await systemService.get('firstStartAt') || null,
       };
-      await next();
+      try {
+        await next();
+      } catch (error) {
+        console.log(error);
+      }
     };
   }
 }

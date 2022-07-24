@@ -1,6 +1,7 @@
 import { Awaitable } from '@src/util/types';
 import { Context, Next } from 'koa';
 import Router = require('koa-router');
+import { ScriptTag, LinkTag } from '../util/template';
 
 const router = new Router();
 
@@ -16,6 +17,8 @@ export interface HtmlResponseContext<T>{
   pagePath: string
   pageTitle?: string
   pageCtx: T
+  pageScripts: ScriptTag[]
+  pageLinks: LinkTag[]
 }
 
 type JsonResponseHandler<T> = (ctx: Context)=> Awaitable<JsonResponseContext<T>>;
@@ -33,9 +36,13 @@ function registerApiRoute<T>(method: HttpMethods | HttpMethods[], name: string, 
 
 function registerPageRoute<T>(method: HttpMethods | HttpMethods[], name: string, path: string | RegExp, handler: PageResponseHandler<T>): void {
   const handle = async (ctx: Context, next: Next) => {
-    const { pageCtx, pagePath } = await handler(ctx);
+    const {
+      pageCtx, pagePath, pageScripts, pageLinks,
+    } = await handler(ctx);
     ctx._pageCtx = pageCtx;
     ctx._pageName = pagePath;
+    ctx._pageScripts = pageScripts;
+    ctx._pageLinks = pageLinks;
     ctx.type = 'text/html';
     next();
   };
@@ -51,9 +58,14 @@ function getRouterSize(): number {
   return router.stack.length;
 }
 
-export default {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const _default = {
   registerApiRoute,
   registerPageRoute,
   getRoutes,
   getRouterSize,
 };
+
+export default _default;
+
+__blognode.routerRegistry = _default;

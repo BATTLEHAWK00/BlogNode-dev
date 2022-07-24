@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import RemixIcon from 'components/remixicon';
+import RemixIcon from '@components/remixicon';
 import _ from 'lodash';
-import { useRouter } from 'next/router';
 import React from 'react';
 
 import styles from './index.module.css';
@@ -10,11 +9,9 @@ import styles from './index.module.css';
 type OnInputChange = React.ChangeEventHandler<HTMLInputElement>;
 
 function SearchBar() {
-  const router = useRouter();
-
   const handleSearch = _.throttle<OnInputChange>((evt) => {
     const { value } = evt.target;
-    if (value) router.replace({ pathname: '/search', query: { s: value } });
+    // if (value) router.replace({ pathname: '/search', query: { s: value } });
   }, 500, { leading: false });
 
   return (

@@ -1,7 +1,7 @@
-import NavBar from 'components/navbar';
-import context from 'components/context';
-import Footer from 'components/footer';
-import { INavItemProps } from 'components/navbar/nav-item';
+import NavBar from '@components/navbar';
+import context from '@components/context';
+import Footer from '@components/footer';
+import { INavItemProps } from '@components/navbar/nav-item';
 import React, { useContext } from 'react';
 
 import styles from './index.module.css';
@@ -34,7 +34,7 @@ const navbarItems: INavItemProps[] = [
 ];
 
 function NormalLayout({ children }: { children: any | undefined }) {
-  const { footerHtml }: any = useContext(context.PageContext);
+  const { footerHtml = '' }: any = useContext(context.PageContext);
   return (
     <>
       <NavBar items={navbarItems} />

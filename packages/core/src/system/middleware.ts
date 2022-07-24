@@ -9,7 +9,7 @@ import logging from './logging';
 
 const logger = logging.getLogger('Middleware');
 
-export type KoaMiddleware = Application.Middleware<unknown, unknown, unknown>;
+export type KoaMiddleware = Application.Middleware;
 
 export abstract class BlogNodeMiddleware {
   public getName(): string {

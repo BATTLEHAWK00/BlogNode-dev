@@ -1,7 +1,7 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
 
-import styles from './index.module.css';
+import styles from './index.module.css' assert { type: "css" };
 
 interface IRemixIconProps{
   iconName: string,

@@ -1,5 +1,4 @@
-import RemixIcon from 'components/remixicon';
-import Link from 'next/link';
+import RemixIcon from '@components/remixicon';
 import React from 'react';
 
 import styles from './index.module.css';
@@ -17,13 +16,13 @@ function NavItem({ props }: { props: INavItemProps }) {
   } = props;
   return (
     <>
-      <Link href={linkTo} replace>
+      <a href={linkTo} className={styles['nav-item-a']}>
         <span className={`${styles['nav-item']}`}>
           {iconName && <RemixIcon iconName={iconName} className={styles['item-icon']} />}
                   &nbsp;
           <span>{displayName || name}</span>
         </span>
-      </Link>
+      </a>
     </>
   );
 }
