@@ -13,6 +13,7 @@ const config = {
     },
     output: {
         path: path.resolve(__dirname, "dist/static"),
+        clean: true,
         filename: "[name].js",
         chunkFilename: "[name].js",
         publicPath: "/static/",
@@ -93,7 +94,6 @@ const config = {
                 ],
                 exclude: ["/node_modules/"],
             },
-
             {
                 test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
                 type: "asset",

@@ -10,7 +10,7 @@
   "scripts": {
     "commitlint": "commitlint",
     "postinstall": "husky install",
-    "watch": "concurrently npm:watch:theme npm:watch:renderer npm:start:dev",
+    "watch": "concurrently npm:watch:theme npm:watch:renderer npm:start:dev:debug",
     "watch:theme": "cd packages/default-theme && yarn watch",
     "watch:renderer": "cd packages/renderer/react && tsc -w",
     "start": "cross-env NODE_ENV=development && cd packages/core && blognode start",

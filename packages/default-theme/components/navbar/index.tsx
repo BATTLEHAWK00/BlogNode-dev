@@ -1,3 +1,4 @@
+import loadingBar from '@components/loading';
 import React, { lazy, Suspense, useContext } from 'react';
 import context from '../context';
 
@@ -23,7 +24,7 @@ const NavBar = ({ items = [] }: { items: INavItemProps[] }) => {
         </ul>
       </div>
       <div className={styles['nav-container']}>
-        <Suspense fallback={<></>}>
+        <Suspense fallback={loadingBar()}>
           <SearchBar />
         </Suspense>
       </div>

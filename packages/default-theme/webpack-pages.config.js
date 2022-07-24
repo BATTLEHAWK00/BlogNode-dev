@@ -27,6 +27,7 @@ const config = {
   },
   output: {
     path: path.resolve(__dirname, "dist/pages"),
+    clean: true,
     filename: "[name].js",
     libraryTarget: "commonjs-module",
   },
@@ -61,8 +62,13 @@ const config = {
               modules: true,
             },
           },
+
         ],
         exclude: ["/node_modules/"],
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        type: "asset"
       },
     ],
   },
