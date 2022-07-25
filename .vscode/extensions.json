@@ -1,0 +1,28 @@
+{
+    "recommendations": [
+        "ms-vscode.vscode-typescript-next",
+        "xabikos.javascriptsnippets",
+        "aaron-bond.better-comments",
+        "irongeek.vscode-env",
+        "dsznajder.es7-react-js-snippets",
+        "dbaeumer.vscode-eslint",
+        "waderyan.gitblame",
+        "donjayamanne.githistory",
+        "mongodb.mongodb-vscode",
+        "ahmadalli.vscode-nginx-conf",
+        "christian-kohler.npm-intellisense",
+        "christian-kohler.path-intellisense",
+        "chrmarti.regex",
+        "jgclark.vscode-todo-highlight",
+        "gruntfuggly.todo-tree",
+        "naumovs.color-highlight",
+        "streetsidesoftware.code-spell-checker",
+        "kisstkondoros.vscode-codemetrics",
+        "pkief.material-icon-theme",
+        "github.copilot",
+        "steoates.autoimport",
+        "redhat.vscode-yaml",
+        "esbenp.prettier-vscode",
+        "VisualStudioExptTeam.vscodeintellicode"
+    ]
+}
