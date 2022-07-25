@@ -1,16 +1,17 @@
 {
-    "compile-hero.disable-compile-files-on-did-save-code": false,
-    "cSpell.words": [
-        "appenders",
-        "Asyncable",
-        "blognode",
-        "bodyparser",
-        "codepaths",
-        "cryptojs",
-        "loglevel",
-        "maxlength",
-        "middlewares",
-        "plusplus",
-        "tsbuildinfo"
-    ]
+  "compile-hero.disable-compile-files-on-did-save-code": false,
+  "cSpell.words": [
+    "appenders",
+    "Asyncable",
+    "blognode",
+    "bodyparser",
+    "codepaths",
+    "cryptojs",
+    "loglevel",
+    "maxlength",
+    "middlewares",
+    "plusplus",
+    "tsbuildinfo"
+  ],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

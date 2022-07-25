@@ -1,7 +1,7 @@
 import client from '@blognode/renderer-react/client';
 
 import 'remixicon/fonts/remixicon.css';
-import './styles/main.css';
+import './styles/main.less';
 
 const pageMap = require.context('./pages', true, /\.tsx$/, 'lazy');
 const pageName = document.getElementById('__pagename')?.innerText;

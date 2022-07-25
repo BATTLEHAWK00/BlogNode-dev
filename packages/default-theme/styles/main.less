@@ -1,9 +1,7 @@
-:root {
-  --blognode-main-shadow-depth: 5px;
-}
+@import "./variables.less";
 
 body {
-  background-color: rgb(246, 246, 246);
+  background-color: @background-color;
   margin: 0;
 }
 
@@ -33,7 +31,7 @@ input[type="text"]:hover {
 }
 
 .bn-shadow {
-  box-shadow: 0 5px var(--blognode-main-shadow-depth) rgb(228, 228, 228);
+  box-shadow: 0 5px @main-shadow-depth rgb(228, 228, 228);
   transition: all 0.5s;
 }
 
