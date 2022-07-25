@@ -5,15 +5,16 @@ import { ScriptTag, LinkTag } from '../util/template';
 
 const router = new Router();
 
-export type HttpMethods = 'get' | 'post';
+type PageMethods = 'get' | 'post';
+type ApiMethods = 'get' | 'post' | 'put' | 'del';
 
-export interface JsonResponseContext<T>{
+export interface JsonResponseContext<T> {
   state: number
   msg: string
   result: T
 }
 
-export interface HtmlResponseContext<T>{
+export interface HtmlResponseContext<T> {
   pageName: string
   pageTitle?: string
   pageCtx: T
@@ -24,30 +25,41 @@ export interface HtmlResponseContext<T>{
 type JsonResponseHandler<T> = (ctx: Context)=> Awaitable<JsonResponseContext<T>>;
 type PageResponseHandler<T> = (ctx: Context)=> Awaitable<HtmlResponseContext<T>>;
 
-function registerApiRoute<T>(method: HttpMethods | HttpMethods[], name: string, path: string | RegExp, handler: JsonResponseHandler<T>): void {
+function registerApiRoute<T>(method: ApiMethods | ApiMethods[], name: string, path: string | RegExp, handler: JsonResponseHandler<T>): void {
   const handle = async (ctx: Context, next: Next) => {
     ctx.body = await handler(ctx);
     ctx.type = 'application/json';
-    next();
+    await next();
   };
-  if (method instanceof Array) method.forEach((m) => router[m](name, path, handle));
-  else router[method](name, path, handle);
+  if (method instanceof Array) {
+    method.forEach((m) => router[m](name, path, handle));
+  } else {
+    router[method](name, path, handle);
+  }
 }
 
-function registerPageRoute<T>(method: HttpMethods | HttpMethods[], name: string, path: string | RegExp, handler: PageResponseHandler<T>): void {
+function registerPageRoute<T>(method: PageMethods | PageMethods[], name: string, path: string | RegExp, handler: PageResponseHandler<T>): void {
   const handle = async (ctx: Context, next: Next) => {
     const {
-      pageCtx, pageName, pageScripts, pageLinks,
+      pageCtx,
+      pageName,
+      pageScripts,
+      pageLinks,
+      pageTitle,
     } = await handler(ctx);
     ctx._pageCtx = pageCtx;
     ctx._pageName = pageName;
     ctx._pageScripts = pageScripts;
     ctx._pageLinks = pageLinks;
+    ctx._pageTitle = pageTitle;
     ctx.type = 'text/html';
-    next();
+    await next();
   };
-  if (method instanceof Array) method.forEach((m) => router[m](name, path, handle));
-  else router[method](name, path, handle);
+  if (method instanceof Array) {
+    method.forEach((m) => router[m](name, path, handle));
+  } else {
+    router[method](name, path, handle);
+  }
 }
 
 function getRoutes(): Router.IMiddleware {

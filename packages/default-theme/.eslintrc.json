@@ -16,9 +16,6 @@
     "project": ["tsconfig.json"]
   },
   "settings": {
-    "next": {
-      "rootDir": "packages/default-theme"
-    },
     "react": {
       "version": "detect"
     }

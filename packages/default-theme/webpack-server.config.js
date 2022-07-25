@@ -1,44 +1,50 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
-const path = require("path");
-const nodeExternals = require("webpack-node-externals");
+const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 
-const isProduction = process.env.NODE_ENV == "production";
+const isProduction = process.env.NODE_ENV == 'production';
 
 const config = {
-  mode: "production",
-  entry: "./server/index.ts",
+  mode: 'production',
+  entry: './server/index.ts',
   output: {
     clean: true,
-    path: path.resolve(__dirname, "dist/server"),
-    filename: "index.js",
-    libraryTarget: "commonjs-module",
+    path: path.resolve(__dirname, 'dist/server'),
+    filename: 'index.js',
+    libraryTarget: 'commonjs-module',
   },
-  target: "node",
+  target: 'node',
   externalsPresets: { node: true },
   module: {
     rules: [
       {
         test: /\.(ts)$/i,
-        loader: "esbuild-loader",
+        loader: 'esbuild-loader',
         options: {
-          loader: "ts",
+          loader: 'ts',
         },
       },
     ],
   },
   externals: [
-    "blognode",
+    'blognode',
     (ctx, cb) => {
-      const { context, request } = ctx;
+      const {
+        context,
+        request,
+      } = ctx;
       if (/node_modules/.test(context) || !context.includes(__dirname)) {
-        return cb(null, "commonjs " + request);
+        return cb(null, `commonjs ${request}`);
       }
       cb();
     },
     nodeExternals(),
   ],
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: ['.ts', '.js'],
+    // eslint-disable-next-line global-require
+    alias: require('./server/webpack.config').resolve.alias,
   },
 };
 

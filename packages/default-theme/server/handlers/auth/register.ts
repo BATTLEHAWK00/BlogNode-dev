@@ -1,4 +1,4 @@
-import { ApiResult, ApiHandler } from '../../util/handler';
+import { ApiResult, ApiHandler } from '@util/handler';
 
 class RegisterApiHandler extends ApiHandler {
   async get(): Promise<ApiResult> {

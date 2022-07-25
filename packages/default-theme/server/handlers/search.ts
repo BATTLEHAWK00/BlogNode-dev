@@ -1,5 +1,5 @@
-import { buildPageContext } from '../util/page';
-import { PageHandler, PageResult } from '../util/handler';
+import { buildPageContext } from '@util/page';
+import { PageHandler, PageResult } from '@util/handler';
 
 class SearchPageHandler extends PageHandler {
   async get(): Promise<PageResult> {

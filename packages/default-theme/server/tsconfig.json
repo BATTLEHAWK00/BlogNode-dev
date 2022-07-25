@@ -1,14 +1,18 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "baseUrl": ".",
+    "lib": [
+      "esnext"
+    ],
+    "baseUrl": "./",
     "outDir": "../dist/server",
     "paths": {
-      "@src/*": ["src/*"],
-      "@components/*": ["src/components/*"],
-      "@layout/*": ["src/components/layout/*"],
-      "@public/*": ["public/*"]
+      "@/*": [
+        "*"
+      ],
+      "@util/*": [
+        "util/*"
+      ]
     },
     "allowJs": true,
     "skipLibCheck": true,
@@ -23,11 +27,7 @@
     "jsx": "preserve"
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "*.js",
-    "../pages/app.tsx"
+    "./util",
+    "./"
   ],
-  "exclude": ["node_modules", "dist", "server"]
 }

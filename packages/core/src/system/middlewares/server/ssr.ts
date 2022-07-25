@@ -47,7 +47,7 @@ const render = (middleware: SsrMiddlewareInfo) => async (ctx: Context, next: Nex
       const html = template.renderHtml({
         pageHead: ctx._pageHead || '',
         pageBody: pageBody || '',
-        pageTitle: 'testTitle',
+        pageTitle: ctx._pageTitle,
         pageLang: 'en',
         scriptTags: ctx._pageScripts || [],
         linkTags: ctx._pageLinks || [],
