@@ -1,6 +1,6 @@
 import logging from '@src/system/logging';
 import { KoaMiddleware, ServerMiddleware } from '@src/system/middleware';
-import * as KoaLogger from 'koa-logger';
+import KoaLogger from 'koa-logger';
 import { levels } from 'log4js';
 
 const logger = logging.getLogger('HttpLog');

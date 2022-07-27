@@ -49,7 +49,8 @@
     "@types/mysql": "^2.15.21",
     "@types/node": "^18.0.3",
     "@types/nodemailer": "^6.4.4",
-    "gulp": "^4.0.2",
-    "gulp-typescript": "^6.0.0-alpha.1"
+    "esbuild": "^0.14.50",
+    "glob": "^8.0.3",
+    "gulp": "^4.0.2"
   }
 }

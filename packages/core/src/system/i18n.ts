@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-var */
 /* eslint-disable vars-on-top */
-import * as i18n from 'i18n';
+import i18n from 'i18n';
 
 function load(locale: string): void {
   i18n.configure({

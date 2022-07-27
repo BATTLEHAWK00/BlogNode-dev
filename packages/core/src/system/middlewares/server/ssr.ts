@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import bus from '@src/system/bus';
 import config from '@src/system/config';
 import { BlogNodeFatalError, BlogNodeInternalServerError } from '@src/system/error';

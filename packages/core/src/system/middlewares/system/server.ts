@@ -3,8 +3,8 @@ import config from '@src/system/config';
 import logging from '@src/system/logging';
 import middleware, { SystemMiddleware } from '@src/system/middleware';
 import { Server } from 'http';
-import * as Koa from 'koa';
-import * as KoaRouter from 'koa-router';
+import Koa from 'koa';
+import KoaRouter from 'koa-router';
 
 import middlewares from '../serverMiddlewares';
 

@@ -3,7 +3,7 @@ import cache from '@src/system/cache';
 import { BlogNodeError } from '@src/system/error';
 import logging from '@src/system/logging';
 import { cacheKey } from '@src/util/utils';
-import * as LRUCache from 'lru-cache';
+import LRUCache from 'lru-cache';
 import mongoose from 'mongoose';
 
 import userSchema from '../schema/userSchema';

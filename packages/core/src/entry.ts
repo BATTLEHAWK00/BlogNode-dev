@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 
 import bus from './system/bus';
 import config from './system/config';
@@ -33,8 +33,8 @@ bus.once('system/started', () => bus.broadcast('system/gc'));
 type SystemMiddlewares = { default: SystemMiddleware[] };
 
 async function loadMiddlewares() {
-  const middlewarePath = path.resolve(__dirname, 'system/middlewares');
-  const { default: middlewares } = await moduleLoader.loadModule<SystemMiddlewares>(middlewarePath, 'systemMiddlewares');
+  const middlewarePath = path.resolve(__dirname, 'system/middlewares/systemMiddlewares');
+  const { default: middlewares } = await moduleLoader.loadModule<SystemMiddlewares>(middlewarePath);
   await middleware.loadSystemMiddlewares(middlewares);
 }
 

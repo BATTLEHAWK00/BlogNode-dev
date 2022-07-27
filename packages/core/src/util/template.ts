@@ -1,7 +1,7 @@
 import logging from '@src/system/logging';
 import config from '@src/system/config';
 import ejs = require('ejs');
-import * as fs from 'fs';
+import fs from 'fs';
 import { fromSrc } from '@src/util/system';
 import { BlogNodeError } from '../system/error';
 

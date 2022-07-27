@@ -1,44 +1,28 @@
 /* eslint-disable no-console,import/no-extraneous-dependencies */
 import * as gulp from 'gulp';
-import * as ts from 'gulp-typescript';
 import * as path from 'path';
-// import { createGulpEsbuild } from 'gulp-esbuild';
+import * as esbuild from 'esbuild';
 import { replaceTscAliasPaths } from 'tsc-alias';
+import { glob } from 'glob';
 
-// const esbuild = createGulpEsbuild({
-//   pipe: true,
-// });
-
-const tsProject = ts.createProject(path.resolve(__dirname, '../tsconfig.json'), {
-  declaration: true,
-  // eslint-disable-next-line global-require
-  typescript: require('typescript'),
-  declarationFiles: true,
-});
-
-// const compileTask = () => {
-//   console.log('Compiling typescripts...');
-
-//   return gulp.src(['**/*.ts', '!dist/*', '!**/*.d.ts'])
-//     .pipe(esbuild({
-//       tsconfig: path.resolve(__dirname, '../tsconfig.json'),
-//       target: 'es2021',
-//       format: 'cjs',
-//       platform: 'node',
-//       globalName: 'global',
-//       treeShaking: true,
-//       resolveExtensions: ['.js'],
-//     }))
-//     .pipe(gulp.dest('dist'));
-// };
-
-const compileTask = () => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const compileTask = (cb: any) => {
   console.log('Compiling typescripts...');
-
-  return tsProject
-    .src()
-    .pipe(tsProject())
-    .pipe(gulp.dest('dist'));
+  esbuild.buildSync({
+    entryPoints: [
+      ...glob.sync('**/*.ts'),
+    ],
+    bundle: false,
+    target: 'node16',
+    platform: 'node',
+    format: 'cjs',
+    treeShaking: true,
+    minify: true,
+    resolveExtensions: ['.js', '.ts'],
+    outdir: path.resolve(__dirname, '../dist/'),
+    tsconfig: path.resolve(__dirname, '../tsconfig.json'),
+  });
+  cb();
 };
 
 const aliasTransform = async () => {

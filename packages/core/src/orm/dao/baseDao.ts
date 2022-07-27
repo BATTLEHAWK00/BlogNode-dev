@@ -5,7 +5,7 @@ import database from '@src/system/database';
 import logging from '@src/system/logging';
 import { Awaitable } from '@src/util/types';
 import { Logger } from 'log4js';
-import * as Cache from 'lru-cache';
+import Cache from 'lru-cache';
 import { Model } from 'mongoose';
 
 export default abstract class BaseDao<T extends Entity> {

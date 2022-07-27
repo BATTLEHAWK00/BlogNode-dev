@@ -1,5 +1,5 @@
 import config from '@src/system/config';
-import * as Log4js from 'log4js';
+import Log4js from 'log4js';
 
 const logLevel = config.systemConfig.logLevel || 'info';
 

@@ -1,7 +1,7 @@
 import { Post } from '@src/interface/entities/post';
 import cache from '@src/system/cache';
 import { cacheKey } from '@src/util/utils';
-import * as LRUCache from 'lru-cache';
+import LRUCache from 'lru-cache';
 import mongoose, { Model } from 'mongoose';
 
 import postSchema from '../schema/postSchema';

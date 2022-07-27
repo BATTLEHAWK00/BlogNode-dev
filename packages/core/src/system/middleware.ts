@@ -1,15 +1,13 @@
 /* eslint-disable max-classes-per-file */
+import Koa from 'koa';
 import { Awaitable } from '@src/util/types';
 import { Timer } from '@src/util/utils';
-import * as Application from 'koa';
-import * as Router from 'koa-router';
-
+import Router from 'koa-router';
 import { BlogNodeFatalError } from './error';
 import logging from './logging';
 
 const logger = logging.getLogger('Middleware');
-
-export type KoaMiddleware = Application.Middleware;
+export type KoaMiddleware = Koa.Middleware;
 
 export abstract class BlogNodeMiddleware {
   public getName(): string {
@@ -44,7 +42,7 @@ export abstract class ServerMiddleware extends BlogNodeMiddleware {
   }
 }
 
-async function registerServer(koaApp: Application, koaRouter: Router, middlewares: ServerMiddleware[]): Promise<void> {
+async function registerServer(koaApp: Koa, koaRouter: Router, middlewares: ServerMiddleware[]): Promise<void> {
   const timer = new Timer();
   // eslint-disable-next-line no-restricted-syntax
   for await (const middleware of middlewares) {

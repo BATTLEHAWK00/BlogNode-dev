@@ -1,6 +1,6 @@
 import { Entity } from '@src/interface/interface';
 import { isNull, groupBy } from 'lodash';
-import * as LRU from 'lru-cache';
+import LRU from 'lru-cache';
 
 import { default as logging } from './logging';
 

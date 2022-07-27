@@ -1,5 +1,5 @@
 import config from '@src/system/config';
-import * as path from 'path';
+import path from 'path';
 
 const srcPath = path.resolve(__dirname, '../');
 

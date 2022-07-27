@@ -1,6 +1,6 @@
 import bus, { EventType } from '@src/system/bus';
 import { BlogNodeError } from '@src/system/error';
-import * as path from 'path';
+import path from 'path';
 import { setTimeout } from 'timers/promises';
 import { CacheKey } from './types';
 
