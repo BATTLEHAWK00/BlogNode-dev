@@ -19,7 +19,7 @@ declare global{
 }
 
 const systemConfig: SystemConfig = {
-  logLevel: cliArgs.options.loglevel as LogLevel,
+  logLevel: (cliArgs?.options?.loglevel || 'debug') as LogLevel,
 };
 
 const httpConfig: HttpConfig = {

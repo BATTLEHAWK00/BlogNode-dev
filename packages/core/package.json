@@ -6,13 +6,18 @@
   "typings": "dist/index.d.ts",
   "main": "dist/index.js",
   "preferUnplugged": true,
+  "scripts": {
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register test/**/test.ts"
+  },
   "dependencies": {
     "agenda": "^4.3.0",
     "cac": "^6.7.12",
     "crypto-js": "^4.1.1",
+    "dayjs": "^1.11.4",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
     "i18n": "^0.15.0",
+    "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
@@ -24,8 +29,8 @@
     "lodash": "^4.17.21",
     "log4js": "^6.5.2",
     "lru-cache": "^7.10.1",
+    "markdown-it": "^13.0.1",
     "minio": "^7.0.28",
-    "moment": "^2.29.3",
     "mongoose": "^6.3.5",
     "nodemailer": "^6.7.5"
   },

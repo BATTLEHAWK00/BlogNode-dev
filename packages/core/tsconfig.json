@@ -110,6 +110,6 @@
   "ts-node": {
     "transpileOnly": true
   },
-  "include": ["src/**/*.ts", "bin/**.ts", "index.ts"],
+  "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }

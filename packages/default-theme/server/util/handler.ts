@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 /* eslint-disable max-classes-per-file */
+import type { Request, Response } from 'koa';
 import { Asyncable } from './common';
+
+export const pageMethod = ['get', 'post'] as const;
+export const apiMethod = ['get', 'post', 'put', 'del'] as const;
+
+export type PageMethod = typeof pageMethod[number];
+export type ApiMethod = typeof apiMethod[number];
 
 export interface PageResult{
 
@@ -10,17 +17,25 @@ export interface ApiResult{
 
 }
 
-interface IPageHandlerMethods{
-  get?(): Asyncable<PageResult>
-  post?(): Asyncable<PageResult>
+export interface HandlerContext {
+  path: string
+  query: Record<string, unknown>
+  params: Record<string, unknown>
+  req: Request
+  res: Response
 }
 
-interface IApiHandlerMethods{
-  get?(): Asyncable<ApiResult>
-  post?(): Asyncable<ApiResult>
-  put?(): Asyncable<ApiResult>
-  del?(): Asyncable<ApiResult>
+export interface HandlerHelpers{
+  redirect(url: string): void
 }
+
+type IPageHandlerMethods = {
+  [key in ApiMethod]: (ctx: HandlerContext, helpers: HandlerHelpers)=> Asyncable<ApiResult>;
+};
+
+type IApiHandlerMethods = {
+  [key in PageMethod]: (ctx: HandlerContext, helpers: HandlerHelpers)=> Asyncable<ApiResult>;
+};
 
 abstract class Handler {
   private name: string;

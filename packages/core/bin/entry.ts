@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
-import { BlogNode } from '@src/global';
 import cac from 'cac';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
@@ -8,16 +7,6 @@ import * as fs from 'fs';
 import type * as PackageInfo from '../package.json';
 
 const isDev = process.env.NODE_ENV === 'development';
-
-declare global{
-  // eslint-disable-next-line vars-on-top,@typescript-eslint/naming-convention,no-var
-  var __blognode: BlogNode;
-}
-
-global.__blognode = {
-  dao: {},
-  service: {},
-};
 
 // eslint-disable-next-line import/no-dynamic-require,@typescript-eslint/no-var-requires
 const packageInfo: typeof PackageInfo = require(isDev ? '../package.json' : '../../package.json');
