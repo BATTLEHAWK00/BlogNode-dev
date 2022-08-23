@@ -1,12 +1,10 @@
 {
-  "extends": [
-    "../../../.eslintrc.json",
-    "airbnb-typescript"
-  ],
+  "extends": ["../../../.eslintrc.json", "airbnb-typescript"],
   "rules": {
     "class-methods-use-this": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "@typescript-eslint/lines-between-class-members": "off"
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -15,9 +13,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "project": [
-      "tsconfig.json"
-    ]
+    "project": ["tsconfig.json"]
   },
   "overrides": []
 }

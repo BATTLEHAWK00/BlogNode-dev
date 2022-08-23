@@ -39,6 +39,17 @@ const config = {
     }),
   ],
   optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          name: 'vendor',
+          chunks: 'async',
+          test: /[\\/]node_modules[\\/]/,
+          priority: -20,
+          minSize: 0,
+        },
+      },
+    },
     minimizer: [
       new ESBuildMinifyPlugin({
         target: 'es2015', // Syntax to compile to (see options below for possible values)

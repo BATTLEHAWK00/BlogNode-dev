@@ -1,3 +1,6 @@
+/* eslint-disable no-var */
+/* eslint-disable vars-on-top */
+import { PageHandler as _PageHandler } from '@src/handler/handler';
 import type { BlogNode } from './src/global';
 import type { ThemeInfo } from './src/system/theme';
 
@@ -7,10 +10,8 @@ export type { BlogNodeServerContext } from './src/system/middlewares/server/serv
 export type ThemeRegisterer = ()=> ThemeInfo;
 
 declare global{
-  // eslint-disable-next-line no-var,vars-on-top,@typescript-eslint/naming-convention
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   var __blognode: BlogNode;
 }
-
-export const test = {
-  test: 'asd',
-};
+global.PageHandler = _PageHandler;
+global.ApiHandler = _PageHandler;

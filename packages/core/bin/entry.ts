@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
-import cac from 'cac';
-import * as dotenv from 'dotenv';
-import * as fs from 'fs';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { cac } from 'cac';
+import dotenv from 'dotenv';
+import fs from 'fs';
 
-import type * as PackageInfo from '../package.json';
+import type PackageInfo from '../package.json';
 
 const isDev = process.env.NODE_ENV === 'development';
 

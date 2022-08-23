@@ -18,6 +18,7 @@
     "no-console": "error",
     "no-plusplus": "off",
     "no-underscore-dangle": "off",
-    "@typescript-eslint/no-explicit-any": "error"
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/lines-between-class-members": "off"
   }
 }

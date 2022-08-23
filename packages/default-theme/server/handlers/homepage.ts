@@ -1,7 +1,7 @@
 import { Asyncable } from '@util/common';
 import { buildPageContext } from '@util/page';
 import { PageHandler, PageResult } from '@util/handler';
-import { HandlerContext } from '../util/handler';
+import { HandlerContext } from 'blognode/src/handler/handler';
 
 class HomePageHandler extends PageHandler {
   post({ path, query, params }: HandlerContext, helper: HandlerHelpers): Asyncable<PageResult> {

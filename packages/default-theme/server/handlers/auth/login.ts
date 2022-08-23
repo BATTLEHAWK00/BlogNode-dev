@@ -1,13 +1,7 @@
-import { ApiResult, ApiHandler } from '@util/handler';
+import { PageHandler } from '@util/handler';
 
-class LoginApiHandler extends ApiHandler {
-  async get(): Promise<ApiResult> {
-    return {
-      code: 200,
-      msg: 'OK',
-      data: 'asdasd',
-    };
-  }
+class LoginPageHandler extends PageHandler {
+
 }
 
-export default new LoginApiHandler('LoginApi', '/auth/login');
+export default new LoginPageHandler('LoginPage', '/auth/login');

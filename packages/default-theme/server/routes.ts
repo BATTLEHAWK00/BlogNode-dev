@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { PageHandler, ApiHandler } from '@util/handler';
 import type { Context } from 'koa';
-import { HandlerContext } from './util/handler';
+import { HandlerContext } from 'blognode/src/handler/handler';
 import { Asyncable } from './util/common';
 
 if (!__blognode.routerRegistry) throw new Error('Blognode not fully initialized!');
@@ -24,8 +24,6 @@ function handleRequest<T, K extends HandlerMethod<T>>(method: K) {
     params: ctx.request.body,
     req: ctx.request,
     res: ctx.response,
-  }, {
-    redirect: (url: string) => ctx.redirect(url),
   });
 }
 

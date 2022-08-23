@@ -1,18 +1,12 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": [
-      "esnext"
-    ],
+    "lib": ["esnext"],
     "baseUrl": "./",
     "outDir": "../dist/server",
     "paths": {
-      "@/*": [
-        "*"
-      ],
-      "@util/*": [
-        "util/*"
-      ]
+      "@/*": ["*"],
+      "@util/*": ["util/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,
@@ -26,8 +20,5 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": [
-    "./util",
-    "./"
-  ],
+  "include": ["./util", "./", "../../core/src/handler/handler.ts"]
 }
