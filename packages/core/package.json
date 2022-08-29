@@ -19,12 +19,14 @@
     "@fastify/rate-limit": "^7.3.0",
     "@fastify/static": "^6.5.0",
     "@fastify/url-data": "^5.1.0",
+    "@fastify/websocket": "^7.0.1",
     "agenda": "^4.3.0",
     "cac": "^6.7.12",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.4",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
+    "eventemitter2": "^6.4.7",
     "fastify": "^4.5.3",
     "fastify-plugin": "^4.2.1",
     "i18n": "^0.15.0",
@@ -36,8 +38,7 @@
     "markdown-it": "^13.0.1",
     "minio": "^7.0.28",
     "mongoose": "^6.3.5",
-    "nodemailer": "^6.7.5",
-    "path-to-regexp": "^6.2.1"
+    "nodemailer": "^6.7.5"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.17.12",
@@ -49,6 +50,7 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/lodash": "^4.14.182",
     "@types/lru-cache": "^7.10.10",
+    "@types/markdown-it": "^12.2.3",
     "@types/minio": "^7.0.13",
     "@types/mongodb": "^4.0.7",
     "@types/mysql": "^2.15.21",

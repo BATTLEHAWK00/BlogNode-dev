@@ -6,7 +6,7 @@ import mongoose, { Model } from 'mongoose';
 
 import logging from './logging';
 
-const logger = logging.getLogger('Database');
+const logger = logging.getLogger('DataBase');
 
 const { dbConfig } = config;
 const registeredModels: Map<string, Model<unknown>> = new Map();
