@@ -5,7 +5,7 @@
 ![UI Version](https://img.shields.io/github/package-json/v/BATTLEHAWK00/BlogNode-dev?filename=packages%2Fdefault-theme%2Fpackage.json&label=ui-ver)
 ![Dependencies](https://img.shields.io/librariesio/github/BATTLEHAWK00/BlogNode-dev)
 ![GitHub Contributors](https://img.shields.io/github/contributors/BATTLEHAWK00/BlogNode-dev)
-![GitHub License](https://img.shields.io/github/license/BATTLEHAWK00/BlogNode-dev)
+![GitHub License](https://img.shields.io/github/license/BATTLEHAWK00/BlogNode-dev)  
 A blog written in TypeScript using Fastify.  
 BlogNode 是一个使用 TypeScript + Fastify 搭建的博客项目，具有迅速、轻量化、易于部署、易于扩展的特点。  
 主题、插件等功能正在计划中...  
