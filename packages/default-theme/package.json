@@ -16,7 +16,6 @@
     "@blognode/renderer-react": "*",
     "@blognode/types-theme": "*",
     "axios": "^0.27.2",
-    "blognode": "*",
     "bootstrap": "^5.2.0",
     "han-css": "^3.3.0",
     "joi": "^17.6.0",
@@ -27,7 +26,6 @@
     "remixicon": "^2.5.0"
   },
   "devDependencies": {
-    "@types/koa": "^2.13.4",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@types/webpack-env": "^1.17.0",

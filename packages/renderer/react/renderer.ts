@@ -1,7 +1,5 @@
 import type { Component, FunctionComponent } from 'react';
 import * as domserver from 'react-dom/server';
-import * as path from 'path';
-import * as fs from 'fs';
 import blogNodeRoot from './root';
 
 type ReactComponent<T extends Component | FunctionComponent> = T;
