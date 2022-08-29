@@ -1,12 +1,7 @@
-import { SsrMiddlewareInfo } from 'blognode';
 import renderer from './renderer';
 
-const middlewareInfo: SsrMiddlewareInfo = {
-  name: 'react-renderer',
-  prepare: () => {},
-  close: () => {},
+registerRenderer({
+  name: '@blognode/renderer-react',
   render: renderer.render.bind(renderer),
-  configure: renderer.configure.bind(renderer),
-};
-
-export default middlewareInfo;
+  prepare: renderer.prepare.bind(renderer),
+});

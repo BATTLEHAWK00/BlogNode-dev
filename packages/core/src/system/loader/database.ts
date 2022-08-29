@@ -1,7 +1,7 @@
 import bus from '@src/system/bus';
 import database from '@src/system/database';
 import logging from '@src/system/logging';
-import { SystemLoader, WaitFunction } from '@src/system/manager/loader';
+import { SystemLoader } from '@src/system/manager/loader';
 import moduleLoader from '@src/system/moduleLoader';
 import task from '@src/system/task';
 import { fromSrc } from '@src/util/system';

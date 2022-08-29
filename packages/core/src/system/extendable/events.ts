@@ -1,3 +1,4 @@
+import { ThemeInfo } from '@blognode/types-theme';
 import { User } from '@src/interface/interface';
 
 type VoidRet = void | Promise<void | void[]>;
@@ -14,4 +15,5 @@ export interface BlogNodeEvents extends Record<string, (...args: never[])=> Void
   'auth/login': (user: User)=> VoidRet
   'auth/register': (uid: number)=> VoidRet
   'auth/logout': (user: User)=> VoidRet
+  'theme/loaded': (themeInfo: ThemeInfo)=> VoidRet
 }

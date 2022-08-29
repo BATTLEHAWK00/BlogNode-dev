@@ -13,10 +13,12 @@
     "@fastify/compress": "^6.1.1",
     "@fastify/cookie": "^8.0.0",
     "@fastify/csrf-protection": "^5.1.0",
+    "@fastify/helmet": "^9.1.0",
     "@fastify/http-proxy": "^8.2.2",
     "@fastify/multipart": "^7.1.1",
     "@fastify/rate-limit": "^7.3.0",
     "@fastify/static": "^6.5.0",
+    "@fastify/url-data": "^5.1.0",
     "agenda": "^4.3.0",
     "cac": "^6.7.12",
     "crypto-js": "^4.1.1",
@@ -34,7 +36,8 @@
     "markdown-it": "^13.0.1",
     "minio": "^7.0.28",
     "mongoose": "^6.3.5",
-    "nodemailer": "^6.7.5"
+    "nodemailer": "^6.7.5",
+    "path-to-regexp": "^6.2.1"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.17.12",

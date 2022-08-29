@@ -1,4 +1,4 @@
-import routerRegistry from '@src/system/routerRegistry';
+import routerRegistry from '@src/system/router';
 import { postDao } from '@src/orm/dao/postDao';
 import { systemDao } from '@src/orm/dao/systemDao';
 import { userDao } from '@src/orm/dao/userDao';

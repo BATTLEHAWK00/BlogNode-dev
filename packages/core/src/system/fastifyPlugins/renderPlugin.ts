@@ -1,28 +1,23 @@
+import { IBlogNodeRenderer } from '@blognode/types-renderer';
+import { Timer } from '@src/util/utils';
 import { FastifyPluginCallback } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
 import fs from 'fs/promises';
 import path from 'path';
 import { BlogNodeError } from '../error';
 import logging from '../logging';
-import { IBlogNodeRenderer } from '../manager/theme';
+import rendererManager from '../manager/renderer';
+import theme from '../manager/theme';
 
 type IRenderFunction = (template: string, layoutTemplate?: string)=> Promise<void>;
-type IChangeTemplatePathFunction = (dir: string)=> void;
-type IChangeRendererFunction = (renderer: IBlogNodeRenderer, templatePath: string)=> void;
 
 interface IRenderPluginOptions{
-  renderEngine: IBlogNodeRenderer
-  templatePath: string
   cacheTemplates?: boolean
 }
 
 declare module 'fastify'{
   interface FastifyReply{
     render: IRenderFunction
-  }
-  interface FastifyInstance{
-    changeTemplatePath: IChangeTemplatePathFunction
-    changeRenderer: IChangeRendererFunction
   }
 }
 
@@ -56,11 +51,6 @@ class RenderContext {
     return this.renderer.render(template, layout, payload);
   }
 
-  changeTemplatePath(dir: string) {
-    this.cacheMap.clear();
-    this.templatePath = dir;
-  }
-
   constructor(renderer: IBlogNodeRenderer, templatePath: string, cache = true) {
     this.renderer = renderer;
     this.templatePath = templatePath;
@@ -69,23 +59,22 @@ class RenderContext {
 }
 
 const plugin: FastifyPluginCallback<IRenderPluginOptions> = async (fastify, options) => {
-  const { renderEngine, cacheTemplates, templatePath } = options;
-  let renderContext = new RenderContext(renderEngine, templatePath, cacheTemplates);
-  fastify.decorate<IChangeTemplatePathFunction>('changeTemplatePath', (dir) => {
-    renderContext.changeTemplatePath(dir);
-    logger.debug(`Changed template path to ${dir}`);
-  });
-  fastify.decorate<IChangeRendererFunction>('changeRenderer', (renderer, templateDir) => {
-    renderContext = new RenderContext(renderer, templateDir, cacheTemplates);
-    logger.debug(`Changed renderer to ${renderer.name}`);
-  });
+  const { cacheTemplates } = options;
+  const { renderEngine: rendererName, templatePath } = theme.getThemeInfo();
+  const renderEngine = await rendererManager.getRenderer(rendererName);
+  const renderContext = new RenderContext(renderEngine, templatePath, cacheTemplates);
+
   fastify.decorateReply<IRenderFunction>('render', async (template, layout) => {
     fastify.addHook('onSend', async (req, res, payload) => {
+      const timer = new Timer();
+      timer.start();
       const html = await renderContext.render(template, layout, payload);
       res.type('text/html');
+      timer.end();
+      logger.debug(`Rendered template: ${template} (${timer.result()}ms)`);
       return html;
     });
   });
 };
 
-export default fastifyPlugin(plugin);
+export default fastifyPlugin(plugin, { name: 'BlogNodeRender' });

@@ -1,18 +1,13 @@
-import vm from 'vm';
-import fs from 'fs/promises';
 import { existsSync } from 'fs';
-import path from 'path';
 import type { ThemeInfo } from '@blognode/types-theme';
-import M from 'module';
-import LRUCache from 'lru-cache';
-import { BlogNodeError } from '../error';
-import routerRegistry, { BlogNodeRoute } from '../routerRegistry';
+import { BlogNodeError, BlogNodeFatalError } from '../error';
 import logging from '../logging';
 import config from '../config';
+import bus from '../bus';
+import sandbox from '../sandbox';
+import renderer from './renderer';
 
 const logger = logging.getLogger('ThemeManager');
-
-const themeInfoCache: LRUCache<string, ThemeInfo> = new LRUCache({ maxSize: 5 });
 
 let themeInfo: ThemeInfo | null = null;
 
@@ -23,31 +18,26 @@ const themeContext = {
 };
 
 async function loadTheme(filePath: string): Promise<void> {
+  logger.debug(`Loading theme: ${filePath}...`);
   const themePath = existsSync(filePath) ? filePath : require.resolve(filePath);
-  const code = await fs.readFile(themePath, { encoding: 'utf-8' });
-  const script = new vm.Script(code, { displayErrors: true, filename: themePath });
 
-  const vmCtx = vm.createContext({
-    require: M.createRequire(themePath),
-    module: {},
-    exports: {},
-    __filename: themePath,
-    __dirname: path.dirname(themePath),
+  await sandbox.runModuleInSandbox(themePath, {
     logger: logging.getLogger('Theme'),
-    ...themeContext,
     isDev: config.isDev,
+    ...themeContext,
   });
-
-  script.runInContext(vmCtx);
 
   if (!themeInfo) throw new BlogNodeError('Theme loading failed.');
 
   await themeInfo.prepare({
     isDev: config.isDev,
   });
+  await renderer.getRenderer(themeInfo.renderEngine);
+  await bus.broadcast('theme/loaded', themeInfo);
 }
 
-function getThemeInfo(): ThemeInfo | null {
+function getThemeInfo(): ThemeInfo {
+  if (!themeInfo) throw new BlogNodeFatalError('Access theme info before loading!');
   return themeInfo;
 }
 

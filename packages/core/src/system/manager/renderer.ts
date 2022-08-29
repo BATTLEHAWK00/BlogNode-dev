@@ -1,19 +1,32 @@
 import { IBlogNodeRenderer } from '@blognode/types-renderer';
 import { BlogNodeError } from '../error';
+import logging from '../logging';
+import sandbox from '../sandbox';
+
+const logger = logging.getLogger('RendererManager');
 
 const rendererMap: Map<string, IBlogNodeRenderer> = new Map();
 
-function registerRenderer(renderer: IBlogNodeRenderer): void {
-  rendererMap.set(renderer.name, renderer);
-}
-
-function getRenderer(name: string): IBlogNodeRenderer {
-  const renderer = rendererMap.get(name);
+async function getRenderer(name: string): Promise<IBlogNodeRenderer> {
+  logger.debug(`Loading renderer: ${name}`);
+  let renderer: IBlogNodeRenderer | undefined = rendererMap.get(name);
+  if (!renderer) {
+    const path = require.resolve(name);
+    logger.debug(`Found renderer path: ${path}`);
+    await sandbox.runModuleInSandbox(path, {
+      logger: logging.getLogger('Renderer'),
+      registerRenderer(r: IBlogNodeRenderer) {
+        renderer = r;
+        rendererMap.set(r.name, renderer);
+        if (name !== r.name) rendererMap.set(name, r);
+        logger.debug(`Registered renderer: ${r.name}`);
+      },
+    });
+  }
   if (!renderer) throw new BlogNodeError(`No such renderer: ${name}`);
   return renderer;
 }
 
 export default {
-  registerRenderer,
   getRenderer,
 };

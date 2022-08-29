@@ -10,6 +10,7 @@ const logStyle = '{IP} - {METHOD} {URL} {STATUS} {TIME}ms';
 
 const plugin: FastifyPluginCallback<ILoggerPluginOptions> = async (fastify, options) => {
   const { logger } = options;
+
   fastify.addHook('onResponse', async (req, res) => {
     const code = res.statusCode;
     const msg = logStyle.replace('{METHOD}', req.method)
@@ -24,4 +25,4 @@ const plugin: FastifyPluginCallback<ILoggerPluginOptions> = async (fastify, opti
   });
 };
 
-export default fastifyPlugin(plugin);
+export default fastifyPlugin(plugin, { name: 'BlogNodeLogging' });

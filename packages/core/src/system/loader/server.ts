@@ -13,8 +13,9 @@ class HttpServerLoader extends SystemLoader {
     const { address, port } = config.httpConfig;
     await wait(['db', 'theme']);
     logger.info('Starting server...');
-    server.init();
-    server.listen(port, address);
+    await server.init();
+    await server.listen(port, address);
+    bus.on('theme/loaded', () => server.restart(), true);
     bus.once('system/beforeStop', async () => {
       logger.debug('Closing server...');
       await server.close();

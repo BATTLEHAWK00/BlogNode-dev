@@ -1,4 +1,4 @@
-import  crypto from 'crypto';
+import crypto from 'crypto';
 import { registerSetting } from '../settings';
 
 registerSetting({
@@ -91,5 +91,11 @@ registerSetting({
   name: 'smtp.password',
   description: 'SMTP password for email sending.',
   defaultValue: 'pass',
+  preload: true,
+});
+registerSetting({
+  name: 'setupComplete',
+  description: 'first setup',
+  defaultValue: false,
   preload: true,
 });
