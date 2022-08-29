@@ -8,9 +8,9 @@ const logger = logging.getLogger('RendererManager');
 const rendererMap: Map<string, IBlogNodeRenderer> = new Map();
 
 async function getRenderer(name: string): Promise<IBlogNodeRenderer> {
-  logger.debug(`Loading renderer: ${name}`);
   let renderer: IBlogNodeRenderer | undefined = rendererMap.get(name);
   if (!renderer) {
+    logger.debug(`Loading renderer: ${name}`);
     const path = require.resolve(name);
     logger.debug(`Found renderer path: ${path}`);
     await sandbox.runModuleInSandbox(path, {

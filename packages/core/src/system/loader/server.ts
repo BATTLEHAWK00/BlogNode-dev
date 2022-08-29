@@ -15,7 +15,10 @@ class HttpServerLoader extends SystemLoader {
     logger.info('Starting server...');
     await server.init();
     await server.listen(port, address);
-    bus.on('theme/loaded', () => server.restart(), true);
+    bus.on('theme/loaded', () => server.reload(), true);
+    setTimeout(() => {
+      bus.broadcast('theme/loaded');
+    }, 3000);
     bus.once('system/beforeStop', async () => {
       logger.debug('Closing server...');
       await server.close();

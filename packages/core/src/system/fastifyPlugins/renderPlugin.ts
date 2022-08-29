@@ -63,6 +63,7 @@ const plugin: FastifyPluginCallback<IRenderPluginOptions> = async (fastify, opti
   const { renderEngine: rendererName, templatePath } = theme.getThemeInfo();
   const renderEngine = await rendererManager.getRenderer(rendererName);
   const renderContext = new RenderContext(renderEngine, templatePath, cacheTemplates);
+  logger.debug('Renderer info registered.');
 
   fastify.decorateReply<IRenderFunction>('render', async (template, layout) => {
     fastify.addHook('onSend', async (req, res, payload) => {

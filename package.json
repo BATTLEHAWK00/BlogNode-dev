@@ -23,7 +23,7 @@
     "test": "cd packages/core && yarn test",
     "prebuild:core": "yarn test",
     "build:core": "cd packages/core && ts-node bin/build.ts",
-    "postbuild:core": "cd packages/core && tsc --emitDeclarationOnly",
+    "build:core:d": "cd packages/core && tsc --emitDeclarationOnly",
     "theme:dev": "cd packages/default-theme && yarn dev",
     "build:theme": "cd packages/default-theme && yarn build",
     "build:theme:pages": "cd packages/default-theme && yarn build:pages",

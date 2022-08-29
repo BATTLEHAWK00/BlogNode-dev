@@ -9,6 +9,7 @@ import fastifyUrlData from '@fastify/url-data';
 import { IBlogNodeRenderer } from '@blognode/types-renderer';
 import fastifyMultipart from '@fastify/multipart';
 import { AddressInfo } from 'net';
+import { Timer } from '@src/util/utils';
 import { BlogNodeFatalError } from './error';
 import logging from './logging';
 import loggingPlugin from './fastifyPlugins/loggingPlugin';
@@ -59,23 +60,26 @@ async function init(): Promise<void> {
   logger.trace(fastify.printPlugins());
 }
 
-async function listen(port = 3000, host = '0.0.0.0'): Promise<void> {
+async function listen(port = 3000, host = '0.0.0.0', isReload = false): Promise<void> {
   try {
     const url = await fastify.listen({ port, host });
-    logger.info(`Server listening on ${url}`);
+    if (!isReload) logger.info(`Server listening on ${url}`);
   } catch (e) {
     throw new BlogNodeFatalError('Error occurred when server start listening.', { cause: e as Error });
   }
 }
 
-async function restart(): Promise<void> {
+async function reload(): Promise<void> {
   const { port, address } = fastify.server.address() as AddressInfo;
-  logger.info('Restarting the server...');
+  const timer = new Timer();
+  timer.start();
+  logger.info('Reloading the server...');
   await fastify.close();
   fastify = Fastify();
   await init();
-  await listen(port, address);
-  logger.info('Restarting complete.');
+  await listen(port, address, true);
+  timer.end();
+  logger.info(`Reload complete. (${timer.result()}ms)`);
 }
 
 function close(): Promise<void> {
@@ -86,5 +90,5 @@ export default {
   init,
   listen,
   close,
-  restart,
+  reload,
 };
