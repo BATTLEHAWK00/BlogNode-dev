@@ -4,10 +4,10 @@ import path from 'path';
 import bus from './system/bus';
 import config from './system/config';
 import logging from './system/logging';
-import middleware, { SystemMiddleware } from './system/middleware';
-import moduleLoader from './system/moduleLoader';
 import processEvent from './system/processEvent';
 import { Timer } from './util/utils';
+import plugin from './system/manager/plugin';
+import loader from './system/manager/loader';
 
 const logger = logging.systemLogger;
 
@@ -30,14 +30,6 @@ function printBanner() {
 if (global.gc) bus.on('system/gc', () => global.gc && global.gc());
 bus.once('system/started', () => bus.broadcast('system/gc'));
 
-type SystemMiddlewares = { default: SystemMiddleware[] };
-
-async function loadMiddlewares() {
-  const middlewarePath = path.resolve(__dirname, 'system/middlewares/systemMiddlewares');
-  const { default: middlewares } = await moduleLoader.loadModule<SystemMiddlewares>(middlewarePath);
-  await middleware.loadSystemMiddlewares(middlewares);
-}
-
 (async () => {
   processEvent.registerEvents();
   printBanner();
@@ -45,7 +37,9 @@ async function loadMiddlewares() {
   logger.trace('System config:', config);
   bindTimer();
   await bus.broadcast('system/beforeStart');
-  logger.info('Loading modules...');
-  await loadMiddlewares();
+  logger.info('Loading system...');
+  await loader.load();
+  logger.info('Loading plugins...');
+  await plugin.loadEnabledPlugins();
   await bus.broadcast('system/started');
 })();

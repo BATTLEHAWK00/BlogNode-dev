@@ -1,0 +1,9 @@
+{
+  "name": "@blognode/types-theme",
+  "main": "./index.ts",
+  "typings": "./index.ts",
+  "version": "1.0.0",
+  "devDependencies": {
+    "log4js": "^6.6.1"
+  }
+}

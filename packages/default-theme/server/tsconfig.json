@@ -9,7 +9,7 @@
       "@util/*": ["util/*"]
     },
     "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": false,
@@ -20,5 +20,5 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["./util", "./", "../../core/src/handler/handler.ts"]
+  "include": ["**/*.ts", "**/*.d.ts"]
 }

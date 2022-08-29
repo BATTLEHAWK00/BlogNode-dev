@@ -1,0 +1,7 @@
+{
+  "name": "@blognode/plugin-prom-exporter",
+  "version": "1.0.0",
+  "dependencies": {
+    "prom-client": "^14.1.0"
+  }
+}

@@ -1,10 +1,7 @@
-import fs from 'fs/promises';
 import fss from 'fs';
 import path = require('path');
-import vm = require('vm');
 
 import logging from './logging';
-import contextmanager from './contextmanager';
 
 const logger = logging.getLogger('ModuleLoader');
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -25,11 +22,6 @@ function scanDir(dirname: string, regex: RegExp): string[] {
   return fss.readdirSync(dirname)
     .filter((filename: string) => regex.test(filename))
     .map((filename) => path.resolve(dirname, filename));
-}
-
-async function loadInContext(filePath: fss.PathLike, context: unknown): void {
-  const content = await fs.readFile(filePath, { encoding: 'utf-8' });
-  vm.runInContext(content, contextmanager.getContext());
 }
 
 async function loadModule<T>(filePath: string): Promise<T> {
@@ -74,5 +66,4 @@ export default {
   loadModule,
   loadDir,
   loadPackage,
-  loadInContext,
 };

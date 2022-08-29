@@ -13,10 +13,6 @@ function getSettings(): Setting[] {
   return [...settingMap.values()];
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const _default = {
+export default {
   getSettings,
 };
-
-export default _default;
-__blognode.settings = _default;

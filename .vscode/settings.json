@@ -7,6 +7,7 @@
     "bodyparser",
     "codepaths",
     "cryptojs",
+    "fastify",
     "loglevel",
     "maxlength",
     "middlewares",

@@ -1,31 +1,17 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "*"
-      ],
-      "@components/*": [
-        "components/*"
-      ],
-      "@layout/*": [
-        "components/layout/*"
-      ],
-      "@util/*": [
-        "util/*"
-      ],
-      "@assets/*": [
-        "assets/*"
-      ]
+      "@/*": ["*"],
+      "@components/*": ["components/*"],
+      "@layout/*": ["components/layout/*"],
+      "@util/*": ["util/*"],
+      "@assets/*": ["assets/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -37,15 +23,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "*.js"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "server"
-  ]
+  "include": ["**/*.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "*.js"],
+  "exclude": ["node_modules", "dist", "server"]
 }

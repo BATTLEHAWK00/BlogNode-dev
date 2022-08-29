@@ -1,0 +1,1 @@
+import '@blognode/types-theme';

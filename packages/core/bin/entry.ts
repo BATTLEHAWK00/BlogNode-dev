@@ -12,7 +12,7 @@ const isDev = process.env.NODE_ENV === 'development';
 
 // eslint-disable-next-line import/no-dynamic-require,@typescript-eslint/no-var-requires
 const packageInfo: typeof PackageInfo = require(isDev ? '../package.json' : '../../package.json');
-const entryPath: string = isDev ? '../src/entry.ts' : '../src/entry.js';
+const entryPath: string = isDev ? '../src/main.ts' : '../src/main.js';
 
 declare global{
   // eslint-disable-next-line no-var,vars-on-top

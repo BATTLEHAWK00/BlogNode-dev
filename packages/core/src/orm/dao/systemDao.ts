@@ -10,7 +10,7 @@ import _ = require('lodash');
 import LRUCache from 'lru-cache';
 import mongoose, { Model } from 'mongoose';
 
-import systemSettingSchema from '../schema/systemSettingSchema';
+import systemSettingSchema from '../schema/systemSetting';
 import BaseDao from './baseDao';
 
 const getCacheKeyByName = cacheKey('name');
@@ -74,4 +74,3 @@ export default class SystemDao extends BaseDao<SystemSetting> {
 }
 
 export const systemDao = new SystemDao();
-__blognode.dao.systemDao = systemDao;

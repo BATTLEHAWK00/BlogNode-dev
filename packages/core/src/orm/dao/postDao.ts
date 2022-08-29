@@ -4,7 +4,7 @@ import { cacheKey } from '@src/util/utils';
 import LRUCache from 'lru-cache';
 import mongoose, { Model } from 'mongoose';
 
-import postSchema from '../schema/postSchema';
+import postSchema from '../schema/post';
 import BaseDao from './baseDao';
 
 const getKeyById = cacheKey('id');
@@ -34,4 +34,3 @@ export default class PostDao extends BaseDao<Post> {
 }
 
 export const postDao = new PostDao();
-__blognode.dao.postDao = postDao;

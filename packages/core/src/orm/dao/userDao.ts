@@ -6,7 +6,7 @@ import { cacheKey } from '@src/util/utils';
 import LRUCache from 'lru-cache';
 import mongoose from 'mongoose';
 
-import userSchema from '../schema/userSchema';
+import userSchema from '../schema/user';
 import BaseDao from './baseDao';
 
 const getCacheKeyById = cacheKey('id');
@@ -98,4 +98,3 @@ export default class UserDao extends BaseDao<User> {
 }
 
 export const userDao = new UserDao();
-__blognode.dao.userDao = userDao;

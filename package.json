@@ -40,7 +40,9 @@
   },
   "workspaces": [
     "packages/*",
-    "packages/renderer/*"
+    "packages/types/*",
+    "packages/renderer/*",
+    "packages/plugins/*"
   ],
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",

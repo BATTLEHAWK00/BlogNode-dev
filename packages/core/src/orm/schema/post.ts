@@ -1,7 +1,7 @@
 import { Post } from '@src/interface/entities/post';
 import { Schema } from 'mongoose';
 
-import commentSchema from './commentSchema';
+import commentSchema from './comment';
 
 export default new Schema<Post>({
   _id: {

@@ -1,16 +1,18 @@
 import * as path from 'path';
-import { ThemeRegisterer } from 'blognode';
-import RegisterRoutes from './routes';
+// import RegisterRoutes from './routes';
 
 const isDev = process.env.NODE_ENV === 'development';
 
-const register: ThemeRegisterer = () => ({
-  themePath: path.resolve(__dirname, '../pages/'),
-  themeName: 'default-theme',
-  staticDir: path.resolve(__dirname, '../static'),
-  staticPrefix: isDev ? undefined : '/static',
-  ssrMiddleware: '@blognode/renderer-react',
-  registerRoutes: RegisterRoutes,
-});
+async function prepare(): Promise<void> {
+  logger.info('hello');
+}
 
-export default register;
+registerTheme({
+  templatePath: path.resolve(__dirname, '../pages/'),
+  themeName: 'default-theme',
+  renderEngine: '@blognode/renderer-react',
+  themeDescription: "BlogNode's default theme.",
+  staticPath: path.resolve(__dirname, '../static'),
+  staticPrefix: isDev ? undefined : '/static',
+  prepare,
+});
