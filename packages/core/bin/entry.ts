@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { cac } from 'cac';
 import dotenv from 'dotenv';
 import fs from 'fs';

@@ -34,6 +34,8 @@ async function loadTheme(filePath: string): Promise<void> {
   });
   await renderer.getRenderer(themeInfo.renderEngine);
   await bus.broadcast('theme/loaded', themeInfo);
+  logger.debug(`Loaded theme: ${themeInfo.themeName}`);
+  logger.debug('Theme info:', themeInfo);
 }
 
 function getThemeInfo(): ThemeInfo {
