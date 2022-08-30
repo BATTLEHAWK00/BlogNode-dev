@@ -3,6 +3,7 @@ import config from '@src/system/config';
 import { getDatabaseUri } from '@src/util/system';
 import { Timer } from '@src/util/utils';
 import mongoose, { Model } from 'mongoose';
+import { BlogNodeFatalError } from './error';
 
 import logging from './logging';
 
@@ -22,14 +23,18 @@ async function connect(): Promise<void> {
   const {
     options, dbName, userName, password,
   } = dbConfig;
-  return new Promise<void>((resolve, reject) => {
-    mongoose.connect(uri, {
-      ...options, dbName, user: userName, pass: password, autoIndex: false,
-    }, (err) => {
-      if (err) reject(err);
-      resolve();
+  try {
+    await mongoose.connect(uri, {
+      ...options,
+      dbName,
+      user: userName,
+      pass: password,
+      autoIndex: false,
+      serverSelectionTimeoutMS: 10000,
     });
-  });
+  } catch (error) {
+    throw new BlogNodeFatalError('DataBase connection failed.', { cause: error as Error });
+  }
 }
 
 function registerModel<T extends Entity>(model: Model<T>): void {
