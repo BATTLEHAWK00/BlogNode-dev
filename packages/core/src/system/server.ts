@@ -6,7 +6,6 @@ import fastifyRateLimit from '@fastify/rate-limit';
 import fastifyHelmet from '@fastify/helmet';
 import fastifyUrlData from '@fastify/url-data';
 // import { fastifyStatic } from '@fastify/static';
-import { IBlogNodeRenderer } from '@blognode/types-renderer';
 import fastifyMultipart from '@fastify/multipart';
 import { AddressInfo } from 'net';
 import { Timer } from '@src/util/utils';
@@ -14,9 +13,8 @@ import { BlogNodeFatalError } from './error';
 import logging from './logging';
 import loggingPlugin from './fastifyPlugins/loggingPlugin';
 import renderPlugin from './fastifyPlugins/renderPlugin';
-import theme from './manager/theme';
 
-const logger = logging.getLogger('Http');
+const logger = logging.getLogger('Server');
 
 let fastify: FastifyInstance = Fastify();
 
@@ -73,7 +71,7 @@ async function reload(): Promise<void> {
   const { port, address } = fastify.server.address() as AddressInfo;
   const timer = new Timer();
   timer.start();
-  logger.info('Reloading the server...');
+  logger.info('Reloading server...');
   await fastify.close();
   fastify = Fastify();
   await init();
