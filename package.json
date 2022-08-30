@@ -36,6 +36,7 @@
     "prepare": "husky install",
     "theme": "yarn workspace @blognode/default-theme",
     "renderer": "yarn workspace @blognode/renderer-react",
+    "ui": "yarn workspace @blognode/ui",
     "core": "yarn workspace blognode"
   },
   "workspaces": [
