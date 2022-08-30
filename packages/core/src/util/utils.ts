@@ -52,6 +52,12 @@ export class Timer {
       });
     });
   }
+
+  public reset(): void {
+    this.startTime = null;
+    this.endTime = null;
+    this.stopped = false;
+  }
 }
 
 export function cacheKey<T extends string>(prefix: T): (key: string | number)=> CacheKey<T> {
