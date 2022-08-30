@@ -1,5 +1,6 @@
 import { existsSync } from 'fs';
 import type { ThemeInfo } from '@blognode/types-theme';
+import { Timer } from '@src/util/utils';
 import { BlogNodeError, BlogNodeFatalError } from '../error';
 import logging from '../logging';
 import config from '../config';
@@ -18,7 +19,9 @@ const themeContext = {
 };
 
 async function loadTheme(filePath: string): Promise<void> {
-  logger.debug(`Loading theme: ${filePath}...`);
+  const timer = new Timer();
+  logger.info(`Loading theme: ${filePath}...`);
+  timer.start();
   const themePath = existsSync(filePath) ? filePath : require.resolve(filePath);
 
   await sandbox.runModuleInSandbox(themePath, {
@@ -34,7 +37,8 @@ async function loadTheme(filePath: string): Promise<void> {
   });
   await renderer.getRenderer(themeInfo.renderEngine);
   await bus.broadcast('theme/loaded', themeInfo);
-  logger.debug(`Loaded theme: ${themeInfo.themeName}`);
+  timer.end();
+  logger.debug(`Loaded theme: ${themeInfo.themeName} (${timer.result()}ms)`);
   logger.debug('Theme info:', themeInfo);
 }
 
