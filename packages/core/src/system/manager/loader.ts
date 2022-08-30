@@ -1,5 +1,6 @@
 import { SequenceItem, Sequencer, WaitFunction } from '@src/util/sequencer';
 import { fromSrc } from '@src/util/system';
+import { BlogNodeFatalError } from '../error';
 import logging from '../logging';
 import moduleLoader from '../moduleLoader';
 
@@ -24,11 +25,23 @@ async function load(): Promise<void> {
   const loaders = modules
     .filter((m) => m.default && m.default instanceof SystemLoader)
     .map((m) => m.default) as SystemLoader[];
-  const loadSequencer = new Sequencer(loaders);
 
-  loadSequencer.on('timeout:item', (item) => logger.warn(`Loader ${item} executing for too long.`));
+  const loadSequencer = new Sequencer<void, void>(loaders);
+
+  const timeoutMap: Map<string, NodeJS.Timeout> = new Map();
+  loadSequencer.on('timeout:item', (item) => {
+    logger.warn(`Loader ${item} executing for too long.`);
+    const timeout = setTimeout(async () => {
+      throw new BlogNodeFatalError(`Loader ${item} timed out.`);
+    }, 10000);
+    timeoutMap.set(item, timeout);
+  });
   loadSequencer.on('start:item', (item) => logger.debug(`Loader start: ${item}`));
-  loadSequencer.on('finish:item', (item, time) => logger.debug(`Loader finished: ${item} (${time}ms)`));
+  loadSequencer.on('finish:item', (item, time) => {
+    const timeout = timeoutMap.get(item);
+    if (timeout) clearTimeout(timeout);
+    logger.debug(`Loader finished: ${item} (${time}ms)`);
+  });
   loadSequencer.on('finish', (time) => logger.debug(`All loaders finished. (${time}ms)`));
 
   await loadSequencer.executeSequence();
