@@ -11,14 +11,11 @@ const logger = logging.systemLogger;
 class HttpServerLoader extends SystemLoader {
   async load(wait: WaitFunction): Promise<void> {
     const { address, port } = config.httpConfig;
-    await wait(['db', 'theme']);
+    await wait(['db', 'theme', 'plugin']);
     logger.info('Starting server...');
     await server.init();
     await server.listen(port, address);
     bus.on('theme/loaded', () => server.reload(), true);
-    setTimeout(() => {
-      bus.broadcast('theme/loaded');
-    }, 3000);
     bus.once('system/beforeStop', async () => {
       logger.debug('Closing server...');
       await server.close();
