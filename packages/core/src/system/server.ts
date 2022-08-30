@@ -13,6 +13,7 @@ import { BlogNodeFatalError } from './error';
 import logging from './logging';
 import loggingPlugin from './fastifyPlugins/loggingPlugin';
 import renderPlugin from './fastifyPlugins/renderPlugin';
+import internalRoutesPlugin from './fastifyPlugins/internalRoutesPlugin';
 
 const logger = logging.getLogger('Server');
 
@@ -42,6 +43,7 @@ async function registerCorePlugins() {
 async function registerBlogNodePlugins() {
   await Promise.all([
     fastify.register(loggingPlugin, { logger }),
+    fastify.register(internalRoutesPlugin),
     fastify.register(renderPlugin, {
       cacheTemplates: true,
     }),
