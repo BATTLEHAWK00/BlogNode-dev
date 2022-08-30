@@ -23,6 +23,9 @@ async function connect(): Promise<void> {
   const {
     options, dbName, userName, password,
   } = dbConfig;
+  mongoose.connection
+    .on('reconnected', () => logger.info('Database reconnected.'))
+    .on('disconnected', () => logger.info('Database disconnected.'));
   try {
     await mongoose.connect(uri, {
       ...options,
@@ -30,7 +33,10 @@ async function connect(): Promise<void> {
       user: userName,
       pass: password,
       autoIndex: false,
-      serverSelectionTimeoutMS: 10000,
+      serverSelectionTimeoutMS: 15000,
+      maxPoolSize: 64,
+      minPoolSize: 8,
+      heartbeatFrequencyMS: 2000,
     });
   } catch (error) {
     throw new BlogNodeFatalError('DataBase connection failed.', { cause: error as Error });

@@ -29,10 +29,10 @@ class DatabaseLoader extends SystemLoader {
     await moduleLoader.loadDir(daoDir, true);
     await moduleLoader.loadDir(serviceDir, true);
     await bus.broadcast('database/beforeConnecting');
-    const timer = new Timer();
     logging.systemLogger.info('Connecting to database...');
-    const time = await timer.decorate(() => database.connect());
-    logging.systemLogger.debug(`Database connected.(${time}ms)`);
+    const timer = new Timer();
+    await timer.decorate(() => database.connect());
+    logging.systemLogger.debug(`Database connected. (${timer.result()}ms)`);
     await bus.broadcast('database/connected');
   }
 }
