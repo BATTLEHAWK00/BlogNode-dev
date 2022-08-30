@@ -6,7 +6,6 @@ import config from './system/config';
 import logging from './system/logging';
 import processEvent from './system/processEvent';
 import { Timer } from './util/utils';
-import plugin from './system/manager/plugin';
 import loader from './system/manager/loader';
 
 const logger = logging.systemLogger;
@@ -39,7 +38,5 @@ bus.once('system/started', () => bus.broadcast('system/gc'));
   await bus.broadcast('system/beforeStart');
   logger.info('Loading system...');
   await loader.load();
-  logger.info('Loading plugins...');
-  await plugin.loadEnabledPlugins();
   await bus.broadcast('system/started');
 })();
