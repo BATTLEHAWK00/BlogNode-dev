@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
 
 import bus from './system/bus';
@@ -21,9 +21,10 @@ async function bindTimer() {
   logger.info(`BlogNode started in ${time}ms`);
 }
 
-function printBanner() {
-  const bannerText = fs.readFileSync(path.resolve(__dirname, './banner.txt'), { encoding: 'utf-8' });
-  logger.info(bannerText);
+async function printBanner() {
+  const bannerText = await fs.readFile(path.resolve(__dirname, './banner.txt'), { encoding: 'utf-8' });
+  const chalk = (await import('chalk')).default;
+  logger.info(chalk.cyanBright(bannerText));
 }
 
 if (global.gc) bus.on('system/gc', () => global.gc && global.gc());
@@ -31,7 +32,7 @@ bus.once('system/started', () => bus.broadcast('system/gc'));
 
 (async () => {
   processEvent.registerEvents();
-  printBanner();
+  await printBanner();
   logger.info(`Starting in ${isDev ? 'development' : 'production'} mode.`);
   logger.trace('System config:', config);
   bindTimer();
