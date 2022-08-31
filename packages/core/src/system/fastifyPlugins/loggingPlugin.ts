@@ -25,4 +25,6 @@ const plugin: FastifyPluginCallback<ILoggerPluginOptions> = async (fastify, opti
   });
 };
 
+export const autoLoad = false;
+
 export default fastifyPlugin(plugin, { name: 'BlogNodeLogging' });

@@ -5,23 +5,25 @@ import fastifyCookie from '@fastify/cookie';
 import fastifyRateLimit from '@fastify/rate-limit';
 import fastifyHelmet from '@fastify/helmet';
 import fastifyUrlData from '@fastify/url-data';
+import fastifyAutoLoad from '@fastify/autoload';
 // import { fastifyStatic } from '@fastify/static';
 import fastifyMultipart from '@fastify/multipart';
 import { AddressInfo } from 'net';
 import { Timer } from '@src/util/utils';
+import { fromSrc } from '@src/util/system';
 import { BlogNodeFatalError } from './error';
 import logging from './logging';
 import loggingPlugin from './fastifyPlugins/loggingPlugin';
-import renderPlugin from './fastifyPlugins/renderPlugin';
-import internalRoutesPlugin from './fastifyPlugins/internalRoutesPlugin';
 
 const logger = logging.getLogger('Server');
 
 let fastify: FastifyInstance = Fastify();
 
 async function registerCorePlugins() {
-  await Promise.all([
-    fastify.register(fastifyCompress),
+  return Promise.all([
+    fastify.register(fastifyCompress, {
+      threshold: 1024,
+    }),
     fastify.register(fastifyCaching),
     fastify.register(fastifyCookie, {
       secret: 'test',
@@ -41,11 +43,10 @@ async function registerCorePlugins() {
 }
 
 async function registerBlogNodePlugins() {
-  await Promise.all([
+  return Promise.all([
     fastify.register(loggingPlugin, { logger }),
-    fastify.register(internalRoutesPlugin),
-    fastify.register(renderPlugin, {
-      cacheTemplates: true,
+    fastify.register(fastifyAutoLoad, {
+      dir: fromSrc('system/fastifyPlugins/autoload'),
     }),
   ]);
 }

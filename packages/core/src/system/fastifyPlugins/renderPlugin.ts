@@ -68,4 +68,8 @@ const plugin: FastifyPluginCallback<IRenderPluginOptions> = async (fastify, opti
   fastify.decorateReply<IRenderFunction>('render', renderFunc);
 };
 
+export const autoConfig: IRenderPluginOptions = {
+  cacheTemplates: true,
+};
+
 export default fastifyPlugin(plugin, { name: 'BlogNodeRender' });

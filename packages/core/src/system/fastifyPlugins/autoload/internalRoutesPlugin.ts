@@ -7,24 +7,17 @@ import ejs, { AsyncTemplateFunction, Data } from 'ejs';
 import path from 'path';
 import fs from 'fs/promises';
 import internalRoutes from '@src/pages/internalRoutes';
-import logging from '../logging';
+import logging from '../../logging';
 
 type IInternalRenderFunc = (template: string, payload?: unknown)=> Promise<void>;
 
 declare module 'fastify'{
   interface FastifyReply{
-    _internalRenderInfo: IInternalRenderInfo
     internalRender: IInternalRenderFunc
   }
 }
 
-interface IInternalRenderInfo{
-  templateName: string
-  layoutName?: string
-}
-
 const staticDir = fromDist('static');
-const routesDir = fromSrc('pages/routes');
 const templateDir = fromSrc('pages/templates');
 const templateCache: LRUCache<string, AsyncTemplateFunction> = new LRUCache({ max: 10 });
 
@@ -57,6 +50,7 @@ const plugin: FastifyPluginCallback = async (app) => {
     prefix: '/bn-static',
     decorateReply: false,
   });
+  app.setNotFoundHandler(async (req, res) => res.internalRender('404.ejs'));
   logging.systemLogger.debug('Registered internal routes.');
 };
 
