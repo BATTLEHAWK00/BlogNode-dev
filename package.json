@@ -36,14 +36,16 @@
     "prepare": "husky install",
     "theme": "yarn workspace @blognode/default-theme",
     "renderer": "yarn workspace @blognode/renderer-react",
-    "ui": "yarn workspace @blognode/ui",
+    "ui": "yarn workspace @blognode/core-ui",
     "core": "yarn workspace blognode"
   },
   "workspaces": [
-    "packages/*",
     "packages/types/*",
     "packages/renderer/*",
-    "packages/plugins/*"
+    "packages/plugins/*",
+    "packages/core",
+    "packages/default-theme",
+    "packages/core-ui"
   ],
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",
