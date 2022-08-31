@@ -1405,6 +1405,13 @@
     ajv-formats "^2.1.1"
     fast-uri "^2.0.0"
 
+"@fastify/autoload@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.npmmirror.com/@fastify/autoload/-/autoload-5.2.0.tgz#1138c3a956487946bf8e863d870413b88d241ba1"
+  integrity sha512-qpLVPQM+JCiGvRdybGRz8dty3HRJtKgYRCagslyAiVecN+g/xHvB0gR8I1PiOvek2NQFIs3WPDxz2nLBoXqB2A==
+  dependencies:
+    pkg-up "^3.1.0"
+
 "@fastify/busboy@^1.0.0":
   version "1.1.0"
   resolved "https://registry.npmmirror.com/@fastify/busboy/-/busboy-1.1.0.tgz#4472f856e2bb5a9ee34ad64b93891b73b73537ca"
