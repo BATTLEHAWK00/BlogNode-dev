@@ -3,14 +3,14 @@ import * as gulp from 'gulp';
 import * as path from 'path';
 import * as esbuild from 'esbuild';
 import { replaceTscAliasPaths } from 'tsc-alias';
-import { glob } from 'glob';
+import glob from 'glob';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const compileTask = (cb: any) => {
   console.log('Compiling typescripts...');
   esbuild.buildSync({
     entryPoints: [
-      ...glob.sync('**/*.ts'),
+      ...glob.sync('**/*.ts', { ignore: ['node_modules/**/*', '*.d.ts'] }),
     ],
     bundle: false,
     target: 'node16',
