@@ -5,8 +5,9 @@ import bus from './system/bus';
 import config from './system/config';
 import logging from './system/logging';
 import processEvent from './system/processEvent';
-import { Timer } from './util/utils';
+import { Timer } from './util/system-utils';
 import loader from './system/manager/loader';
+import { getImportDirname } from './util/paths';
 
 const logger = logging.systemLogger;
 
@@ -22,7 +23,7 @@ async function bindTimer() {
 }
 
 async function printBanner() {
-  const bannerText = await fs.readFile(path.resolve(__dirname, './banner.txt'), { encoding: 'utf-8' });
+  const bannerText = await fs.readFile(path.resolve(getImportDirname(import.meta), './banner.txt'), { encoding: 'utf-8' });
   const chalk = (await import('chalk')).default;
   logger.info(chalk.cyanBright(bannerText));
 }

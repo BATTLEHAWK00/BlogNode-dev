@@ -1,4 +1,4 @@
-import { once } from 'lodash';
+import _ from 'lodash';
 
 import bus from './bus';
 import { BlogNodeFatalError } from './error';
@@ -13,7 +13,7 @@ const exitSignals: NodeJS.Signals[] = [
   'SIGHUP',
 ];
 
-const handleGracefulShutdown = once(async (s: string) => {
+const handleGracefulShutdown = _.once(async (s: string) => {
   logger.info('Shutting down BlogNode...');
   await bus.broadcast('system/beforeStop', s);
   await logging.handleShutdown();

@@ -1,5 +1,5 @@
 import { WaitFunction } from '@src/util/sequencer';
-import { Timer } from '@src/util/utils';
+import { Timer } from '@src/util/system-utils';
 import logging from '../logging';
 import { SystemLoader } from '../manager/loader';
 import plugin from '../manager/plugin';

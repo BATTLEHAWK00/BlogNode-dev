@@ -1,4 +1,5 @@
 import { IBlogNodeRenderer } from '@blognode/types-renderer';
+import { resolvePackage } from '@src/util/paths';
 import { BlogNodeError } from '../error';
 import logging from '../logging';
 import sandbox from '../sandbox';
@@ -11,7 +12,7 @@ async function getRenderer(name: string): Promise<IBlogNodeRenderer> {
   let renderer: IBlogNodeRenderer | undefined = rendererMap.get(name);
   if (!renderer) {
     logger.debug(`Loading renderer: ${name}`);
-    const path = require.resolve(name);
+    const path = await resolvePackage(name);
     logger.debug(`Found renderer path: ${path}`);
     await sandbox.runModuleInSandbox(path, {
       logger: logging.getLogger('Renderer'),

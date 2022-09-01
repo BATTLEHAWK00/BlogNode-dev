@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import EventEmitter from 'events';
-import { Timer } from './utils';
+import { Timer } from './system-utils';
 
 export type WaitFunction = (items?: string[])=> Promise<void>;
 

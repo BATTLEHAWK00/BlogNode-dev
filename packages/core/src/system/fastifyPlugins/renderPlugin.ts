@@ -1,5 +1,5 @@
 import { IBlogNodeRenderer } from '@blognode/types-renderer';
-import { Timer } from '@src/util/utils';
+import { Timer } from '@src/util/system-utils';
 import { FastifyPluginCallback, FastifyReply } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
 import fs from 'fs/promises';

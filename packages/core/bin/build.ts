@@ -1,9 +1,19 @@
 /* eslint-disable no-console,import/no-extraneous-dependencies */
-import * as gulp from 'gulp';
-import * as path from 'path';
-import * as esbuild from 'esbuild';
+import gulp from 'gulp';
+import path from 'path';
+import esbuild from 'esbuild';
 import { replaceTscAliasPaths } from 'tsc-alias';
 import glob from 'glob';
+
+const dirname = path.dirname(new URL(import.meta.url).href.replace('file:///', ''));
+console.log(dirname);
+
+function resolve(...paths: string[]) {
+  return path.resolve(dirname, ...paths);
+}
+
+const tsConfigPath = resolve('../tsconfig.json');
+const distDir = resolve('../dist/');
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const compileTask = (cb: any) => {
@@ -15,12 +25,12 @@ const compileTask = (cb: any) => {
     bundle: false,
     target: 'node16',
     platform: 'node',
-    format: 'cjs',
+    format: 'esm',
     treeShaking: true,
     minify: true,
     resolveExtensions: ['.js', '.ts'],
-    outdir: path.resolve(__dirname, '../dist/'),
-    tsconfig: path.resolve(__dirname, '../tsconfig.json'),
+    outdir: distDir,
+    tsconfig: tsConfigPath,
   });
   cb();
 };
@@ -28,7 +38,7 @@ const compileTask = (cb: any) => {
 const aliasTransform = async () => {
   console.log('Transforming alias path...');
   replaceTscAliasPaths({
-    configFile: path.resolve(__dirname, '../tsconfig.json'),
+    configFile: tsConfigPath,
   });
 };
 
@@ -37,7 +47,7 @@ const copyNonTsFiles = () => {
 
   return gulp
     .src('src/**/*', {
-      base: path.resolve(__dirname, '../'),
+      base: resolve('../'),
       ignore: '**/*.ts',
     })
     .pipe(gulp.dest('dist/'));

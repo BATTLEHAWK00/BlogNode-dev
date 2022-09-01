@@ -12,7 +12,8 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "project": ["tsconfig.json"]
+    "project": ["tsconfig.json"],
+    "extraFileExtensions": [".cjs"]
   },
   "rules": {
     "no-console": "error",

@@ -1,8 +1,8 @@
 import logging from '@src/system/logging';
 import config from '@src/system/config';
-import ejs = require('ejs');
+import ejs from 'ejs';
 import fs from 'fs';
-import { fromSrc } from '@src/util/system';
+import { fromSrc } from '@src/util/paths';
 import { BlogNodeError } from '../system/error';
 
 const logger = logging.getLogger('HtmlRender');

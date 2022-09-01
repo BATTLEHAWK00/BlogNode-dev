@@ -4,9 +4,9 @@ import cache from '@src/system/cache';
 import logging from '@src/system/logging';
 import moduleLoader from '@src/system/moduleLoader';
 import settings from '@src/system/settings';
-import { fromSrc } from '@src/util/system';
-import { cacheKey, SRC_DIR } from '@src/util/utils';
-import _ = require('lodash');
+import { fromSrc } from '@src/util/paths';
+import { cacheKey } from '@src/util/system-utils';
+import _ from 'lodash';
 import LRUCache from 'lru-cache';
 import mongoose, { Model } from 'mongoose';
 

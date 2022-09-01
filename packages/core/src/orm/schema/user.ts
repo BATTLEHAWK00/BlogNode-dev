@@ -1,7 +1,7 @@
 import { User } from '@src/interface/entities/user';
-import { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
-export default new Schema<User>({
+export default new mongoose.Schema<User>({
   _id: { type: Number },
   username: {
     type: String,

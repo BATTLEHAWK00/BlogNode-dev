@@ -5,15 +5,17 @@ import fastifyCookie from '@fastify/cookie';
 import fastifyRateLimit from '@fastify/rate-limit';
 import fastifyHelmet from '@fastify/helmet';
 import fastifyUrlData from '@fastify/url-data';
-import fastifyAutoLoad from '@fastify/autoload';
+// import fastifyAutoLoad from '@fastify/autoload';
 // import { fastifyStatic } from '@fastify/static';
 import fastifyMultipart from '@fastify/multipart';
 import { AddressInfo } from 'net';
-import { Timer } from '@src/util/utils';
-import { fromSrc } from '@src/util/system';
+import { Timer } from '@src/util/system-utils';
+import { fromSrc } from '@src/util/paths';
 import { BlogNodeFatalError } from './error';
 import logging from './logging';
 import loggingPlugin from './fastifyPlugins/loggingPlugin';
+import internalRoutesPlugin from './fastifyPlugins/autoload/internalRoutesPlugin';
+import renderPlugin from './fastifyPlugins/renderPlugin';
 
 const logger = logging.getLogger('Server');
 
@@ -45,9 +47,11 @@ async function registerCorePlugins() {
 async function registerBlogNodePlugins() {
   return Promise.all([
     fastify.register(loggingPlugin, { logger }),
-    fastify.register(fastifyAutoLoad, {
-      dir: fromSrc('system/fastifyPlugins/autoload'),
-    }),
+    fastify.register(renderPlugin, { cacheTemplates: true }),
+    fastify.register(internalRoutesPlugin),
+    // fastify.register(fastifyAutoLoad, {
+    //   dir: fromSrc('system/fastifyPlugins/autoload'),
+    // }),
   ]);
 }
 

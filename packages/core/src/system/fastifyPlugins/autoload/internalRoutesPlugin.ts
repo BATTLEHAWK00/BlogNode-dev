@@ -1,5 +1,5 @@
 import fastifyStatic from '@fastify/static';
-import { fromDist, fromSrc } from '@src/util/system';
+import { fromDist, fromSrc } from '@src/util/paths';
 import { FastifyPluginCallback, FastifyReply } from 'fastify';
 import fastifyplugin from 'fastify-plugin';
 import LRUCache from 'lru-cache';

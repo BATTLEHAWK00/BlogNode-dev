@@ -1,5 +1,5 @@
-import { getDatabaseUri } from '@src/util/system';
-import { Timer } from '@src/util/utils';
+import { getDatabaseUri } from '@src/util/paths';
+import { Timer } from '@src/util/system-utils';
 import { Agenda, Job } from 'agenda';
 
 import bus from './bus';

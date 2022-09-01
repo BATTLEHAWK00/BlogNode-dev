@@ -1,5 +1,5 @@
 import { SequenceItem, Sequencer, WaitFunction } from '@src/util/sequencer';
-import { fromSrc } from '@src/util/system';
+import { fromSrc } from '@src/util/paths';
 import { BlogNodeFatalError } from '../error';
 import logging from '../logging';
 import moduleLoader from '../moduleLoader';
@@ -22,9 +22,7 @@ export abstract class SystemLoader extends SequenceItem<void, Record<string, unk
 
 async function load(): Promise<void> {
   const modules = await moduleLoader.loadDir(loaderDir, true) as LoaderModule[];
-  const loaders = modules
-    .filter((m) => m.default && m.default instanceof SystemLoader)
-    .map((m) => m.default) as SystemLoader[];
+  const loaders = modules.filter((m) => m && m instanceof SystemLoader) as SystemLoader[];
 
   const loadSequencer = new Sequencer<void, void>(loaders);
 

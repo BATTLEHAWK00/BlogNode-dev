@@ -1,5 +1,5 @@
 import fss from 'fs';
-import path = require('path');
+import path from 'path';
 
 import logging from './logging';
 

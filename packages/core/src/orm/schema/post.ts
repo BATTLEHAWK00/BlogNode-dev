@@ -1,9 +1,9 @@
 import { Post } from '@src/interface/entities/post';
-import { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
 import commentSchema from './comment';
 
-export default new Schema<Post>({
+export default new mongoose.Schema<Post>({
   _id: {
     type: Number, required: true, min: 1, auto: true,
   },

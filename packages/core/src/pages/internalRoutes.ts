@@ -1,5 +1,6 @@
+import { getImportDirname } from '@src/util/paths';
 import { FastifyPluginCallback, RouteHandlerMethod } from 'fastify';
-import { glob } from 'glob';
+import glob from 'glob';
 import path from 'path';
 
 export interface BlogNodeInternalHandler{
@@ -7,16 +8,18 @@ export interface BlogNodeInternalHandler{
   post?: RouteHandlerMethod
 }
 
+const dirname = getImportDirname(import.meta);
+
 const plugin: FastifyPluginCallback = async (app) => {
-  const routesDir = path.resolve(__dirname, 'routes').replaceAll('\\', '/');
-  const globPath = path.resolve(__dirname, 'routes/**/*.{ts,js}').replaceAll('\\', '/');
+  const routesDir = path.resolve(dirname, 'routes').replaceAll('\\', '/');
+  const globPath = path.resolve(dirname, 'routes/**/*.{ts,js}').replaceAll('\\', '/');
 
   const filePaths = glob.sync(globPath);
   const routePaths = await Promise.all(filePaths.map(async (f) => {
     const file = f.replace(routesDir, '');
     return {
       routePath: file.substring(0, file.indexOf(path.extname(file))),
-      routeDeclaration: (await import(`file://${f}`)).default.default as BlogNodeInternalHandler,
+      routeDeclaration: (await import(`file://${f}`)).default as BlogNodeInternalHandler,
     };
   }));
 

@@ -2,7 +2,7 @@ import { User } from '@src/interface/entities/user';
 import cache from '@src/system/cache';
 import { BlogNodeError } from '@src/system/error';
 import logging from '@src/system/logging';
-import { cacheKey } from '@src/util/utils';
+import { cacheKey } from '@src/util/system-utils';
 import LRUCache from 'lru-cache';
 import mongoose from 'mongoose';
 

@@ -1,6 +1,7 @@
 import { existsSync } from 'fs';
 import type { ThemeInfo } from '@blognode/types-theme';
-import { Timer } from '@src/util/utils';
+import { Timer } from '@src/util/system-utils';
+import { resolvePackage } from '@src/util/paths';
 import { BlogNodeError, BlogNodeFatalError } from '../error';
 import logging from '../logging';
 import config from '../config';
@@ -22,7 +23,9 @@ async function loadTheme(filePath: string): Promise<void> {
   const timer = new Timer();
   logger.info(`Loading theme: ${filePath}...`);
   timer.start();
-  const themePath = existsSync(filePath) ? filePath : require.resolve(filePath);
+  if (!import.meta.resolve) throw new BlogNodeFatalError('Import resolve not enabled.');
+  const themePath = existsSync(filePath) ? filePath : await resolvePackage(filePath);
+  logger.info(`Theme path: ${themePath}`);
 
   await sandbox.runModuleInSandbox(themePath, {
     logger: logging.getLogger('Theme'),

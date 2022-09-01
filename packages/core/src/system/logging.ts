@@ -1,7 +1,8 @@
 import config from '@src/system/config';
 import Log4js from 'log4js';
 
-const logLevel = config.systemConfig.logLevel || 'info';
+// const logLevel = config.systemConfig.logLevel || 'debug';
+const logLevel = 'debug';
 
 Log4js.configure({
   appenders: { console: { type: 'console' } },

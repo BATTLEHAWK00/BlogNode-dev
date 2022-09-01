@@ -4,11 +4,13 @@ import { existsSync } from 'fs';
 import fs from 'fs/promises';
 import path from 'path';
 import logging from './system/logging';
+import { getImportDirname } from './util/paths';
 
-const packageInfoPath = path.resolve(import.meta.url, isDev ? '../package.json' : '../../package.json');
+const isDev = process.env.NODE_ENV === 'development';
+const packageInfoPath = path.resolve(getImportDirname(import.meta), isDev ? '../package.json' : '../../package.json');
 const packageInfo = JSON.parse(await fs.readFile(packageInfoPath, { encoding: 'utf-8' }));
 
-const cli = cac(packageInfo.name);
+const cli = cac(packageInfo.version);
 const logger = logging.systemLogger;
 
 declare global{

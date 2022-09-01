@@ -2,7 +2,7 @@
   "delay": 1000,
   "watch": ["src"],
   "execMap": {
-    "ts": "ts-node --esm -r tsconfig-paths/register",
+    "ts": "node --no-warnings --experimental-import-meta-resolve --experimental-specifier-resolution=node --loader ts-paths-esm-loader",
     "js": "ts-node -r tsconfig-paths/register"
   },
   "env": {

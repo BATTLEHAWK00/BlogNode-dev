@@ -1,6 +1,5 @@
 import bus, { EventType } from '@src/system/bus';
 import { BlogNodeError } from '@src/system/error';
-import path from 'path';
 import { setTimeout } from 'timers/promises';
 import { CacheKey } from './types';
 
@@ -63,5 +62,3 @@ export class Timer {
 export function cacheKey<T extends string>(prefix: T): (key: string | number)=> CacheKey<T> {
   return (key) => `${prefix}:${key}`;
 }
-
-export const SRC_DIR = path.resolve(__dirname, '../');

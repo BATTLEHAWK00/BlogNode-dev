@@ -1,10 +1,10 @@
 import { SystemSetting } from '@src/interface/entities/systemSetting';
-import { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
-export default new Schema<SystemSetting>({
+export default new mongoose.Schema<SystemSetting>({
   _id: {
     type: String, required: true,
   },
-  value: { type: Schema.Types.Mixed, default: {} },
+  value: { type: mongoose.Schema.Types.Mixed, default: {} },
   preload: { type: Boolean, default: false },
 });

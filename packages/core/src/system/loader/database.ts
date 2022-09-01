@@ -4,12 +4,11 @@ import logging from '@src/system/logging';
 import { SystemLoader } from '@src/system/manager/loader';
 import moduleLoader from '@src/system/moduleLoader';
 import task from '@src/system/task';
-import { fromSrc } from '@src/util/system';
-import { Timer } from '@src/util/utils';
-import path from 'path';
+import { fromSrc } from '@src/util/paths';
+import { Timer } from '@src/util/system-utils';
 
-const daoDir = path.resolve(__dirname, fromSrc('orm/dao'));
-const serviceDir = path.resolve(__dirname, fromSrc('orm/service'));
+const daoDir = fromSrc('orm/dao');
+const serviceDir = fromSrc('orm/service');
 
 function registerEvents() {
   bus.once('system/beforeStop', async () => {

@@ -1,7 +1,7 @@
 import { BlogNodeRequestError } from '@src/system/error';
 import { sha256WithSalt } from '@src/system/security/crypto';
 import jwt, { BlogNodeJwtPayload } from '@src/system/security/jwt';
-import moment = require('moment');
+import dayjs from 'dayjs';
 import bus from '@src/system/bus';
 import { User } from '@src/interface/interface';
 import { userDao } from '../dao/userDao';
@@ -20,7 +20,7 @@ class AuthService extends BaseService<AuthService> {
     const hashedResult = sha256WithSalt(passwdHash, user.passwordSalt);
     if (hashedResult === user.passwordHash) {
       const payload: AuthJwtPayload = {
-        due: moment().add('1', 'minute').toDate(),
+        due: dayjs().add(1, 'minute').toDate(),
         uid: user._id,
       };
       await bus.broadcast('auth/login', user);

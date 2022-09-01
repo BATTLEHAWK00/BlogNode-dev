@@ -1,7 +1,7 @@
 import { Entity } from '@src/interface/interface';
 import config from '@src/system/config';
-import { getDatabaseUri } from '@src/util/system';
-import { Timer } from '@src/util/utils';
+import { getDatabaseUri } from '@src/util/paths';
+import { Timer } from '@src/util/system-utils';
 import mongoose, { Model } from 'mongoose';
 import { BlogNodeFatalError } from './error';
 
