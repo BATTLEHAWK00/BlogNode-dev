@@ -1,5 +1,8 @@
 import config from '@src/system/config';
+import Thread from 'worker_threads';
 import Log4js from 'log4js';
+import Cluster from 'cluster';
+import cluster from './workers/cluster';
 
 // const logLevel = config.systemConfig.logLevel || 'debug';
 const logLevel = 'debug';
@@ -12,7 +15,8 @@ Log4js.configure({
 });
 
 function getLogger(name: string): Log4js.Logger {
-  return Log4js.getLogger(name);
+  const nodeName = cluster.workerId !== undefined ? `[Worker-${cluster.workerId}]` : 'Main';
+  return Log4js.getLogger(`${nodeName}-${name}`);
 }
 
 const systemLogger = getLogger('BlogNode');

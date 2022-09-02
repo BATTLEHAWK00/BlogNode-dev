@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 
+import chalk from 'chalk';
 import bus from './system/bus';
 import config from './system/config';
 import logging from './system/logging';
@@ -8,37 +9,32 @@ import processEvent from './system/processEvent';
 import { Timer } from './util/system-utils';
 import loader from './system/manager/loader';
 import { getImportDirname } from './util/paths';
+import mainThread from './system/workers/main';
 
 const logger = logging.systemLogger;
-
 const isDev = process.env.NODE_ENV === 'development';
 
-async function bindTimer() {
-  const timer: Timer = new Timer();
-  const time = await timer.measureEvents(
-    'system/beforeStart',
-    'system/started',
-  );
-  logger.info(`BlogNode started in ${time}ms`);
-}
+// register process events
+processEvent.registerEvents();
 
-async function printBanner() {
-  const bannerText = await fs.readFile(path.resolve(getImportDirname(import.meta), './banner.txt'), { encoding: 'utf-8' });
-  const chalk = (await import('chalk')).default;
-  logger.info(chalk.cyanBright(bannerText));
-}
+// print banner
+const bannerText = await fs.readFile(path.resolve(getImportDirname(import.meta), './banner.txt'), { encoding: 'utf-8' });
+logger.info(chalk.cyanBright(bannerText));
 
-if (global.gc) bus.on('system/gc', () => global.gc && global.gc());
-bus.once('system/started', () => bus.broadcast('system/gc'));
+logger.info(`Starting in ${isDev ? 'development' : 'production'} mode.`);
+logger.trace('System config:', config);
 
-(async () => {
-  processEvent.registerEvents();
-  await printBanner();
-  logger.info(`Starting in ${isDev ? 'development' : 'production'} mode.`);
-  logger.trace('System config:', config);
-  bindTimer();
-  await bus.broadcast('system/beforeStart');
-  logger.info('Loading system...');
-  await loader.load();
-  await bus.broadcast('system/started');
-})();
+// bind timer
+const timer: Timer = new Timer();
+const timePromise = timer.measureEvents(
+  'system/beforeStart',
+  'system/started',
+);
+
+// initialization
+await bus.broadcast('system/beforeStart');
+// logger.info('Loading system...');
+// await loader.load();
+await mainThread.init();
+await bus.broadcast('system/started');
+logger.info(`BlogNode started in ${await timePromise}ms`);

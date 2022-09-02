@@ -1,4 +1,4 @@
-import Fastify, { FastifyInstance } from 'fastify';
+import Fastify, { FastifyInstance, FastifyServerFactory } from 'fastify';
 import fastifyCaching from '@fastify/caching';
 import fastifyCompress from '@fastify/compress';
 import fastifyCookie from '@fastify/cookie';
@@ -8,9 +8,9 @@ import fastifyUrlData from '@fastify/url-data';
 // import fastifyAutoLoad from '@fastify/autoload';
 // import { fastifyStatic } from '@fastify/static';
 import fastifyMultipart from '@fastify/multipart';
-import { AddressInfo } from 'net';
+import { AddressInfo, ListenOptions } from 'net';
+import http from 'http';
 import { Timer } from '@src/util/system-utils';
-import { fromSrc } from '@src/util/paths';
 import { BlogNodeFatalError } from './error';
 import logging from './logging';
 import loggingPlugin from './fastifyPlugins/loggingPlugin';
@@ -19,7 +19,14 @@ import renderPlugin from './fastifyPlugins/renderPlugin';
 
 const logger = logging.getLogger('Server');
 
-let fastify: FastifyInstance = Fastify();
+const serverFactory: FastifyServerFactory = (handler) => {
+  const server = http.createServer((req, res) => {
+    handler(req, res);
+  });
+  return server;
+};
+
+let fastify: FastifyInstance = Fastify({ serverFactory });
 
 async function registerCorePlugins() {
   return Promise.all([
