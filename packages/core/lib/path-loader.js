@@ -1,4 +1,4 @@
-const tsPaths = require('tsconfig-paths')
+import tsPaths from 'tsconfig-paths'
 const { absoluteBaseUrl, paths } = tsPaths.loadConfig();
 console.log(paths);
 const pathMatch = tsPaths.createMatchPath(absoluteBaseUrl, paths);
