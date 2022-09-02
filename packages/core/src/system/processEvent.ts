@@ -38,6 +38,8 @@ async function handleProcessSignal(s: string) {
 function registerEvents(): void {
   process.on('unhandledRejection', handlePromiseRejection);
   exitSignals.forEach((s) => process.once(s, handleProcessSignal));
+  if (global.gc) bus.on('system/gc', () => global.gc && global.gc());
+  bus.once('system/started', () => bus.broadcast('system/gc'));
 }
 
 export default {
