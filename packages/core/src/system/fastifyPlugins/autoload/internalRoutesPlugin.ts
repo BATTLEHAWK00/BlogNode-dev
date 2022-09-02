@@ -50,7 +50,10 @@ const plugin: FastifyPluginCallback = async (app) => {
     prefix: '/bn-static',
     decorateReply: false,
   });
-  app.setNotFoundHandler(async (req, res) => res.internalRender('404.ejs'));
+  app.setNotFoundHandler(async (req, res) => {
+    res.status(404);
+    return res.internalRender('404.ejs');
+  });
   logging.systemLogger.debug('Registered internal routes.');
 };
 
