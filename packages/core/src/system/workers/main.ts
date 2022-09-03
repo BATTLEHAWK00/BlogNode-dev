@@ -1,43 +1,73 @@
-import Cluster from 'cluster';
-import os from 'os';
+import Cluster, { Worker } from 'cluster';
 import path from 'path';
 import { getImportDirname } from '@src/util/paths';
 // import { Piscina } from 'piscina';
+import EventEmitter from 'events';
 import logging from '../logging';
-import loader from '../manager/loader';
+import { BlogNodeFatalError } from '../error';
+import bus from '../bus';
 // import bus from '../bus';
 
-const logger = logging.getLogger('MainThread');
-
+const logger = logging.systemLogger;
 const workerFilePath = path.resolve(getImportDirname(import.meta), 'worker');
-
-// const taskPool = new Piscina();
-
 Cluster.setupPrimary({ exec: workerFilePath });
 
-function startWorker() {
-  const worker = Cluster.fork();
-  // worker.on('message', (msg) => {
-  //   logger.info(msg);
-  // });
-  worker.on('error', (err) => {
-    logger.error(`Worker ${worker.id} throwed an error:`, err);
-  });
-}
+class WorkerManager extends EventEmitter {
+  private onlineWorkers: Set<Worker> = new Set();
+  private workerNum: number;
 
-// function loadBalancedMsg(msg: unknown) {
-//   loadBalanceIdx = (loadBalanceIdx + 1) % workerList.length;
-//   workerList[loadBalanceIdx].postMessage(msg);
-// }
+  constructor(workerNum = 1) {
+    super();
+    this.workerNum = workerNum;
+  }
+
+  private async startWorker() {
+    return new Promise<void>((resolve) => {
+      this.emit('worker:start');
+      const worker = Cluster.fork();
+      worker.on('error', (err) => {
+        logger.error(`Worker ${worker.id} throwed an error:`, err);
+        throw err;
+      }).once('online', () => {
+        this.onlineWorkers.add(worker);
+        this.emit('worker:online', worker);
+      }).on('message', (msg) => {
+        if (msg.id) this.emit('worker:event', worker, msg.eventName, ...msg.payloads);
+      });
+      this.once('worker:event', (worker, name) => {
+        if (name === 'loaded') resolve();
+      });
+    });
+  }
+
+  async startWorkers() {
+    const timeout = setTimeout(() => {
+      throw new BlogNodeFatalError('Workers start timed out.');
+    }, 30000);
+    await Promise.all([...Array(this.workerNum).keys()].map(() => this.startWorker()));
+    clearTimeout(timeout);
+  }
+
+  async close() {
+    return Promise.all([...this.onlineWorkers].map((worker) => new Promise<void>((resolve, reject) => {
+      worker.kill();
+      worker.on('exit', () => resolve());
+    })));
+  }
+}
 
 // function broadcastMsg(msg: unknown) {
 //   workerList.forEach((w) => w.postMessage(msg));
 // }
-async function init() {
-  logger.info(`Initializing ${os.cpus.length} workers...`);
-  for (let i = 0; i < 4; i++) startWorker();
-  // bus.on('worker/loadbalancedMsg', loadBalancedMsg);
-  // bus.on('worker/broadcastMsg', broadcastMsg);
+
+async function init(workerNum = 4) {
+  logger.info(`Initializing ${workerNum} workers...`);
+  const manager = new WorkerManager(workerNum);
+  await manager.startWorkers();
+  bus.once('system/beforeStop', async () => {
+    logger.debug('Closing workers...');
+    return manager.close();
+  });
 }
 
 export default {

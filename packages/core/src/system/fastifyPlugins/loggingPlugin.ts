@@ -1,12 +1,13 @@
 import { FastifyPluginCallback } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
 import { Logger } from 'log4js';
+import Cluster from 'cluster';
 
 interface ILoggerPluginOptions{
   logger: Logger
 }
 
-const logStyle = '{IP} - {METHOD} {URL} {STATUS} {TIME}ms';
+const logStyle = '{WORKER} {IP} - {METHOD} {URL} {STATUS} {TIME}ms';
 
 const plugin: FastifyPluginCallback<ILoggerPluginOptions> = async (fastify, options) => {
   const { logger } = options;
@@ -14,6 +15,7 @@ const plugin: FastifyPluginCallback<ILoggerPluginOptions> = async (fastify, opti
   fastify.addHook('onResponse', async (req, res) => {
     const code = res.statusCode;
     const msg = logStyle.replace('{METHOD}', req.method)
+      .replace('{WORKER}', `(W${Cluster.worker?.id})`)
       .replace('{STATUS}', res.statusCode.toString())
       .replace('{URL}', req.url)
       .replace('{TIME}', res.getResponseTime().toFixed(1).toString())

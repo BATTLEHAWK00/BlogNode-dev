@@ -1,8 +1,14 @@
+import Cluster from 'cluster';
 import logging from '../logging';
 import loader from '../manager/loader';
-import cluster from './cluster';
+import { createWorkerMessage } from './message';
 
-const logger = logging.getLogger(`Worker ${cluster.workerId}`);
-logger.debug(`Worker ${cluster.workerId} loading.`);
+const workerId = Cluster.worker?.id;
+const logger = logging.getLogger(`Worker-${workerId}`);
+
+logger.debug(`Worker ${workerId} loading.`);
 await loader.load();
-logger.debug(`Worker ${cluster.workerId} loaded.`);
+if (process.send) process.send(createWorkerMessage('loaded'));
+
+logger.debug(`Worker ${workerId} loaded.`);
+

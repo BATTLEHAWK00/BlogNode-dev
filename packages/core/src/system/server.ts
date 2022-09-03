@@ -8,7 +8,7 @@ import fastifyUrlData from '@fastify/url-data';
 // import fastifyAutoLoad from '@fastify/autoload';
 // import { fastifyStatic } from '@fastify/static';
 import fastifyMultipart from '@fastify/multipart';
-import { AddressInfo, ListenOptions } from 'net';
+import { AddressInfo } from 'net';
 import http from 'http';
 import { Timer } from '@src/util/system-utils';
 import { BlogNodeFatalError } from './error';
