@@ -11,11 +11,11 @@ import fastifyMultipart from '@fastify/multipart';
 import { AddressInfo } from 'net';
 import http from 'http';
 import { Timer } from '@src/util/system-utils';
-import { BlogNodeFatalError } from './error';
-import logging from './logging';
-import loggingPlugin from './fastifyPlugins/loggingPlugin';
-import internalRoutesPlugin from './fastifyPlugins/autoload/internalRoutesPlugin';
-import renderPlugin from './fastifyPlugins/renderPlugin';
+import { BlogNodeFatalError } from '../error';
+import logging from '../logging';
+import loggingPlugin from '../fastifyPlugins/loggingPlugin';
+import internalRoutesPlugin from '../fastifyPlugins/autoload/internalRoutesPlugin';
+import renderPlugin from '../fastifyPlugins/renderPlugin';
 
 const logger = logging.getLogger('Server');
 

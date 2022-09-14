@@ -2,14 +2,14 @@ import fs from 'fs/promises';
 import path from 'path';
 
 import chalk from 'chalk';
+import os from 'os';
 import bus from './system/bus';
 import config from './system/config';
 import logging from './system/logging';
 import processEvent from './system/processEvent';
 import { Timer } from './util/system-utils';
-import loader from './system/manager/loader';
 import { getImportDirname } from './util/paths';
-import mainThread from './system/workers/main';
+import mainProcess from './system/cluster/main';
 
 const logger = logging.systemLogger;
 const isDev = process.env.NODE_ENV === 'development';
@@ -35,6 +35,6 @@ const timePromise = timer.measureEvents(
 await bus.broadcast('system/beforeStart');
 // logger.info('Loading system...');
 // await loader.load();
-await mainThread.init();
+await mainProcess.init(os.cpus().length);
 await bus.broadcast('system/started');
 logger.info(`BlogNode started in ${await timePromise}ms`);

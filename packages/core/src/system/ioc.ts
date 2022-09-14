@@ -1,4 +1,7 @@
 import awillix from 'awilix';
 
-const container = awillix.createContainer();
-container.register(awillix.as);
+const mainContainer = awillix.createContainer();
+
+export default {
+    register:
+};

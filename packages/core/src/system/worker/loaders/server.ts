@@ -23,4 +23,4 @@ class HttpServerLoader extends SystemLoader {
   }
 }
 
-export default new HttpServerLoader('http');
+export default new HttpServerLoader('http', true);

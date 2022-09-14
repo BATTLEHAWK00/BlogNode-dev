@@ -1,5 +1,6 @@
 import { SequenceItem, Sequencer, WaitFunction } from '@src/util/sequencer';
 import { fromSrc } from '@src/util/paths';
+import cluster from 'cluster';
 import { BlogNodeFatalError } from '../error';
 import logging from '../logging';
 import moduleLoader from '../moduleLoader';
@@ -13,9 +14,17 @@ type LoaderModule = {
 };
 
 export abstract class SystemLoader extends SequenceItem<void, Record<string, unknown>> {
+  private primaryOnly: boolean;
+
+  constructor(name: string, primaryOnly = false, timeout?: number) {
+    super(name, timeout);
+    this.primaryOnly = primaryOnly;
+  }
+
   abstract load(wait: WaitFunction): Promise<void>;
 
   execute(wait: WaitFunction): Promise<void> {
+    if (this.primaryOnly && !cluster.isPrimary) return Promise.resolve();
     return this.load(wait);
   }
 }

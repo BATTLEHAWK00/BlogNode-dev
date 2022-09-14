@@ -1,27 +1,21 @@
 import { CompoundTypes, SystemSetting } from '@src/interface/entities/systemSetting';
 import bus from '@src/system/bus';
-import cache from '@src/system/cache';
+import { createSharedCache, wrapSharedCache } from '@src/system/cache';
 import logging from '@src/system/logging';
 import moduleLoader from '@src/system/moduleLoader';
 import settings from '@src/system/settings';
 import { fromSrc } from '@src/util/paths';
-import { cacheKey } from '@src/util/system-utils';
 import _ from 'lodash';
-import LRUCache from 'lru-cache';
 import mongoose, { Model } from 'mongoose';
 
 import systemSettingSchema from '../schema/systemSetting';
 import BaseDao from './baseDao';
 
-const getCacheKeyByName = cacheKey('name');
-
 export default class SystemDao extends BaseDao<SystemSetting> {
+  private cache = createSharedCache<unknown>('entity:system');
+
   protected setModel(): Model<SystemSetting> {
     return mongoose.model('setting', systemSettingSchema);
-  }
-
-  protected setCache(): LRUCache<string, SystemSetting> {
-    return cache.getCache<SystemSetting>(200, 1000 * 60 * 60 * 12);
   }
 
   protected setLoggerName(): string {
@@ -29,21 +23,22 @@ export default class SystemDao extends BaseDao<SystemSetting> {
   }
 
   async getSystemSetting(name: string): Promise<CompoundTypes | null> {
-    const op = this.cached()
-      .single
-      .ifUncached(async () => this.model.findOne({ _id: name }));
-    const res = await op.get(getCacheKeyByName(name));
+    if (await this.cache.has(name)) {
+      return this.cache.get(name) as Promise<CompoundTypes | null>;
+    }
+    const res = await this.model.findOne({ _id: name });
+    await this.cache.set(name, res?.value, 500);
     return res?.value || null;
   }
 
   async setSystemSetting(name: string, value: CompoundTypes, preload?: boolean): Promise<void> {
     await this.model.updateOne({ _id: name }, { $set: { value, preload } }, { upsert: true });
-    this.cache.delete(getCacheKeyByName(name));
+    this.cache.del(name);
   }
 
   private async preloadSettings(): Promise<void> {
     const res: SystemSetting[] = await this.model.find({ preload: true });
-    res.forEach((setting) => this.cache.set(getCacheKeyByName(setting._id), setting));
+    res.forEach((setting) => this.cache.set(setting._id, setting.value));
     this.logger.debug(`Preloaded ${res.length} settings.`);
     this.logger.trace('Preloaded settings:', res.map((s) => s._id).join(', '));
   }

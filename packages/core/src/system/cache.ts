@@ -1,98 +1,135 @@
-import { Entity } from '@src/interface/interface';
-import lodash from 'lodash';
-import LRU from 'lru-cache';
+/* eslint-disable max-classes-per-file */
+import LRUCache from 'lru-cache';
+import crypto from 'crypto';
+import mongoose, { Model } from 'mongoose';
+import { Cache } from '@src/interface/entities/cache';
+import cluster from 'cluster';
+import { BlogNodeError } from './error';
+import bus from './bus';
+import task from './task';
 import logging from './logging';
 
-const { isNull, groupBy } = lodash;
+const logger = logging.getLogger('Cache');
+const funcCache: LRUCache<string, unknown> = new LRUCache<string, unknown>({ max: 500 });
+const funcHasher = () => crypto.createHash('md5');
 
-const logger = logging.getLogger('LocalCache');
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ICacheFunction = (...args: any)=> Promise<any> | any;
 
-const cacheList: LRU<string, unknown>[] = [];
-
-const cacheOptions: LRU.Options<string, unknown> = {
-  max: 5000,
-  sizeCalculation: () => 1,
-};
-
-function getCache<T extends Entity>(
-  maxSize = 500,
-  defaultTTL: number = 15 * 60 * 1000,
-): LRU<string, T> {
-  const cache = <LRU<string, unknown>> new LRU<string, unknown>({
-    ...cacheOptions,
-    maxSize,
-    ttl: defaultTTL,
-  });
-  cacheList.push(cache);
-  return <LRU<string, T>>cache;
-}
-
-type Nullable<K> = K | null;
-type Asyncable<K> = Promise<Nullable<K>> | Nullable<K>;
-
-export interface CacheOperation<T>{
-  single: {
-    ifUncached: <P extends Asyncable<T>>(getFunc: ()=> P)=> {
-      get: (key: string, getOptions?: LRU.GetOptions,
-        setOptions?: LRU.SetOptions<string, T>)=> Nullable<P>
-    }
-  }
-  multiple: {
-    ifUncached: <P extends Asyncable<T[]>>(getFunc: (keys: string[])=> P, keyFunc: (data: T)=> string)=> {
-      get: (keys: string[], getOptions?: LRU.GetOptions,
-        setOptions?: LRU.SetOptions<string, T>)=> P
-    }
-  }
-  evict: (key: string)=> void
-}
-
-export function cacheOperation<T>(cache: LRU<string, T>): CacheOperation<T> {
-  return {
-    evict(key) {
-      cache.delete(key);
-    },
-    single: {
-      ifUncached<P extends Asyncable<T>>(getFunc: ()=> P) {
-        return {
-          get(key, getOptions, setOptions) {
-            if (cache.has(key)) {
-              logger.trace(`Cache hit: "${key}"`);
-              return cache.get(key, getOptions) || null;
-            }
-            logger.trace(`Cache miss: "${key}"`);
-            const res = getFunc();
-            if (res instanceof Promise) res.then((data) => cache.set(key, data, setOptions));
-            return res;
-          },
-        };
-      },
-    },
-    multiple: {
-      ifUncached<P extends Asyncable<T[]>>(getFunc: (keys: string[])=> P, keyFunc: (data: T)=> string) {
-        return {
-          get(keys, getOptions, setOptions): P {
-            const cacheGroups = groupBy(keys, (key) => (cache.has(key) ? 'cachedKeys' : 'nonCachedKeys'));
-            const fetchedRes = getFunc(cacheGroups.nonCachedKeys);
-            const cachedRes = <T[]>cacheGroups.cachedKeys
-              .map((k) => cache.get(k, getOptions) || null)
-              .filter((d) => !isNull(d));
-            if (cacheGroups.cachedKeys) logger.trace(`Cache hit: "${cacheGroups.cachedKeys}"`);
-            if (cacheGroups.nonCachedKeys) logger.trace(`Cache miss: "${cacheGroups.nonCachedKeys}"`);
-            if (fetchedRes instanceof Promise<T[]>) {
-              return <P>(async () => {
-                const data = <T[]>(await fetchedRes);
-                data.forEach((d) => cache.set(keyFunc(d), d, setOptions));
-                return [...cachedRes, ...data];
-              })();
-            }
-            return <P>[...cachedRes, ...<T[]>fetchedRes];
-          },
-        };
-      },
-    },
+export function wrapCache<T extends ICacheFunction>(func: T, key?: string, ttl?: number): (...args: Parameters<T>)=> Promise<Awaited<ReturnType<T>>> {
+  const funcHash = funcHasher().update(func.toString()).digest('hex');
+  return async (...args: unknown[]) => {
+    const argsHash = key || funcHasher().update(JSON.stringify(args)).digest('hex');
+    const funcKey = `${funcHash}:${argsHash}`;
+    if (funcCache.has(funcKey)) return funcCache.get(funcKey);
+    const result = await func(...args);
+    funcCache.set(funcKey, { ttl });
+    return result;
   };
 }
 
-export default {
-  getCache,
-};
+abstract class SharedCache<T> {
+  readonly name: string;
+  readonly ttl?: number;
+
+  constructor(name: string, ttl?: number) {
+    this.name = name;
+    this.ttl = ttl;
+  }
+
+  abstract has(key: string): Promise<boolean>;
+  abstract get(key: string): Promise<T | null>;
+  abstract set(key: string, value: T | null, ttl?: number): Promise<void>;
+  abstract del(key: string): Promise<void>;
+  abstract size(): Promise<number>;
+}
+
+const getCacheKey = (prefix: string, key: string) => `${prefix}:${key}`;
+
+class MongoSharedCache<T> extends SharedCache<T> {
+  static dbModel: Model<Cache>;
+
+  private checkModel() {
+    if (!MongoSharedCache.dbModel) throw new BlogNodeError('Use of db before initializing.');
+  }
+
+  async has(key: string) {
+    this.checkModel();
+    return !!MongoSharedCache.dbModel.exists({ _id: getCacheKey(this.name, key) });
+  }
+
+  async get(key: string) {
+    this.checkModel();
+    const res = await MongoSharedCache.dbModel.findOne({ _id: getCacheKey(this.name, key) });
+    return res?.value as T;
+  }
+
+  async set(key: string, value: T, ttl?: number) {
+    this.checkModel();
+    const namespace = this.name;
+    await MongoSharedCache.dbModel.updateOne(
+      { _id: getCacheKey(namespace, key) },
+      {
+        $set: {
+          updateTime: Date.now(), namespace, value, ttl: ttl || this.ttl,
+        },
+      },
+      { upsert: true },
+    );
+  }
+
+  async del(key: string) {
+    this.checkModel();
+    await MongoSharedCache.dbModel.deleteOne({ _id: getCacheKey(this.name, key) });
+  }
+
+  async size() {
+    this.checkModel();
+    return MongoSharedCache.dbModel.count({ namespace: this.name });
+  }
+}
+
+async function revalidateMongoSharedCache() {
+  const items = await MongoSharedCache.dbModel.find();
+  const itemsRemoved = items.filter((item) => item.ttl && Date.now() - item.updateTime >= item.ttl);
+  await Promise.all(itemsRemoved.map((item) => item.remove()));
+  if (itemsRemoved.length) logger.debug(`Deleted ${itemsRemoved.length} items.`);
+}
+
+async function clearMongoSharedCache() {
+  return MongoSharedCache.dbModel.deleteMany();
+}
+setInterval(revalidateMongoSharedCache, 30000);
+
+bus.once('database/connected', async () => {
+  MongoSharedCache.dbModel = mongoose.model<Cache>('cache', new mongoose.Schema<Cache>({
+    _id: { type: String },
+    value: { type: mongoose.SchemaTypes.Mixed },
+    namespace: { type: String },
+    updateTime: { type: Number },
+    ttl: { type: Number },
+  }));
+  await clearMongoSharedCache();
+});
+
+export function createSharedCache<T>(name: string, ttl?: number): SharedCache<T> {
+  return new MongoSharedCache<T>(name, ttl);
+}
+
+export function wrapSharedCache<T extends ICacheFunction>(
+  func: T,
+  key?: string,
+  ttl?: number,
+): (...args: Parameters<T>)=> Promise<Awaited<ReturnType<T>>> {
+  const funcHash = funcHasher().update(func.toString()).digest('hex');
+  const cache = createSharedCache(`func:${key || funcHash}`);
+  const wrappedFunc = async (...args: unknown[]) => {
+    const argsHash = key || funcHasher().update(JSON.stringify(args)).digest('hex');
+    const funcKey = `${funcHash}:${argsHash}`;
+    if (await cache.has(funcKey)) return funcCache.get(funcKey);
+    const result = await func(...args);
+    await cache.set(funcKey, { ttl });
+    return result;
+  };
+  return wrappedFunc;
+}

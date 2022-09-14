@@ -1,13 +1,8 @@
 import { Post } from '@src/interface/entities/post';
-import cache from '@src/system/cache';
-import { cacheKey } from '@src/util/system-utils';
-import LRUCache from 'lru-cache';
 import mongoose, { Model } from 'mongoose';
 
 import postSchema from '../schema/post';
 import BaseDao from './baseDao';
-
-const getKeyById = cacheKey('id');
 
 export default class PostDao extends BaseDao<Post> {
   protected setLoggerName(): string {
@@ -18,14 +13,8 @@ export default class PostDao extends BaseDao<Post> {
     return mongoose.model('post', postSchema);
   }
 
-  protected setCache(): LRUCache<string, Post> {
-    return cache.getCache<Post>(400);
-  }
-
   async findPostById(id: number): Promise<Post | null> {
-    return this.cached().single
-      .ifUncached(async () => this.model.findById(id))
-      .get(getKeyById(id));
+    return null;
   }
 
   async getEstimatedPostCounts(): Promise<number> {
