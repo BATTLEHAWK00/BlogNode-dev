@@ -1,5 +1,8 @@
+import { asValue } from 'awilix';
 import EventEmitter from 'events';
+// import awillix from 'awilix';
 import { BlogNodeEvents } from './extendable/events';
+import { registerResolver } from './ioc';
 import logging from './logging';
 
 const logger = logging.getLogger('Event');
@@ -61,8 +64,10 @@ function once<T extends EventType>(eventName: T, callback: BlogNodeEvents[T], wa
   );
 }
 
-export default {
+const bus = {
   on,
   broadcast,
   once,
 };
+
+registerResolver('bus', asValue(bus));
