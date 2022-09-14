@@ -11,4 +11,4 @@ class ThemeLoader extends SystemLoader {
   }
 }
 
-export default new ThemeLoader('theme');
+export default new ThemeLoader('theme', true);

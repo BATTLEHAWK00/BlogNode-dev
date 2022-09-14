@@ -1,9 +1,8 @@
 import { User } from '@src/interface/entities/user';
-import cache from '@src/system/cache';
+import { createSharedCache } from '@src/system/cache';
 import { BlogNodeError } from '@src/system/error';
 import logging from '@src/system/logging';
 import { cacheKey } from '@src/util/system-utils';
-import LRUCache from 'lru-cache';
 import mongoose from 'mongoose';
 
 import userSchema from '../schema/user';
@@ -13,16 +12,13 @@ const getCacheKeyById = cacheKey('id');
 const getCacheKeyByUname = cacheKey('uname');
 
 export default class UserDao extends BaseDao<User> {
+  private cache = createSharedCache<User>('entity:user');
+
   protected setLoggerName(): string {
     return 'UserDao';
   }
 
-  protected setCache(): LRUCache<string, User> {
-    return cache.getCache<User>(500);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  protected setModel(): mongoose.Model<User, {}, {}, {}> {
+  protected setModel(): mongoose.Model<User> {
     return mongoose.model('user', userSchema);
   }
 
@@ -32,21 +28,22 @@ export default class UserDao extends BaseDao<User> {
       .exec();
   }
 
-  async getUserByIds(ids: number[]): Promise<User[]> {
-    const op = this.cached()
-      .multiple
-      .ifUncached(
-        async (keys) => this.model.find({ _id: keys }),
-        (user) => getCacheKeyById(user._id),
-      );
-    return op.get(ids.map(getCacheKeyById));
-  }
+  // async getUserByIds(ids: number[]): Promise<User[]> {
+  //   const op = this.cached()
+  //     .multiple
+  //     .ifUncached(
+  //       async (keys) => this.model.find({ _id: keys }),
+  //       (user) => getCacheKeyById(user._id),
+  //     );
+  //   return op.get(ids.map(getCacheKeyById));
+  // }
 
   async getUserById(id: number): Promise<User | null> {
-    const op = this.cached()
-      .single
-      .ifUncached(async () => this.model.findOne({ _id: id }));
-    return op.get(getCacheKeyById(id));
+    const idStr = id.toString();
+    if (await this.cache.has(idStr)) return (await this.cache.get(idStr)) || null;
+    const res = await this.model.findOne({ _id: id });
+    await this.cache.set(idStr, res);
+    return res;
   }
 
   async getEstimatedUserCount(): Promise<number> {
@@ -64,8 +61,10 @@ export default class UserDao extends BaseDao<User> {
   }
 
   async getUserByUname(username: string): Promise<User | null> {
-    const op = this.cached().single.ifUncached(async () => this.model.findOne({ username }));
-    return op.get(getCacheKeyByUname(username));
+    if (await this.cache.has(username)) return this.cache.get(username);
+    const res = await this.model.findOne({ username });
+    await this.cache.set(username, res);
+    return res;
   }
 
   async createUser(user: Partial<User>): Promise<number> {

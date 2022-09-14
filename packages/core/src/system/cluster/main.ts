@@ -60,7 +60,7 @@ class WorkerManager extends EventEmitter {
 //   workerList.forEach((w) => w.postMessage(msg));
 // }
 
-async function init(workerNum = 4) {
+async function init(workerNum = 1): Promise<void> {
   logger.info(`Initializing ${workerNum} workers...`);
   const manager = new WorkerManager(workerNum);
   await manager.startWorkers();

@@ -21,7 +21,7 @@ const themeContext = {
 
 async function loadTheme(filePath: string): Promise<void> {
   const timer = new Timer();
-  logger.info(`Loading theme: ${filePath}...`);
+  logger.info(`Loading theme: ${JSON.stringify(filePath)}...`);
   timer.start();
   if (!import.meta.resolve) throw new BlogNodeFatalError('Import resolve not enabled.');
   const themePath = existsSync(filePath) ? filePath : await resolvePackage(filePath);
