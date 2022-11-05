@@ -10,33 +10,13 @@
   "scripts": {
     "commitlint": "commitlint",
     "postinstall": "husky install",
-    "watch": "concurrently npm:watch:theme npm:watch:renderer npm:start:dev:debug",
-    "watch:theme": "cd packages/default-theme && yarn watch",
-    "watch:renderer": "cd packages/renderer/react && tsc -w",
-    "lint": "eslint packages/core --ext ts --fix --cache",
-    "test": "cd packages/core && yarn test",
-    "theme:dev": "cd packages/default-theme && yarn dev",
-    "build:theme": "cd packages/default-theme && yarn build",
-    "build:theme:pages": "cd packages/default-theme && yarn build:pages",
-    "build:theme:main": "cd packages/default-theme && yarn build:main",
-    "build:theme:server": "cd packages/default-theme/server && yarn build:server",
-    "build:renderer": "cd packages/renderer/react && tsc",
-    "build": "concurrently npm:build:core npm:build:theme npm:build:renderer",
-    "clean:dep": "rimraf node_modules packages/renderer/*/node_modules packages/theme/*/node_modules dist packages/*/dist packages/theme/*/dist",
-    "clean:tmp": "rimraf dist packages/*/dist packages/theme/*/dist",
     "prepare": "husky install",
-    "theme": "yarn workspace @blognode/default-theme",
-    "renderer": "yarn workspace @blognode/renderer-react",
-    "ui": "yarn workspace @blognode/core-ui",
-    "core": "yarn workspace blognode"
   },
   "workspaces": [
-    "packages/types/*",
     "packages/renderer/*",
     "packages/plugins/*",
-    "packages/core",
-    "packages/default-theme",
-    "packages/core-ui"
+    "packages/themes/*",
+    "packages/core"
   ],
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",
