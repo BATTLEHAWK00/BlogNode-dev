@@ -10,7 +10,7 @@
   "scripts": {
     "commitlint": "commitlint",
     "postinstall": "husky install",
-    "prepare": "husky install",
+    "prepare": "husky install"
   },
   "workspaces": [
     "packages/renderer/*",
@@ -30,8 +30,10 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
     "gulp-clean": "^0.4.0",
@@ -39,6 +41,7 @@
     "husky": "^8.0.1",
     "mocha": "^10.0.0",
     "nodemon": "^2.0.16",
+    "prettier": "^2.8.1",
     "ts-node": "^10.8.0",
     "tsc-alias": "^1.6.8",
     "typescript": "^4.3.5",

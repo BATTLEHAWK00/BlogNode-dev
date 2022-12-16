@@ -7,7 +7,9 @@
   },
   "overrides": [
     {
-      "files": ["*.tsx"],
+      "files": [
+        "*.tsx"
+      ],
       "rules": {
         "@typescript-eslint/explicit-module-boundary-types": "off"
       }
@@ -15,8 +17,8 @@
   ],
   "extends": [
     "plugin:@typescript-eslint/recommended",
-    "airbnb/base",
-    "airbnb-typescript/base"
+    "airbnb-typescript/base",
+    "Prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -25,7 +27,9 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "project": ["tsconfig.json"]
+    "project": [
+      "tsconfig.json"
+    ]
   },
   "rules": {
     "class-methods-use-this": "off",

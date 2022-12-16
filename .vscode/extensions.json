@@ -1,7 +1,6 @@
 {
   "recommendations": [
     "ms-vscode.vscode-typescript-next",
-    "xabikos.javascriptsnippets",
     "aaron-bond.better-comments",
     "irongeek.vscode-env",
     "dsznajder.es7-react-js-snippets",

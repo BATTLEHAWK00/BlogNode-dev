@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -14,6 +18,14 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.d.ts"],
-  "exclude": ["node_modules", "**/*.config.js", "**/*.config.dev.js", "**/dist", "test"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.d.ts"
+  ],
+  "exclude": [
+    "**/dist",
+    "test"
+  ]
 }
