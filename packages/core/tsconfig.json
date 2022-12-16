@@ -104,7 +104,7 @@
     "allowJs": true,
     "noEmit": false,
     "incremental": false,
-    "resolveJsonModule": false,
+    "resolveJsonModule": true,
     "isolatedModules": true
   },
   "ts-node": {

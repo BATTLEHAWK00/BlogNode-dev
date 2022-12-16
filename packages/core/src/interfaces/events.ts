@@ -7,6 +7,8 @@ export interface IEvents {
   'plugin/scanComplete': () => void;
   'plugin/loadPlugin': (name: string) => void;
   'plugin/unloadPlugin': (name: string) => void;
+  'plugin/pluginEnabled': (name: string) => void;
+  'plugin/pluginDisabled': (name: string) => void;
   'plugin/reloadPlugins': () => void;
   'plugin/checkUpdates': () => void;
   'theme/loadTheme': (name: string) => void;

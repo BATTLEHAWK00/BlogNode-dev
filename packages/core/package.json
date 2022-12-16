@@ -1,11 +1,10 @@
 {
   "name": "blognode",
   "version": "0.0.1",
-  "bin": "dist/bin/entry.js",
   "repository": "https://github.com/BATTLEHAWK00/BlogNode-dev.git",
   "preferUnplugged": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=development && node --no-warnings --experimental-import-meta-resolve --experimental-specifier-resolution=node dist/bin/entry.js start",
+    "start": "cross-env NODE_ENV=development && ts-node bin/start.ts",
     "start:debug": "cross-env NODE_ENV=development && blognode start --loglevel=debug",
     "start:trace": "cross-env NODE_ENV=development && blognode start --loglevel=trace",
     "start:dev": "nodemon --config config/nodemon.json bin/entry.ts -- start",

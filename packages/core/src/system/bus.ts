@@ -1,6 +1,9 @@
 import EventEmitter2 from 'eventemitter2';
 import { IBus } from '@/interfaces/bus';
 import { IEvents } from '@/interfaces/events';
+import logging from './logging';
+
+const logger = logging.getLogger('event');
 
 class Bus implements IBus {
   private emitter = new EventEmitter2({
@@ -11,6 +14,7 @@ class Bus implements IBus {
 
   addHook<T extends keyof IEvents>(eventName: T, callback: IEvents[T]): void {
     this.emitter.on(eventName, callback);
+    logger.trace('Hook added:', eventName);
   }
 
   removeHook<T extends keyof IEvents>(
@@ -18,10 +22,12 @@ class Bus implements IBus {
     callback: IEvents[T]
   ): void {
     this.emitter.off(eventName, callback);
+    logger.trace('Hook removed:', eventName);
   }
 
   emit<T extends keyof IEvents>(eventName: T, ...data: Parameters<IEvents[T]>) {
     this.emitter.emit(eventName, ...data);
+    logger.trace('Event emitted:', eventName, ...data);
   }
 }
 

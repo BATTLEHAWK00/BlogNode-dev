@@ -13,7 +13,7 @@
     "noEmit": false,
     "incremental": true,
     "esModuleInterop": true,
-    "module": "Node16",
+    "module": "CommonJS",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve"
