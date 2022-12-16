@@ -1,6 +1,6 @@
 import EventEmitter2 from 'eventemitter2';
-import { IBus } from '@/interfaces/bus';
-import { IEvents } from '@/interfaces/events';
+import { IBus } from '@/interface/bus';
+import { IEvents } from '@/interface/events';
 import logging from './logging';
 
 const logger = logging.getLogger('event');
