@@ -5,6 +5,7 @@ import { useTimer } from './util/timer';
 
 const logger = logging.getLogger();
 
+
 export default async function start(): Promise<void> {
   const timer = useTimer();
   bus.emit('system/beforeStart', bus);

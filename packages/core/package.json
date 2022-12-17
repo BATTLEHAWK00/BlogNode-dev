@@ -4,7 +4,7 @@
   "repository": "https://github.com/BATTLEHAWK00/BlogNode-dev.git",
   "preferUnplugged": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=development && ts-node bin/start.ts",
+    "start": "cross-env NODE_ENV=development && ts-node -r tsconfig-paths/register bin/start.ts",
     "start:debug": "cross-env NODE_ENV=development && blognode start --loglevel=debug",
     "start:trace": "cross-env NODE_ENV=development && blognode start --loglevel=trace",
     "start:dev": "nodemon --config config/nodemon.json bin/entry.ts -- start",
@@ -72,6 +72,7 @@
     "esbuild-plugin-alias-path": "^1.1.1",
     "gulp": "^4.0.2",
     "ts-node": "^10.9.1",
-    "ts-paths-esm-loader": "^1.3.1"
+    "ts-paths-esm-loader": "^1.3.1",
+    "tsconfig-paths": "^4.1.1"
   }
 }
