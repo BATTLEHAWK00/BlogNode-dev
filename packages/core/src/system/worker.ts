@@ -8,6 +8,8 @@ async function init(): Promise<void> {
   await bus.emit('cluster/workerStarted');
 }
 
+async function handle(): Promise<void> {}
+
 worker({
   init,
 });

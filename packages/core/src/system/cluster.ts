@@ -19,9 +19,6 @@ declare module 'workerpool' {
   }
 }
 
-
-
-
 const workerPool = workerpool.pool(workerPath, {
   workerType: 'thread',
   maxWorkers: cpuCount,

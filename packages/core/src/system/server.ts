@@ -1,11 +1,4 @@
-import Fastify from 'fastify';
-import { createServer } from 'http';
+import Fastify, { FastifyServerFactory } from 'fastify';
+import { createServer, Server } from 'http';
+import { ListenOptions } from 'net';
 
-const app = Fastify({
-  logger: false,
-  serverFactory: (handler, options) => {
-    const server = createServer((req, res) => {
-      handler(req, res);
-    });
-  },
-});
