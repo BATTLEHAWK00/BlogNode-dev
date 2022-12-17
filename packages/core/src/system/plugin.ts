@@ -20,9 +20,11 @@ class Plugin {
     if (this.loadedPluginMap.has(name)) {
       throw new BlogNodeError('Plugin already loaded');
     }
+    bus.emit('plugin/pluginLoaded', name);
+
     logger.info('Loading plugin: ', name);
 
-    bus.emit('plugin/loadPlugin', name);
+    bus.emit('plugin/pluginLoaded', name);
   }
 
   async unloadPlugin(name: string) {

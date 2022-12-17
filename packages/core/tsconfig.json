@@ -111,7 +111,7 @@
     "transpileOnly": true
   },
   "include": [
-    "**/*.ts",
+    "**/*.ts", "src/system/worker.ts",
   ],
   "exclude": [
     "dist"

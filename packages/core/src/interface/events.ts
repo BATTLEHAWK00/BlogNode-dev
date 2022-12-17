@@ -5,8 +5,10 @@ export interface IEvents {
   'system/startComplete': () => void;
   'plugin/scanStart': () => void;
   'plugin/scanComplete': () => void;
-  'plugin/loadPlugin': (name: string) => void;
-  'plugin/unloadPlugin': (name: string) => void;
+  'plugin/beforeLoadPlugin': (name: string) => void;
+  'plugin/pluginLoaded': (name: string) => void;
+  'plugin/beforeUnloadPlugin': (name: string) => void;
+  'plugin/pluginUnloaded': (name: string) => void;
   'plugin/pluginEnabled': (name: string) => void;
   'plugin/pluginDisabled': (name: string) => void;
   'plugin/reloadPlugins': () => void;

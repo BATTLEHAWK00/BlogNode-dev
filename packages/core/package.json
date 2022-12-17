@@ -49,7 +49,8 @@
     "minio": "^7.0.28",
     "mongoose": "^6.3.5",
     "nodemailer": "^6.7.5",
-    "piscina": "^3.2.0"
+    "piscina": "^3.2.0",
+    "workerpool": "^6.3.1"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.17.12",
@@ -68,6 +69,7 @@
     "@types/mysql": "^2.15.21",
     "@types/node": "^18.11.15",
     "@types/nodemailer": "^6.4.4",
+    "@types/workerpool": "^6.1.0",
     "esbuild": "^0.14.50",
     "esbuild-plugin-alias-path": "^1.1.1",
     "gulp": "^4.0.2",
