@@ -22,4 +22,6 @@ export interface IEvents {
   'renderer/renderComplete': () => void;
   'cluster/startWorker': () => void;
   'cluster/stopWorker': () => void;
+  'cluster/workerStarted': () => void;
+  'cluster/beforeWorkerStart': () => Promise<void>;
 }
