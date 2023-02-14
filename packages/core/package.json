@@ -22,7 +22,7 @@
     "@fastify/csrf-protection": "^5.1.0",
     "@fastify/helmet": "^9.1.0",
     "@fastify/http-proxy": "^8.2.2",
-    "@fastify/multipart": "^7.1.1",
+    "@fastify/multipart": "^7.4.1",
     "@fastify/rate-limit": "^7.3.0",
     "@fastify/static": "^6.5.0",
     "@fastify/url-data": "^5.1.0",
